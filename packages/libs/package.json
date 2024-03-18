@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch"
   },
   "devDependencies": {
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2"
   }
 }

@@ -63,7 +63,7 @@ const config: Config = {
 						"https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
 				},
 				theme: {
-					customCss: ["./src/css/custom.css", "./libs/style/dilos.css"],
+					customCss: ["./src/css/custom.css", "./../libs/dist/index.css"],
 				},
 			} satisfies Preset.Options,
 		],
