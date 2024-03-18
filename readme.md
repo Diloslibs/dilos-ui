@@ -48,12 +48,13 @@ In this repo we have two different project, one for documentation and the other 
 
 We separate two purposes, here's some goals to action and points to note:
 
-Docs:
+## Docs:
 
 - Primary this our main documentation's web, 
 the web will served and everyone can read the documentation.
 Libs:
 
+## Libs :
 Where components lies in.
 
 - Component's styling using TailwindCSS.
