@@ -1,0 +1,7 @@
+.lintstagedrc
+node_modules
+dist
+babel.config.js
+tsconfig.json
+
+*.mdx

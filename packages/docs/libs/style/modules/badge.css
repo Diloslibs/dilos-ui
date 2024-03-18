@@ -1,0 +1,94 @@
+.d-badge {
+	@apply rounded-full w-fit;
+}
+
+/* Size */
+.d-badge-xs {
+	@apply py-0.5 px-1.5 text-xs gap-0.5;
+}
+
+.d-badge-md {
+	@apply py-1 px-2 gap-0.5 text-xs;
+}
+
+.d-badge-lg {
+	@apply py-1 px-2 gap-1 text-sm;
+}
+
+/* Variant Primary */
+.d-badge-primary-light {
+	@apply bg-primary-100 text-primary-400;
+}
+
+.d-badge-primary-dark {
+	@apply bg-primary-400  text-primary-100;
+}
+
+.d-badge-primary-outline {
+	@apply text-primary-400 border border-primary-400;
+}
+
+/* Variant Error */
+.d-badge-error-light {
+	@apply bg-error-200 text-error-500;
+}
+
+.d-badge-error-dark {
+	@apply bg-error-400  text-white;
+}
+
+.d-badge-error-outline {
+	@apply text-error-400 border border-error-400;
+}
+
+/* Variant Info */
+.d-badge-info-light {
+	@apply bg-info-200 text-info-500;
+}
+
+.d-badge-info-dark {
+	@apply bg-info-400 text-white;
+}
+
+.d-badge-info-outline {
+	@apply text-info-400 border border-info-400;
+}
+
+/* Variant Success */
+.d-badge-success-light {
+	@apply bg-success-200 text-success-500;
+}
+
+.d-badge-success-dark {
+	@apply bg-success-400  text-white;
+}
+
+.d-badge-success-outline {
+	@apply text-success-400 border border-success-400;
+}
+
+/* Variant Warning */
+.d-badge-warning-light {
+	@apply bg-warning-200 text-warning-500;
+}
+
+.d-badge-warning-dark {
+	@apply bg-warning-400  text-white;
+}
+
+.d-badge-warning-outline {
+	@apply text-warning-400 border border-warning-400;
+}
+
+/* Variant Gray */
+.d-badge-gray-light {
+	@apply bg-gray-100 text-gray-600;
+}
+
+.d-badge-gray-dark {
+	@apply bg-gray-500  text-white;
+}
+
+.d-badge-gray-outline {
+	@apply text-gray-600 border border-gray-600;
+}
