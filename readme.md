@@ -34,12 +34,9 @@ This command will run the documentation and the library at the same time.
 +-- packages
 |   +-- docs
 |   |   +-- node_modules
-|   |   +-- docusaurus.config.js
 |   |   +-- package.json
-|   |   +-- tailwind.config.json
 |   +-- libs
 |   |   +-- node_modules
-|   |   +-- tsconfig.json
 |   |   +-- package.json
 +-- .gitignore
 +-- lerna.json
@@ -60,4 +57,4 @@ Where components lies in.
 
 - Component's styling using TailwindCSS.
 - Component's behaviour that's require Javascript to act, such as we could hide or show content inside accordion.
-- Published to NPM
+- Publish to NPM or uploaded to CDN.
