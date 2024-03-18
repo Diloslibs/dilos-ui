@@ -43,3 +43,19 @@ pnpm serve
 +-- lerna.json
 +-- package.json
 ```
+
+In this repo we have two different project, one for documentation and the other one is used to library for dynamic component (require JS).
+
+We separate two purposes, here's some goals to action and points to note:
+
+Docs:
+
+- Primary this our main documentation's web, 
+the web will served and everyone can read the documentation.
+Libs:
+
+Where components lies in.
+
+- Component's styling using TailwindCSS.
+- Component's behaviour that's require Javascript to act, such as we could hide or show content inside accordion.
+- Published to NPM
