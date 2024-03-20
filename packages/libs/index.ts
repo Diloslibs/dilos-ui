@@ -1,3 +1,3 @@
-import { accordion } from './src/components/accordion';
+import Accordion from './src/components/accordion';
 
-export { accordion };
+export { Accordion };

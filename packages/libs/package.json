@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch"
+    "start": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch & tsc & tsc -w"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1",
