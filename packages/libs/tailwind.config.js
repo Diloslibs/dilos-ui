@@ -11,6 +11,9 @@ export default {
       colors: {
         // Primary
         "primary-100": "#ECF4FC",
+        "primary-200": "#D8E9F9",
+        "primary-300": "#9EC8F1",
+        "primary-350": "#3D90E3",
         "primary-400": "#0354A6",
         "primary-500": "#064280",
 
@@ -35,6 +38,7 @@ export default {
         "warning-500": "#7F3004",
 
         // Gray
+        "gray-50": "#FCFCFD",
         "gray-100": "#F2F4F7",
         "gray-500": "#667085",
         "gray-600": "#344054",
