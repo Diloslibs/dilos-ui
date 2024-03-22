@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Checkbox</title>
+		<link rel="stylesheet" href="/packages/libs/dist/index.css" />
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+
+	<body>
+		<div class="flex items-center justify-center min-h-56 flex-col">
+			<div class="flex items-center gap-5">
+				<div class="d-checkbox">
+					<input id="default-checkbox" type="checkbox" value="" />
+					<label for="default-checkbox" class="label-checkbox">
+						Default checkbox
+					</label>
+				</div>
+                
+				<div class="d-checkbox">
+					<input
+						id="disabled-checkbox"
+						type="checkbox"
+						value=""
+						disabled
+						checked
+					/>
+					<label for="disabled-checkbox" class="label-checkbox">
+						Disabled checkbox
+					</label>
+				</div>
+
+				<div class="d-checkbox">
+					<input id="subtext-checkbox" type="checkbox" value="" />
+					<div class="flex flex-col">
+						<label for="subtext-checkbox" class="label-checkbox">
+							Subtext checkbox
+						</label>
+						<label for="subtext-checkbox" class="subtext-checkbox">
+							This is sub text checkbox
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="flex items-center gap-5 mt-5">
+				<div class="d-checkbox error">
+					<input id="err1" type="checkbox" value="" />
+					<label for="err1" class="label-checkbox">
+						Default checkbox
+					</label>
+				</div>
+
+				<div class="d-checkbox error">
+					<input
+						id="err2"
+						type="checkbox"
+						value=""
+						disabled
+						checked
+					/>
+					<label for="err2" class="label-checkbox">
+						Disabled checkbox
+					</label>
+				</div>
+
+				<div class="d-checkbox error">
+					<input id="err3" type="checkbox" value="" />
+					<div class="flex flex-col">
+						<label for="err3" class="label-checkbox">
+							Subtext checkbox
+						</label>
+						<label for="err3" class="subtext-checkbox">
+							This is sub text checkbox
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
