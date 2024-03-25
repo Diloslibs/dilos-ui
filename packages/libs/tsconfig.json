@@ -7,5 +7,7 @@
     // Generate d.ts files
     "declaration": true,
   },
-  "include": ["src", "index.ts"]
+  "include": [
+    "src",
+  ]
 }
