@@ -1,0 +1,11 @@
+.d-textarea {
+	@apply w-full h-full border border-gray-400 rounded-md px-4 py-2 hover:border-gray-500 focus:shadow-textarea;
+}
+
+.d-textarea[disabled] {
+	@apply border-gray-300 bg-gray-100;
+}
+
+.d-textarea.error {
+  @apply border-error-400 ;
+}

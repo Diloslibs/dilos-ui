@@ -19,11 +19,12 @@ interface UsageTargetOptions {
 }
 
 interface PlaygroundProps {
+	title?: string;
 	version: string;
 	content: ContentItem[];
 }
 
-const Playground: React.FC<PlaygroundProps> = ({ content }) => {
+const Playground: React.FC<PlaygroundProps> = ({ title, content }) => {
 	const [activeTab, setActiveTab] = useState<string>(content[0]?.key || "");
 
 	const renderContent = (contentItem: ContentItem) => {
@@ -54,6 +55,7 @@ const Playground: React.FC<PlaygroundProps> = ({ content }) => {
 
 	return (
 		<div className="">
+			{title && <h2 className="mb-3">{title}</h2>}
 			<div className="border border-zinc-500 rounded-t-md p-3 flex items-center gap-3">
 				{content.map((contentItem) => (
 					<button
@@ -66,11 +68,11 @@ const Playground: React.FC<PlaygroundProps> = ({ content }) => {
 				))}
 			</div>
 			{content.map((contentItem) => (
-				<div key={contentItem.key} className={activeTab === contentItem.key ? "block" : "hidden"}>
-					<iframe
-						src={contentItem.src}
-						className="bg-white w-full"
-					/>
+				<div
+					key={contentItem.key}
+					className={activeTab === contentItem.key ? "block" : "hidden"}
+				>
+					<iframe src={contentItem.src} className="bg-white w-full h-72" />
 					{renderContent(contentItem)}
 				</div>
 			))}
