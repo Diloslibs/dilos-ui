@@ -1,0 +1,15 @@
+.d-table {
+  @apply min-w-full divide-y divide-gray-200;
+}
+
+.d-table th {
+  @apply px-2 py-3 text-start text-xs font-medium text-gray-500 uppercase;
+}
+
+.d-table td {
+  @apply px-3 py-2 whitespace-nowrap text-sm;
+}
+
+.d-table .center {
+  @apply text-center;
+}
