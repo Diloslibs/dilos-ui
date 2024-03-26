@@ -1,63 +1,63 @@
-.btn {
+.d-btn {
     @apply font-semibold rounded-md active:shadow-button focus:shadow-button;
 }
 
-.btn-disable {
+.d-btn[disabled] {
     @apply active:shadow-none focus:shadow-none cursor-not-allowed opacity-50;
 }
 
-.btn-primary {
+.d-btn.primary {
     @apply bg-primary-400 text-white hover:bg-primary-500;
 }
 
-.btn-primary-outline {
+.d-btn.primary-outline {
     @apply border border-primary-400 text-primary-400 hover:border-primary-500 hover:text-primary-500;
 }
 
-.btn-primary-borderless {
+.d-btn.primary-borderless {
     @apply text-primary-400 hover:text-primary-500;
 }
 
-.btn-borderless {
-    @apply text-primary-400 hover:text-primary-500;
+.d-btn.secondary-outline {
+    @apply border border-primary-400 text-primary-400 hover:border-primary-500 hover:text-primary-500;
 }
 
-.btn-danger {
+.d-btn.danger {
     @apply bg-error-400 text-white hover:bg-error-500;
 }
 
-.btn-danger-outline {
+.d-btn.danger-outline {
     @apply border border-error-400 text-error-400 hover:border-error-500 hover:text-error-500;
 }
 
-.btn-danger-borderless {
+.d-btn.danger-borderless {
     @apply text-error-400 hover:text-error-500;
 }
 
-.btn-secondary {
+.d-btn.gray {
     @apply bg-gray-300 text-gray-700 hover:bg-gray-400;
 }
 
-.btn-secondary-outline {
+.d-btn.gray-outline {
     @apply border border-gray-300 text-gray-700 hover:border-gray-400 hover:text-gray-400;
 }
 
-.btn-secondary-borderless {
+.d-btn.gray-borderless {
     @apply text-gray-700 hover:text-gray-400;
 }
 
-.btn-xs {
+.d-btn.xs {
     @apply py-2 px-4 text-xs;
 }
 
-.btn-sm {
+.d-btn.sm {
     @apply py-2 px-4 text-sm;
 }
 
-.btn-md {
-    @apply py-2 px-6 text-base;
+.d-btn.md {
+    @apply py-2 px-6 text-[16px];
 }
 
-.btn-lg {
-    @apply py-3 px-6 text-base;
+.d-btn.lg {
+    @apply py-3 px-6 text-[16px];
 }
