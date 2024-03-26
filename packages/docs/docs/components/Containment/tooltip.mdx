@@ -6,7 +6,28 @@ sidebar_position: 1
 
 DilosUI comes with a tooltip component that can be used to trigger actions.
 
+import ToolTipDefault from '@site/static/usage/v1/containment/tooltip/default/index.mdx';
+import ToolTipTop from '@site/static/usage/v1/containment/tooltip/top/index.mdx';
+import ToolTipBottom from '@site/static/usage/v1/containment/tooltip/bottom/index.mdx';
+import ToolTipLeft from '@site/static/usage/v1/containment/tooltip/left/index.mdx';
+import ToolTipRight from '@site/static/usage/v1/containment/tooltip/right/index.mdx';
+
 ## Default
+<ToolTipDefault />
+
+## Top
+<ToolTipTop />
+
+## Bottom
+<ToolTipBottom />
+
+## Left
+<ToolTipLeft />
+
+## Right
+<ToolTipRight />
+
+## Dark
 ```html live
     <div class="flex flex-col gap-6">
         <div class="d-tooltip dark">
@@ -49,6 +70,57 @@ DilosUI comes with a tooltip component that can be used to trigger actions.
         </div>
 
          <div class="d-tooltip dark">
+            <div class="d-tip right"></div>
+            Tooltip text here
+        </div>
+    </div>
+
+    
+```
+
+## Light
+```html live
+    <div class="flex flex-col gap-6">
+        <div class="d-tooltip light">
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip top top-left"></div>
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip top top-right"></div>
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip top top-center"></div>
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip bottom bottom-left"></div>
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip bottom bottom-right"></div>
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip bottom bottom-center"></div>
+            Tooltip text here
+        </div>
+
+        <div class="d-tooltip light">
+            <div class="d-tip left"></div>
+            Tooltip text here
+        </div>
+
+         <div class="d-tooltip light">
             <div class="d-tip right"></div>
             Tooltip text here
         </div>
