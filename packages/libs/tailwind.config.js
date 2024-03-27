@@ -7,6 +7,7 @@ export default {
         "accordion": "0px 1px 2px 0px #1018280F, 0px 1px 3px 0px #1018281A",
         "accordion-outer": "0px 0px 0px 2px #FCFCFD, 0px 0px 0px 4px #121212",
         "button": "0px 0px 0px 2px #FCFCFD, 0px 0px 0px 4px #121212",
+        "input-text": "0px 0px 0px 2px #FCFCFD, 0px 0px 0px 4px #121212",
       },
       colors: {
         // Primary
