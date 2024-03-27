@@ -1,0 +1,20 @@
+import Playground from "@site/src/components/global/Playground";
+
+import light from "./light.md";
+import dark from "./dark.md";
+
+<Playground
+	version="8"
+	content={[
+		{
+			key: "light",
+			code: light,
+			src: "/usage/v1/containment/tooltip/left/light.html",
+		},
+        {
+			key: "dark",
+			code: dark,
+			src: "/usage/v1/containment/tooltip/left/dark.html",
+		},
+	]}
+/>
