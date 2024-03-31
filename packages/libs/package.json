@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "webpack --mode=development --watch",
+    "start-css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css",
     "build": "concurrently pnpm:build:*",
     "build:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:ts": "vite build"
