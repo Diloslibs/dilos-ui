@@ -3,8 +3,9 @@
   "private": false,
   "version": "0.0.0",
   "scripts": {
-    "start": "webpack --mode=development --watch",
-    "start-css": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css",
+    "start": "concurrently pnpm:start:*",
+    "start:webpack": "webpack --mode=development --watch",
+    "start:tailwind": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch",
     "build": "concurrently pnpm:build:*",
     "build:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:ts": "vite build"
