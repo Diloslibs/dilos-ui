@@ -5,9 +5,9 @@ const Default: AccordionOptions = {
     alwaysOpen: false,
     activeClasses: 'bg-gray-100 text-gray-900',
     inactiveClasses: 'text-gray-500',
-    onOpen: () => {},
-    onClose: () => {},
-    onToggle: () => {}
+    onOpen: () => { },
+    onClose: () => { },
+    onToggle: () => { }
 }
 
 class Accordion implements IAccordion {
@@ -89,7 +89,7 @@ class Accordion implements IAccordion {
 
         this._options.onToggle(this, item)
     }
-    
+
     close(id: string): void {
         const item = this.getItem(id)
 

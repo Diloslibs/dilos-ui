@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,59 @@
 
   <!-- Script CSS Dilos -->
   <link rel="stylesheet" href="./../../libs/dist/index.css">
-  
+
   <!-- Tailwind Integration -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
   <div class="my-0 mx-auto min-h-full max-w-screen-md py-16">
     <div class="flex flex-col gap-5">
       <div class="flex flex-col gap-3">
+        <h1 class="text-2xl font-bold">Selection All</h1>
+
+        <div class="bg-white p-4 border rounded-md">
+          <table class="d-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" name="" id="" data-table-checkall></th>
+                <th scope="col">No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">City</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" name="" id="" data-checkbox-row="1"></td>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>25</td>
+                <td>London</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="" id="" data-checkbox-row="2"></td>
+                <td>2</td>
+                <td>Jane Doe</td>
+                <td>22</td>
+                <td>Paris</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="" id="" data-checkbox-row="3"></td>
+                <td>3</td>
+                <td>James Doe</td>
+                <td>30</td>
+                <td>New York</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">Table Default</h1>
         <p>Table with default style.</p>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <table class="d-table">
             <thead>
@@ -50,13 +93,13 @@
             </tbody>
           </table>
         </div>
-  
+
       </div>
-  
+
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">Table Striped</h1>
         <p>Table with zebra style.</p>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <table class="d-table striped-x">
             <thead>
@@ -89,7 +132,7 @@
             </tbody>
           </table>
         </div>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <table class="d-table striped-y">
             <thead>
@@ -123,12 +166,12 @@
           </table>
         </div>
       </div>
-  
+
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">Table Hoverable</h1>
-  
+
         <p>Table with hoverable.</p>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <table class="d-table hoverable">
             <thead>
@@ -162,12 +205,12 @@
           </table>
         </div>
       </div>
-  
+
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">Table Compact</h1>
-  
+
         <p>Table with compact style.</p>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <table class="d-table compact">
             <thead>
@@ -201,11 +244,11 @@
           </table>
         </div>
       </div>
-  
+
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">Table Responsive</h1>
         <p>Table with responsive style.</p>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <div class="d-table-responsive">
             <table class="d-table">
@@ -263,12 +306,12 @@
           </div>
         </div>
       </div>
-  
+
       <div class="flex flex-col gap-3">
         <h1 class="text-2xl font-bold">Table Caption</h1>
-  
+
         <p>Table with caption.</p>
-  
+
         <div class="bg-white p-4 border rounded-md">
           <table class="d-table">
             <caption class="py-1 text-start text-sm text-gray-600">List of users</caption>
@@ -309,4 +352,5 @@
   <!-- Script JS Dilos -->
   <script src="./../../libs/dist/index.js"></script>
 </body>
+
 </html>
