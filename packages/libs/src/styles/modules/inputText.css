@@ -1,0 +1,39 @@
+.d-input-text{
+  @apply 
+  rounded-md 
+  border
+  border-gray-400 
+  hover:border-gray-500 
+  focus:shadow-input-text
+  focus:outline-gray-500 
+  ;
+}
+
+.d-input-text[disabled] {
+	@apply border-gray-300 bg-gray-100;
+}
+
+.d-input-text.sm{
+  @apply
+  w-full
+  h-8
+  px-2
+  ;
+}
+
+.d-input-text.md{
+  @apply
+  w-full
+  h-10
+  px-2
+  ;
+}
+
+.d-input-text.error{
+  @apply
+  border-error-400 
+  hover:border-error-500 
+  focus:border-error-500
+  focus:outline-error-500 
+  ;
+}

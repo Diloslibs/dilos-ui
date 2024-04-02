@@ -1,0 +1,59 @@
+.d-chip {
+    @apply rounded w-fit cursor-pointer;
+}
+
+/* Size */
+.d-chip.xs{
+    @apply gap-1 py-1 px-2 text-xs;
+}
+
+.d-chip.md{
+    @apply gap-1 py-1.5 px-2 text-xs;
+}
+
+.d-chip.lg{
+    @apply gap-1.5 py-1 px-2 text-sm;
+}
+
+/* Variant - Gray */
+.d-chip.gray{
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-600;
+}
+
+.d-chip.gray.selected{
+    @apply bg-gray-700 text-gray-50 hover:bg-gray-700;
+}
+
+.d-chip.gray.disabled{
+    @apply opacity-60 text-gray-400 bg-gray-100;
+}
+
+.d-chip.gray.outlined{
+    @apply border-[1px] border-gray-500;
+}
+
+.d-chip.gray.disabled.outlined{
+    @apply opacity-60 text-gray-400 border-gray-300;
+}
+
+
+/* Variant - Primary */
+.d-chip.primary{
+    @apply bg-primary-100 text-primary-400 hover:bg-primary-200;
+}
+
+.d-chip.primary.selected{
+    @apply bg-primary-500 text-gray-50 hover:bg-primary-500;
+}
+
+.d-chip.primary.disabled{
+    @apply opacity-60 text-primary-300 bg-primary-200;
+}
+
+.d-chip.primary.outlined{
+    @apply border-[1px] border-primary-350;
+}
+
+.d-chip.primary.disabled.outlined{
+    @apply opacity-60 text-primary-300 border-primary-200;
+}
