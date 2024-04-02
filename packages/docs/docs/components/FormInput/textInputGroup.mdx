@@ -1,0 +1,147 @@
+---
+sidebar_position: 1
+---
+
+# Input Group Text Components
+
+DilosUI comes with a input group text component.
+
+
+## Basic
+### First Label
+```html live
+<div class="flex flex-col gap-4">
+  <div class="grid grid-cols-3 gap-1">
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group sm">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder" disabled/>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+### Last Label
+```html live
+<div class="flex flex-col gap-4">
+  <div class="grid grid-cols-4 gap-1">
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group sm">
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+        <span class="d-label">Last</span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+        <span class="d-label">Last</span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <input type="text" class="d-input" placeholder="Placeholder" disabled/>
+        <span class="d-label">Last</span>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+
+### First & Last Label
+```html live
+<div class="flex flex-col gap-4">
+  <div class="grid grid-cols-4 gap-1">
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group sm">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+        <span class="d-label">Last</span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+        <span class="d-label">Last</span>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder" disabled/>
+        <span class="d-label">Last</span>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+
+### Mid Label
+```html live
+<div class="flex flex-col gap-4">
+  <div class="grid grid-cols-4 gap-1">
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group sm">
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+        <span class="d-label">Mid</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+        <span class="d-label">Mid</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group md">
+        <input type="text" class="d-input" placeholder="Placeholder" disabled/>
+        <span class="d-label">Mid</span>
+        <input type="text" class="d-input" placeholder="Placeholder" disabled/>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Error
+```html live
+<div class="flex flex-col gap-4">
+  <div class="grid grid-cols-3 gap-1">
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group error sm">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group error md">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder"/>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 p-2">
+      <div class="d-input-text-group error md">
+        <span class="d-label">First</span>
+        <input type="text" class="d-input" placeholder="Placeholder" disabled/>
+      </div>
+    </div>
+  </div>
+</div>
+```

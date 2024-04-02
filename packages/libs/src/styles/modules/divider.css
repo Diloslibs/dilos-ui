@@ -1,11 +1,11 @@
-.divider {
+.d-divider {
 	@apply bg-gray-200;
 }
 
-.divider-sm {
+.d-divider.sm {
 	@apply h-px;
 }
 
-.divider-md {
+.d-divider.md {
 	@apply h-0.5;
 }
