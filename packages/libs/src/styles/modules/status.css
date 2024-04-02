@@ -1,20 +1,20 @@
-.status-container {
+.d-status {
 	@apply inline-flex px-1.5 py-0.5 items-center gap-1.5 rounded-full w-fit max-w-full;
 }
 
-.status-sm {
+.d-status.sm {
 	@apply px-1.5 py-0.5;
 }
 
-.status-md {
+.d-status.md {
 	@apply px-2 py-1;
 }
 
-.status-lg {
+.d-status.lg {
 	@apply px-2 py-1;
 }
 
-.status-border {
+.d-status.status-border {
 	@apply border border-gray-400;
 }
 
@@ -22,7 +22,7 @@
 	@apply text-black font-medium text-xs;
 }
 
-.status-lg .status-text {
+.lg .status-text {
 	@apply text-sm;
 }
 
@@ -30,22 +30,22 @@
 	@apply w-2 h-2 rounded-full inline-flex items-center justify-center;
 }
 
-.status-info .dot {
+.d-status.info .dot {
 	@apply bg-blue-600;
 }
 
-.status-success .dot {
+.d-status.success .dot {
 	@apply bg-green-600;
 }
 
-.status-danger .dot {
+.d-status.danger .dot {
 	@apply bg-red-600;
 }
 
-.status-warning .dot {
+.d-status.warning .dot {
 	@apply bg-yellow-400;
 }
 
-.status-disable .dot {
+.d-status.gray .dot {
 	@apply bg-gray-600;
 }
