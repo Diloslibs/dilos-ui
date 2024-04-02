@@ -1,0 +1,11 @@
+.d-overlay{
+    @apply w-screen h-screen fixed top-0 left-0 z-10;
+}
+
+.d-overlay.dark{
+    @apply bg-base;
+}
+
+.d-overlay.light{
+    @apply bg-white;
+}
