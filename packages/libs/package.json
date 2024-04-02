@@ -8,7 +8,7 @@
     "start:tailwind": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch",
     "build": "concurrently pnpm:build:*",
     "build:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
-    "build:ts": "vite build"
+    "build:ts": "webpack --mode=production"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
