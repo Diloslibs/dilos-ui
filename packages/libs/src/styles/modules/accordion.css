@@ -1,11 +1,19 @@
-.d-accordion .item-accordion {
-    @apply mb-3 shadow-md rounded-xl overflow-hidden border border-gray-200;
+.accordion {
+	@apply w-full flex justify-between items-center py-3 px-4 text-gray-700 cursor-pointer text-base hover:shadow-accordion-outer;
 }
 
-.d-accordion .item-accordion button {
-    @apply flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 hover:bg-gray-100 gap-3;
+.accordion-primary {
+	@apply shadow-accordion bg-white rounded-lg hover:ring hover:ring-gray-300;
 }
 
-.d-accordion.flat .item-accordion {
-	@apply mb-0 shadow-none rounded-none border-t-0 border-l-0 border-r-0 border-b border-gray-200
+.accordion-flat {
+	@apply border-b-2 rounded-sm;
+}
+
+.accordion-basic {
+	@apply bg-white;
+}
+
+.accordion-disabled {
+	@apply cursor-not-allowed bg-gray-200 hover:ring-0;
 }

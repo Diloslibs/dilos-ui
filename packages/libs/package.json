@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "scripts": {
     "start": "concurrently pnpm:start:*",
-    "start:webpack": "webpack --mode=development --watch",
-    "start:tailwind": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch",
+    "start:rm": "rm -rf ./dist",
+    "start:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch",
+    "start:ts": "tsc -w",
     "build": "concurrently pnpm:build:*",
     "build:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build:ts": "vite build"
@@ -13,16 +14,10 @@
   "devDependencies": {
     "@types/node": "^20.11.30",
     "concurrently": "^8.2.2",
-    "css-loader": "^6.10.0",
-    "mini-css-extract-plugin": "^2.8.1",
-    "postcss-loader": "^8.1.1",
     "rm": "^0.1.8",
     "tailwindcss": "^3.4.1",
-    "ts-loader": "^9.5.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.2",
-    "vite-plugin-dts": "^3.7.3",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
+    "vite-plugin-dts": "^3.7.3"
   }
 }
