@@ -1,0 +1,96 @@
+.d-input-text-group{
+  @apply
+  flex
+}
+
+.d-input-text-group .d-label{
+  @apply 
+  px-3
+  inline-flex
+  items-center 
+  min-w-fit
+  w-full
+  border
+  bg-gray-100 
+  border-gray-400 
+  text-gray-500
+  -mt-px -ms-px 
+  first:rounded-t-md
+  last:rounded-b-md 
+  sm:w-auto 
+  sm:first:rounded-s-md 
+  sm:mt-0 sm:first:ms-0 
+  sm:first:rounded-se-none 
+  sm:last:rounded-es-none 
+  sm:last:rounded-e-md
+  ;
+}
+
+.d-input-text-group .d-input{
+  @apply 
+  block 
+  w-full
+  border
+  border-gray-400
+  hover:border-gray-500 
+  focus:shadow-input-text
+  focus:outline-gray-500 
+  focus:z-10
+  shadow-sm
+  -mt-px -ms-px 
+  first:rounded-t-md 
+  last:rounded-b-md 
+  sm:first:rounded-s-md 
+  sm:mt-0 sm:first:ms-0 
+  sm:first:rounded-se-none 
+  sm:last:rounded-es-none 
+  sm:last:rounded-e-md 
+  text-sm
+  relative
+  ;
+}
+
+.d-input-text-group.error .d-input{
+  @apply 
+  block 
+  w-full
+  border
+  border-error-400
+  hover:border-error-500 
+  focus:shadow-input-text
+  focus:outline-error-500 
+  focus:z-10
+  shadow-sm
+  -mt-px -ms-px 
+  first:rounded-t-md 
+  last:rounded-b-md 
+  sm:first:rounded-s-md 
+  sm:mt-0 sm:first:ms-0 
+  sm:first:rounded-se-none 
+  sm:last:rounded-es-none 
+  sm:last:rounded-e-md 
+  text-sm
+  relative
+  ;
+}
+
+.d-input[disabled] {
+	@apply bg-gray-100 pointer-events-none;
+}
+
+.d-input-text-group.sm .d-input{
+  @apply
+  h-8
+  px-3
+  text-sm
+  ;
+}
+
+.d-input-text-group.md .d-input{
+  @apply
+  h-10
+  px-3
+  text-lg
+  ;
+}
+
