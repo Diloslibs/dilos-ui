@@ -27,6 +27,9 @@ runs:
     - name: Install pnpm
       run: npm install -g pnpm
       shell: bash
+    - name: Install project deps
+      run: npm install -g pnpm
+      shell: bash
     - name: Run Build
       run: npm run build
       shell: bash
