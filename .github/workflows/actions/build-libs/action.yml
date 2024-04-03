@@ -11,12 +11,12 @@ runs:
       run: npm install
       working-directory: ./packages/libs
       shell: bash
-    - name: Build Core
+    - name: Build Libs
       run: npm run build -- --ci
       working-directory: ./packages/libs
       shell: bash
     - uses: ./.github/workflows/actions/upload-archive
       with:
-        name: ionic-core
-        output: libs/CoreBuild.zip
+        name: dilos-libs
+        output: libs/LibsBuild.zip
         paths: libs/dist
