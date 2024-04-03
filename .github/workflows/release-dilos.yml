@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: ./.github/workflows/actions/publish-npm
       with:
-        scope: '@ionic/core'
+        scope: '@dilos/libs'
         tag: ${{ inputs.tag }}
         version: ${{ inputs.version }}
         preid: ${{ inputs.preid }}
