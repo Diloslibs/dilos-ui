@@ -21,5 +21,5 @@ runs:
     - uses: ./.github/workflows/actions/upload-archive
       with:
         name: dilos-libs
-        output: libs/LibsBuild.zip
-        paths: libs/dist
+        output: packages/libs/LibsBuild.zip
+        paths: packages/libs/dist
