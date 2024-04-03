@@ -1,0 +1,33 @@
+name: 'Release Dilos'
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'The type of version to release.'
+        type: string
+        required: true
+      tag:
+        description: 'The tag to publish to NPM.'
+        type: string
+        required: true
+      preid:
+        description: 'The prerelease identifier used when doing a prerelease.'
+        type: string
+    secrets:
+      NPM_TOKEN:
+        required: true
+
+jobs:
+  release-core:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/workflows/actions/publish-npm
+      with:
+        scope: '@ionic/core'
+        tag: ${{ inputs.tag }}
+        version: ${{ inputs.version }}
+        preid: ${{ inputs.preid }}
+        working-directory: 'core'
+        token: ${{ secrets.NPM_TOKEN }}
