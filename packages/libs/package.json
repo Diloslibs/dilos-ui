@@ -11,6 +11,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Diloslibs/dilos-ui.git"
+  },
   "scripts": {
     "start": "concurrently pnpm:start:*",
     "start:webpack": "webpack --mode=development --watch",
