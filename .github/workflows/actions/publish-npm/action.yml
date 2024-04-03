@@ -11,7 +11,6 @@ inputs:
     default: './'
     description: 'A folder containing a package.json file.'
   token:
-    default: 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
     description: 'The NPM authentication token required to publish.'
 runs:
   using: 'composite'
@@ -42,6 +41,6 @@ runs:
       env:
         NPM_TOKEN: ${{ inputs.token }}
     - name: Publish to NPM
-      run: npm publish ${{ inputs.folder }} --tag ${{ inputs.tag }} --provenance
+      run: npm publish ${{ inputs.folder }} --tag ${{ inputs.tag }} --provenance --no-workspaces
       shell: bash
       working-directory: ${{ inputs.working-directory }}
