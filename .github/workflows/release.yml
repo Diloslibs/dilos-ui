@@ -22,8 +22,6 @@ on:
         options:
           - latest
           - next
-          - v5-lts
-          - v4-lts
       preid:
         type: choice
         description: Which prerelease identifier should be used? This is only needed when version is "prepatch", "preminor", "premajor", or "prerelease".
@@ -31,8 +29,6 @@ on:
           - ''
           - alpha
           - beta
-          - rc
-          - next
 
 jobs:
   release-dilos:
@@ -45,3 +41,20 @@ jobs:
       preid: ${{ inputs.preid }}
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  purge-cdn-cache:
+    needs: [release-dilos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge JSDelivr Cache
+        run: |
+          curl -X POST \
+            https://purge.jsdelivr.net/ \
+            -H 'cache-control: no-cache' \
+            -H 'content-type: application/json' \
+            -d '{
+          "path": [
+            "/npm/@dilos/libs@0.0.3/dist/index.min.js",
+            "/npm/@dilos/libs@0.0.3/dist/index.css",
+          ]}'
+        shell: bash
