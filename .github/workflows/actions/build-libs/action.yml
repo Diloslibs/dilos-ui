@@ -9,6 +9,7 @@ runs:
         node-version: 20.x
     - name: Install Dependencies
       run: npm install
+      run: npm install -g pnpm
       working-directory: ./packages/libs
       shell: bash
     - name: Build Libs
