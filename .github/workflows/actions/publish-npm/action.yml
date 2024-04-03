@@ -39,7 +39,7 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
-        NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+        NPM_TOKEN: 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
     - name: Publish to NPM
       run: npm publish ${{ inputs.folder }} --no-workspaces --access=public
       shell: bash
