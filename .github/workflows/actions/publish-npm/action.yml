@@ -21,6 +21,12 @@ runs:
     - name: Install latest npm
       run: npm install -g npm@latest
       shell: bash
+    - name: Install Deps
+      run: npm install -g concurrently
+      shell: bash
+    - name: Install pnpm
+      run: npm install -g pnpm
+      shell: bash
     - name: Run Build
       run: npm run build
       shell: bash
