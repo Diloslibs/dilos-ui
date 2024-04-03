@@ -1,10 +1,6 @@
 name: 'Release'
 description: 'Releases a package'
 inputs:
-  scope:
-    description: 'The package to release. Must match a package specified in lerna.json.'
-  version:
-    description: 'The type of version to release.'
   tag:
     description: 'The tag to publish to on NPM.'
   preid:
@@ -25,14 +21,6 @@ runs:
     - name: Install latest npm
       run: npm install -g npm@latest
       shell: bash
-    - name: Install Dependencies
-      run: npx lerna bootstrap --include-dependencies --scope ${{ inputs.scope }} --ignore-scripts -- --legacy-peer-deps
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-    - name: Update Version
-      run: npx lerna version ${{ inputs.version }} --yes --exact --no-changelog --no-push --no-git-tag-version --preid=${{ inputs.preid }}
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
     - name: Run Build
       run: npm run build
       shell: bash
