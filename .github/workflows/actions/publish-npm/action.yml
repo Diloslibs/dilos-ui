@@ -39,8 +39,8 @@ runs:
       working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
-        NPM_TOKEN: ${{ inputs.token }}
+        NPM_TOKEN: ${{secrets.NPM_TOKEN}}
     - name: Publish to NPM
-      run: npm publish ${{ inputs.folder }} --access=public
+      run: npm publish ${{ inputs.folder }} --no-workspaces --access=public
       shell: bash
       working-directory: ${{ inputs.working-directory }}
