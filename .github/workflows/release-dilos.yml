@@ -19,7 +19,7 @@ on:
         required: true
 
 jobs:
-  release-core:
+  release-libs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -29,5 +29,5 @@ jobs:
         tag: ${{ inputs.tag }}
         version: ${{ inputs.version }}
         preid: ${{ inputs.preid }}
-        working-directory: 'core'
+        working-directory: 'packages/libs'
         token: ${{ secrets.NPM_TOKEN }}
