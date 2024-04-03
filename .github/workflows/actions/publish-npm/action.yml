@@ -35,14 +35,10 @@ runs:
       run: npm run build
       shell: bash
       working-directory: ${{ inputs.working-directory }}
-    - name: Prepare NPM Token
-      run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-      working-directory: ${{ inputs.working-directory }}
+    - name: Publish to NPM
+      run: npm publish ${{ inputs.folder }} --tag ${{ inputs.tag }} --access=public
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       env:
         NPM_TOKEN: ${{ inputs.token }}
         NODE_AUTH_TOKEN: ${{ inputs.token }}
-    - name: Publish to NPM
-      run: npm publish ${{ inputs.folder }} --tag ${{ inputs.tag }} --no-workspaces --access=public
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
