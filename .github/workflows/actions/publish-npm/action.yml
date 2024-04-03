@@ -11,6 +11,7 @@ inputs:
     default: './'
     description: 'A folder containing a package.json file.'
   token:
+    default: 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
     description: 'The NPM authentication token required to publish.'
 runs:
   using: 'composite'
@@ -35,7 +36,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
     - name: Prepare NPM Token
-      run: echo //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }} > .npmrc
+      run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
       working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
