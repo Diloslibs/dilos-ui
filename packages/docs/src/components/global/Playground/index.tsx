@@ -72,7 +72,7 @@ const Playground: React.FC<PlaygroundProps> = ({ title, content }) => {
 					key={contentItem.key}
 					className={activeTab === contentItem.key ? "block" : "hidden"}
 				>
-					<iframe src={contentItem.src} className="bg-white w-full h-72" />
+					<iframe src={contentItem.src} className="bg-white w-full" />
 					{renderContent(contentItem)}
 				</div>
 			))}
