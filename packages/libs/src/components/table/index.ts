@@ -177,16 +177,20 @@ class DTable implements ITable {
 
     const handleInput = debounce(() => {
       const searchText: string = input.value.toLowerCase();
-      this._tPagination.currentPage = 0;
-      this._tData = chunkArray(this._tOptions.data.filter((row: any[]) =>
+      const chunkData = chunkArray(this._tOptions.data.filter((row: any[]) =>
         row.some((item: string | number) =>
           typeof item === 'string'
             ? item.toLowerCase().includes(searchText)
             : typeof item === 'number' && (item as number).toString().includes(searchText)
         )
-      ))[this._tPagination.currentPage];
+      ));
+
+      this._tPagination.currentPage = 1;
+      this._tData = chunkData[this._tPagination.currentPage - 1];
+      this._tPagination.totalPage = chunkData.length > 0 ? chunkData.length : 1;
       this.render();
       this.renderPageButton();
+      this.handleChangePage();
 
       const description = document.getElementById('pagination-description');
       if (this._tData?.length > 0) {
