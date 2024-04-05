@@ -19,17 +19,41 @@ class DTable implements ITable {
     totalPage: number,
   } = {
       perPage: 10,
-      currentPage: 0,
+      currentPage: 1,
       totalPage: 0,
     };
 
-  constructor(tableId: string, options: any) {
+  constructor(tableId: string, options: DTableOptions) {
+    this.checkParams(tableId, options);
+
     this._tEl = document.getElementById(tableId) as HTMLTableElement;
     this._tOptions = { ...this._tOptions, ...options };
-    this._tData = chunkArray(this._tOptions.data, options.pagination.perPage)[0];
-    this._tPagination.totalPage = chunkArray(this._tOptions.data, options.pagination.perPage).length - 1;
+
+    // Chunk data to make pagination
+    const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.perPage);
+
+    // Set initial data to be displayed
+    if (chunkedData.length > 0) {
+      this._tData = chunkedData[0];
+      this._tDataShadow = chunkedData[0];
+      this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
+    }
 
     this.init();
+  }
+
+  checkParams(id: string, options: DTableOptions): void {
+    if (!id) {
+      console.error('Dilos: please provide table id');
+    }
+
+    if (!options.columns) {
+      console.error('Dilos: please provide columns for the table');
+    }
+
+    if (!options.data) {
+      console.error('Dilos: please provide data for the table');
+    }
   }
 
   init(): void {
@@ -162,6 +186,7 @@ class DTable implements ITable {
         )
       ))[this._tPagination.currentPage];
       this.render();
+      this.renderPageButton();
 
       const description = document.getElementById('pagination-description');
       if (this._tData?.length > 0) {
@@ -193,7 +218,7 @@ class DTable implements ITable {
 
     const handleNextPage = () => {
       this._tPagination.currentPage++;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
       this.render();
 
       // re render pagination description
@@ -217,7 +242,7 @@ class DTable implements ITable {
     firstPage.setAttribute('data-table-first-page', '');
     firstPage.textContent = '<<';
     firstPage.addEventListener('click', () => {
-      this._tPagination.currentPage = 0;
+      this._tPagination.currentPage = 1;
       this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
       this.render();
 
@@ -232,7 +257,7 @@ class DTable implements ITable {
     lastPage.textContent = '>>';
     lastPage.addEventListener('click', () => {
       this._tPagination.currentPage = this._tPagination.totalPage;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
       this.render();
 
       // re render pagination description
@@ -263,9 +288,9 @@ class DTable implements ITable {
     div.setAttribute('data-table-page-button', '');
     div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2', 'transition-all', 'duration-300');
 
-    const currentPage = this._tPagination.currentPage + 1;
-    const totalPage = this._tPagination.totalPage + 1;
-    const maxPagesToShow = 5; // Maximum number of pages to show in the pagination
+    const currentPage = this._tPagination.currentPage;
+    const totalPage = this._tPagination.totalPage;
+    const maxPagesToShow = 5;
 
     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     let endPage = Math.min(totalPage, startPage + maxPagesToShow - 1);
@@ -273,19 +298,22 @@ class DTable implements ITable {
     // Adjust startPage if endPage is at the maximum limit
     startPage = Math.max(1, endPage - maxPagesToShow + 1);
 
-    for (let i = startPage; i <= endPage; i++) {
-      const button = document.createElement('button');
-      button.textContent = String(i);
+    if (this._tData) {
+      for (let i = startPage; i <= endPage; i++) {
+        const button = document.createElement('button');
+        button.textContent = String(i);
 
-      if (i === currentPage) {
-        button.classList.add('bg-blue-500', 'text-white');
+        if (i === currentPage) {
+          button.classList.add('bg-blue-500', 'text-white');
+        }
+
+        button.addEventListener('click', () => {
+          this.handleClickPage(i);
+        });
+        div.appendChild(button);
       }
-
-      button.addEventListener('click', () => {
-        this.handleClickPage(i);
-      });
-      div.appendChild(button);
     }
+
     const container = document.querySelector('[data-table-pagination-panel]');
     const childCount = container.childElementCount;
     const middleIndex = Math.floor(childCount / 2);
@@ -302,7 +330,7 @@ class DTable implements ITable {
   }
 
   handleClickPage(i: number): void {
-    this._tPagination.currentPage = i - 1;
+    this._tPagination.currentPage = i;
     this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[i - 1];
 
     this.render();
@@ -311,12 +339,15 @@ class DTable implements ITable {
   }
 
   handleChangePage(): void {
+    const { currentPage, totalPage } = this._tPagination;
+
     // disable prev button
-    if (this._tPagination.currentPage === 0) {
+    if (currentPage <= 1) {
       const prev = document.getElementById('prev-page');
       prev.setAttribute('disabled', '');
       prev.classList.add('cursor-not-allowed');
     }
+    // enable prev button
     else {
       const prev = document.getElementById('prev-page');
       prev.removeAttribute('disabled');
@@ -324,28 +355,67 @@ class DTable implements ITable {
     }
 
     // disable next button
-    if (this._tPagination.currentPage === this._tPagination.totalPage) {
+    if (currentPage === totalPage) {
       const next = document.getElementById('next-page');
       next.setAttribute('disabled', '');
       next.classList.add('cursor-not-allowed');
     }
+    // enable next button
     else {
       const next = document.getElementById('next-page');
       next.removeAttribute('disabled');
       next.classList.remove('cursor-not-allowed');
     }
 
+    // disable first page button
+    if (currentPage === 1) {
+      const firstPage = document.querySelector('[data-table-first-page]');
+      firstPage.setAttribute('disabled', '');
+      firstPage.classList.add('cursor-not-allowed');
+    }
+    // enable first page button
+    else {
+      const firstPage = document.querySelector('[data-table-first-page]');
+      firstPage.removeAttribute('disabled');
+      firstPage.classList.remove('cursor-not-allowed');
+    }
+
+    // disable last page button
+    if (currentPage === totalPage) {
+      const lastPage = document.querySelector('[data-table-last-page]');
+      lastPage.setAttribute('disabled', '');
+      lastPage.classList.add('cursor-not-allowed');
+    }
+    // enable last page button
+    else {
+      const lastPage = document.querySelector('[data-table-last-page]');
+      lastPage.removeAttribute('disabled');
+      lastPage.classList.remove('cursor-not-allowed');
+    }
+
     this.renderPageButton();
   }
 
-  handleChangePerPage = (e): void => {
-    const perPage: string = e.target.value;
 
-    this._tPagination.perPage = Number(perPage);
-    this._tPagination.currentPage = 0;
-    this._tData = chunkArray(this._tOptions.data, Number(perPage))[0];
-    this._tPagination.totalPage = chunkArray(this._tOptions.data, Number(perPage)).length - 1;
+  handleChangePerPage = (e: any): void => {
+    // reset pagination current page
+    this._tPagination.currentPage = 1;
+
+    this._tPagination.perPage = Number(e.target.value);
+
+    // Chunk data to make pagination
+    const chunkedData: string[][] = chunkArray(this._tOptions.data, this._tPagination.perPage);
+
+    // Set initial data to be displayed
+    if (chunkedData.length > 0) {
+      this._tData = chunkedData[0];
+      this._tDataShadow = chunkedData[0];
+      this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
+    }
+
     this.render();
+    this.renderPageButton();
+    this.handleChangePage();
   }
 }
 
