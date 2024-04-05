@@ -1,18 +1,118 @@
+import { chunkArray, debounce } from "../../utils";
 import { ITable } from "./interface";
+import { DTableOptions, Columns } from "./types";
 
-class Table implements ITable {
+class DTable implements ITable {
+  _tEl: HTMLTableElement;
+  _tOptions: DTableOptions = {
+    columns: [],
+    data: [],
+    showNumbering: true,
+    showCheckbox: false,
+  };
+  _tData: any[];
+  _tDataShadow: any[];
   _checkBoxEl: HTMLInputElement;
+  _tPagination: {
+    perPage: number,
+    currentPage: number,
+    totalPage: number,
+  } = {
+      perPage: 10,
+      currentPage: 0,
+      totalPage: 0,
+    };
 
-  constructor() {
-    this.toggleCheckboxRow();
+  constructor(tableId: string, options: any) {
+    this._tEl = document.getElementById(tableId) as HTMLTableElement;
+    this._tOptions = { ...this._tOptions, ...options };
+    this._tData = chunkArray(this._tOptions.data, options.pagination.perPage)[0];
+    this._tPagination.totalPage = chunkArray(this._tOptions.data, options.pagination.perPage).length - 1;
+
+    this.init();
   }
 
   init(): void {
+    this.render();
+    this.renderInputSearch();
+    this.renderPagination();
     this.toggleCheckboxRow();
+    this.renderPageButton();
   }
 
   reinit(): void {
     this.toggleCheckboxRow();
+  }
+
+  render(): void {
+
+    // console current page
+    const currentPage = this._tPagination.currentPage;
+    console.log('Current Page: ', currentPage);
+
+    // clear table
+    this._tEl.innerHTML = '';
+
+    // create table header
+    const thead = document.createElement('thead');
+    const tr = document.createElement('tr');
+
+    if (this._tOptions.showCheckbox) {
+      const th = document.createElement('th');
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.setAttribute('data-table-checkall', '');
+      th.appendChild(input);
+      tr.appendChild(th);
+    }
+
+    if (this._tOptions.showNumbering) {
+      const th = document.createElement('th');
+      th.textContent = '#';
+      tr.appendChild(th);
+    }
+
+    this._tOptions.columns.forEach((col: Columns) => {
+      const th = document.createElement('th');
+      th.textContent = col.title;
+      tr.appendChild(th);
+    });
+
+    thead.appendChild(tr);
+    this._tEl.innerHTML += thead.outerHTML;
+
+    // create table body
+    const tbody = document.createElement('tbody');
+    if (this._tData) {
+      this._tData.forEach((row: string) => {
+        const tr = document.createElement('tr');
+
+        if (this._tOptions.showCheckbox) {
+          const td = document.createElement('td');
+          const input = document.createElement('input');
+          input.type = 'checkbox';
+          input.setAttribute('data-checkbox-row', '');
+          td.appendChild(input);
+          tr.appendChild(td);
+        }
+
+        if (this._tOptions.showNumbering) {
+          const td = document.createElement('td');
+          td.innerHTML = String(this._tOptions.data.indexOf(row) + 1);
+          tr.appendChild(td);
+        }
+
+
+        this._tOptions.columns.forEach((_, i: number) => {
+          const td = document.createElement('td');
+          td.textContent = row[i];
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+    this._tEl.innerHTML += tbody.outerHTML;
   }
 
   toggleCheckboxRow(): void {
@@ -30,14 +130,223 @@ class Table implements ITable {
       });
     }
   }
-};
 
-export function initTable() {
-  new Table();
+  renderInputSearch(): void {
+    const div = document.createElement('div');
+    div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
+
+    const select = document.createElement('select');
+    select.id = 'select-per-page';
+    select.innerHTML = `
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    `;
+
+    select.addEventListener('change', this.handleChangePerPage.bind(this));
+
+    const input = document.createElement('input');
+
+    input.type = 'text';
+    input.placeholder = 'Search...';
+
+    const handleInput = debounce(() => {
+      const searchText: string = input.value.toLowerCase();
+      this._tPagination.currentPage = 0;
+      this._tData = chunkArray(this._tOptions.data.filter((row: any[]) =>
+        row.some((item: string | number) =>
+          typeof item === 'string'
+            ? item.toLowerCase().includes(searchText)
+            : typeof item === 'number' && (item as number).toString().includes(searchText)
+        )
+      ))[this._tPagination.currentPage];
+      this.render();
+
+      const description = document.getElementById('pagination-description');
+      if (this._tData?.length > 0) {
+        description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} (filtered from ${this._tOptions.data.length} total entries)`;
+        return;
+      }
+      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData?.length} of ${this._tOptions.data.length} entries`;
+
+    }, 300);
+
+    input.addEventListener('input', handleInput);
+
+    div.appendChild(select);
+    div.appendChild(input);
+    this._tEl.parentElement.insertBefore(div, this._tEl);
+  }
+
+  renderPagination(): void {
+    const pagination = document.createElement('div');
+    pagination.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
+
+    const description = document.createElement('span');
+    description.id = 'pagination-description';
+    description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+
+    const panel = document.createElement('div');
+    panel.setAttribute('data-table-pagination-panel', '');
+    panel.classList.add('flex', 'items-center', 'space-x-2');
+
+    const handleNextPage = () => {
+      this._tPagination.currentPage++;
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this.render();
+
+      // re render pagination description
+      const description = document.getElementById('pagination-description');
+      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.handleChangePage();
+    }
+
+    const handlePrevPage = () => {
+      this._tPagination.currentPage--;
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this.render();
+
+      // re render pagination description
+      const description = document.getElementById('pagination-description');
+      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.handleChangePage();
+    }
+
+    const firstPage = document.createElement('button');
+    firstPage.setAttribute('data-table-first-page', '');
+    firstPage.textContent = '<<';
+    firstPage.addEventListener('click', () => {
+      this._tPagination.currentPage = 0;
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this.render();
+
+      // re render pagination description
+      const description = document.getElementById('pagination-description');
+      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.handleChangePage();
+    });
+
+    const lastPage = document.createElement('button');
+    lastPage.setAttribute('data-table-last-page', '');
+    lastPage.textContent = '>>';
+    lastPage.addEventListener('click', () => {
+      this._tPagination.currentPage = this._tPagination.totalPage;
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this.render();
+
+      // re render pagination description
+      const description = document.getElementById('pagination-description');
+      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.handleChangePage();
+    });
+
+    const prev = document.createElement('button');
+    prev.id = 'prev-page';
+    prev.textContent = '<';
+    prev.addEventListener('click', handlePrevPage);
+
+    const next = document.createElement('button');
+    next.id = 'next-page';
+    next.textContent = '>';
+    next.addEventListener('click', handleNextPage);
+
+    panel.append(firstPage, prev, next, lastPage);
+    pagination.append(description, panel);
+    this._tEl.parentElement.appendChild(pagination);
+
+    this.handleChangePage();
+  }
+
+  renderPageButton(): void {
+    const div = document.createElement('div');
+    div.setAttribute('data-table-page-button', '');
+    div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2', 'transition-all', 'duration-300');
+
+    const currentPage = this._tPagination.currentPage + 1;
+    const totalPage = this._tPagination.totalPage + 1;
+    const maxPagesToShow = 5; // Maximum number of pages to show in the pagination
+
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPage, startPage + maxPagesToShow - 1);
+
+    // Adjust startPage if endPage is at the maximum limit
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      const button = document.createElement('button');
+      button.textContent = String(i);
+
+      if (i === currentPage) {
+        button.classList.add('bg-blue-500', 'text-white');
+      }
+
+      button.addEventListener('click', () => {
+        this.handleClickPage(i);
+      });
+      div.appendChild(button);
+    }
+    const container = document.querySelector('[data-table-pagination-panel]');
+    const childCount = container.childElementCount;
+    const middleIndex = Math.floor(childCount / 2);
+
+    const divs = document.querySelectorAll('[data-table-page-button]');
+
+    if (divs.length > 0) {
+      divs.forEach((div) => {
+        div.remove();
+      });
+    }
+
+    container.insertBefore(div, container.children[middleIndex]);
+  }
+
+  handleClickPage(i: number): void {
+    this._tPagination.currentPage = i - 1;
+    this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[i - 1];
+
+    this.render();
+    this.handleChangePage();
+    this.renderPageButton();
+  }
+
+  handleChangePage(): void {
+    // disable prev button
+    if (this._tPagination.currentPage === 0) {
+      const prev = document.getElementById('prev-page');
+      prev.setAttribute('disabled', '');
+      prev.classList.add('cursor-not-allowed');
+    }
+    else {
+      const prev = document.getElementById('prev-page');
+      prev.removeAttribute('disabled');
+      prev.classList.remove('cursor-not-allowed');
+    }
+
+    // disable next button
+    if (this._tPagination.currentPage === this._tPagination.totalPage) {
+      const next = document.getElementById('next-page');
+      next.setAttribute('disabled', '');
+      next.classList.add('cursor-not-allowed');
+    }
+    else {
+      const next = document.getElementById('next-page');
+      next.removeAttribute('disabled');
+      next.classList.remove('cursor-not-allowed');
+    }
+
+    this.renderPageButton();
+  }
+
+  handleChangePerPage = (e): void => {
+    const perPage: string = e.target.value;
+
+    this._tPagination.perPage = Number(perPage);
+    this._tPagination.currentPage = 0;
+    this._tData = chunkArray(this._tOptions.data, Number(perPage))[0];
+    this._tPagination.totalPage = chunkArray(this._tOptions.data, Number(perPage)).length - 1;
+    this.render();
+  }
 }
 
-if (typeof window !== 'undefined') {
-  initTable();
-}
-
-export default Table;
+export default DTable;

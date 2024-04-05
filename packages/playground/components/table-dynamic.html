@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table | Dilos</title>
+
+  <!-- Script CSS Dilos -->
+  <link rel="stylesheet" href="./../../libs/dist/index.css">
+
+  <!-- Tailwind Integration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="my-0 mx-auto min-h-full max-w-screen-md py-16">
+    <div class="flex flex-col gap-5">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-2xl font-bold">Minimal Configuration To Run!</h1>
+
+        <div class="bg-white p-4 border rounded-md">
+          <table id="d-table" class="d-table"></table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Script JS Dilos -->
+  <script src="./../../libs/dist/index.js"></script>
+  <script>
+    const table = new DTable("d-table", {
+      columns: [
+        {
+          title: "Name",
+        },
+        {
+          title: "Age",
+        },
+        {
+          title: "City",
+        },
+      ],
+      data: [
+        ["John Doe", 25, "London"],
+        ["Jane Doe", 22, "Paris"],
+        ["James Doe", 30, "New York"],
+        ["Jenny Doe", 28, "Tokyo"],
+        ["Jack Doe", 35, "Berlin"],
+        ["Jill Doe", 32, "Sydney"],
+        ["Jesse Doe", 40, "Moscow"],
+        ["Jasmine Doe", 38, "Beijing"],
+        ["Jared Doe", 45, "Cairo"],
+        ["Jocelyn Doe", 42, "Rio de Janeiro"],
+        ["Jasper Doe", 50, "Cape Town"],
+        ["Jade Doe", 48, "Mumbai"],
+        ["Jaxon Doe", 55, "Jakarta"],
+        ["Jenna Doe", 52, "Manila"],
+        ["Jett Doe", 60, "Bangkok"],
+        ["Jewel Doe", 58, "Seoul"],
+        ["Jude Doe", 65, "Kuala Lumpur"],
+        ["Jocelyn Doe", 62, "Singapore"],
+        ["Jasper Doe", 70, "Hong Kong"],
+        ["Jade Doe", 68, "Taipei"],
+        ["Jaxon Doe", 75, "Hanoi"],
+        ["Jenna Doe", 72, "Phnom Penh"],
+        ["Jett Doe", 80, "Vient"],
+        ["Jewel Doe", 78, "Naypyidaw"],
+        ["Jude Doe", 85, "Dhaka"],
+        ["Jocelyn Doe", 82, "Islamabad"],
+        ["Jasper Doe", 90, "Kabul"],
+        ["Jade Doe", 88, "Tehran"],
+        ["Jaxon Doe", 95, "Baghdad"],
+        ["Jenna Doe", 92, "Riyadh"],
+        ["Jett Doe", 100, "Ankara"],
+        ["Jewel Doe", 98, "Cairo"],
+        ["Jude Doe", 105, "Athens"],
+        ["Jocelyn Doe", 102, "Rome"],
+        ["Jasper Doe", 110, "Paris"],
+        ["Jade Doe", 108, "Berlin"],
+        ["Jaxon Doe", 115, "Madrid"],
+        ["Jenna Doe", 112, "London"],
+        ["Jett Doe", 120, "Lisbon"],
+        ["Jewel Doe", 118, "Dublin"],
+        ["Jude Doe", 125, "Oslo"],
+        ["Jocelyn Doe", 122, "Stockholm"],
+        ["Jasper Doe", 130, "Helsinki"],
+        ["Jade Doe", 128, "Moscow"],
+        ["Jaxon Doe", 135, "Warsaw"],
+        ["Jenna Doe", 132, "Prague"],
+        ["Jett Doe", 140, "Vienna"],
+        ["Jewel Doe", 138, "Budapest"],
+        ["Jude Doe", 145, "Belgrade"],
+        ["Jocelyn Doe", 142, "Sofia"],
+        ["Jasper Doe", 150, "Bucharest"],
+        ["Jade Doe", 148, "Athens"],
+        ["Jaxon Doe", 155, "Istanbul"],
+        ["Jenna Doe", 152, "Kyiv"],
+        ["Jett Doe", 160, "Minsk"],
+        ["Jewel Doe", 158, "Chisinau"],
+        ["Jude Doe", 165, "Tbilisi"],
+        ["Jocelyn Doe", 162, "Yerevan"],
+        ["Jasper Doe", 170, "Baku"],
+        ["Jade Doe", 168, "Ashgabat"],
+        ["Jaxon Doe", 175, "Tehran"],
+        ["Jenna Doe", 172, "Baghdad"],
+        ["Jett Doe", 180, "Kuwait City"],
+        ["Jewel Doe", 178, "Doha"],
+        ["Jude Doe", 185, "Riyadh"],
+        ["Jocelyn Doe", 182, "Abu Dhabi"],
+        ["Jasper Doe", 190, "Muscat"],
+        ["Jade Doe", 188, "India"],
+        ["Jaxon Doe", 195, "Kathmandu"],
+        ["Jenna Doe", 192, "Thimphu"],
+      ],
+      pagination: {
+        perPage: 10,
+      },
+    });
+  </script>
+</body>
+
+</html>
