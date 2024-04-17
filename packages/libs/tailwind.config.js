@@ -10,6 +10,7 @@ export default {
         "input-text": "0px 0px 0px 2px #FCFCFD, 0px 0px 0px 4px #121212",
         "tooltip": "0px 3.5px 14px 0px #10182833",
         "textarea": "0px 0px 0px 2px #FCFCFD, 0px 0px 0px 4px #121212",
+        "switch": "0px 0px 0px 2px #FCFCFD, 0px 0px 0px 4px #121212",
       },
       colors: {
         // Primary
