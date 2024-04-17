@@ -12,6 +12,8 @@ class DTable implements ITable {
   };
   _tData: any[];
   _tDataShadow: any[];
+  _tDataFiltered: any[];
+  _tDataFilteredShadow: any[];
   _checkBoxEl: HTMLInputElement;
   _tPagination: {
     perPage: number,
@@ -37,7 +39,7 @@ class DTable implements ITable {
     // Set initial data to be displayed
     if (chunkedData.length > 0) {
       this._tData = chunkedData[0];
-      this._tDataShadow = chunkedData[0];
+      this._tDataShadow = this._tOptions.data;
       this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
     }
 
@@ -179,17 +181,18 @@ class DTable implements ITable {
 
     const handleInput = debounce(() => {
       const searchText: string = input.value.toLowerCase();
-      const chunkData = chunkArray(this._tOptions.data.filter((row: any[]) =>
+      this._tDataFilteredShadow = this._tDataShadow.filter((row: any[]) =>
         row.some((item: string | number) =>
           typeof item === 'string'
             ? item.toLowerCase().includes(searchText)
             : typeof item === 'number' && (item as number).toString().includes(searchText)
         )
-      ));
+      )
+      this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
 
       this._tPagination.currentPage = 1;
-      this._tData = chunkData[this._tPagination.currentPage - 1] ?? [];
-      this._tPagination.totalPage = chunkData.length > 0 ? chunkData.length : 1;
+      this._tData = this._tDataFiltered[this._tPagination.currentPage - 1] ?? [];
+      this._tPagination.totalPage = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
       this.render();
       this.renderPageButton();
       this.handleChangePage();
@@ -197,6 +200,8 @@ class DTable implements ITable {
 
       if (!searchText) {
         this._tPagination.isFilteringActive = false;
+        this._tPagination.currentPage = 1;
+        this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
         this.reRenderPaginationDescription();
         return;
       }
@@ -331,7 +336,13 @@ class DTable implements ITable {
 
   handleClickPage(i: number): void {
     this._tPagination.currentPage = i;
-    this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[i - 1];
+
+    if (this._tPagination.isFilteringActive) {
+      this._tData = this._tDataFiltered[i - 1];
+    }
+    else {
+      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[i - 1];
+    }
 
     this.render();
     this.handleChangePage();
@@ -404,8 +415,14 @@ class DTable implements ITable {
 
     this._tPagination.perPage = Number(e.target.value);
 
-    // Chunk data to make pagination
-    const chunkedData: string[][] = chunkArray(this._tOptions.data, this._tPagination.perPage);
+    let chunkedData: any[][];
+
+    if (this._tPagination.isFilteringActive) {
+      chunkedData = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
+    }
+    else {
+      chunkedData = chunkArray(this._tOptions.data, this._tPagination.perPage);
+    }
 
     // Set initial data to be displayed
     if (chunkedData.length > 0) {
@@ -432,8 +449,9 @@ class DTable implements ITable {
     }
 
     if (this._tPagination.isFilteringActive) {
-      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${this._tData.length} entries
+      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${this._tDataFiltered.reduce((acc, curr) => acc + curr.length, 0)} entries
       (filtered from ${totalItemCount} total entries)`
+
       return;
     }
 
