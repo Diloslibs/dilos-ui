@@ -232,7 +232,7 @@ class DTable implements ITable {
 
     const handleNextPage = () => {
       this._tPagination.currentPage++;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
+      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
       this.render();
       this.reRenderPaginationDescription();
       this.handleChangePage();
@@ -240,7 +240,7 @@ class DTable implements ITable {
 
     const handlePrevPage = () => {
       this._tPagination.currentPage--;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
+      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
       this.render();
       this.reRenderPaginationDescription();
       this.handleChangePage();
@@ -251,7 +251,7 @@ class DTable implements ITable {
     firstPage.textContent = '<<';
     firstPage.addEventListener('click', () => {
       this._tPagination.currentPage = 1;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage];
       this.render();
 
       this.reRenderPaginationDescription();
@@ -263,7 +263,7 @@ class DTable implements ITable {
     lastPage.textContent = '>>';
     lastPage.addEventListener('click', () => {
       this._tPagination.currentPage = this._tPagination.totalPage;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
+      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
       this.render();
 
       this.reRenderPaginationDescription();
