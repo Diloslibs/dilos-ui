@@ -193,11 +193,17 @@ class DTable implements ITable {
       this.handleChangePage();
 
       const description = document.getElementById('pagination-description');
-      if (this._tData?.length > 0) {
-        description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} (filtered from ${this._tOptions.data.length} total entries)`;
+
+      if (!searchText) {
+        this.reRenderPaginationDescription();
         return;
       }
-      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData?.length} of ${this._tOptions.data.length} entries`;
+
+      if (this._tData?.length > 0) {
+        this.reRenderPaginationDescription(true);
+        return;
+      }
+      description.textContent = `Showing 0 to 0 (filtered from ${this._tOptions.data.length} total entries)`;
 
     }, 300);
 
@@ -214,7 +220,7 @@ class DTable implements ITable {
 
     const description = document.createElement('span');
     description.id = 'pagination-description';
-    description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+    description.textContent = `Loading`;
 
     const panel = document.createElement('div');
     panel.setAttribute('data-table-pagination-panel', '');
@@ -224,10 +230,7 @@ class DTable implements ITable {
       this._tPagination.currentPage++;
       this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
       this.render();
-
-      // re render pagination description
-      const description = document.getElementById('pagination-description');
-      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.reRenderPaginationDescription();
       this.handleChangePage();
     }
 
@@ -235,10 +238,7 @@ class DTable implements ITable {
       this._tPagination.currentPage--;
       this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
       this.render();
-
-      // re render pagination description
-      const description = document.getElementById('pagination-description');
-      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.reRenderPaginationDescription();
       this.handleChangePage();
     }
 
@@ -250,9 +250,7 @@ class DTable implements ITable {
       this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
       this.render();
 
-      // re render pagination description
-      const description = document.getElementById('pagination-description');
-      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.reRenderPaginationDescription();
       this.handleChangePage();
     });
 
@@ -264,9 +262,7 @@ class DTable implements ITable {
       this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
       this.render();
 
-      // re render pagination description
-      const description = document.getElementById('pagination-description');
-      description.textContent = `Showing ${this._tPagination.currentPage * this._tPagination.perPage + 1} to ${this._tPagination.currentPage * this._tPagination.perPage + this._tData.length} of ${this._tOptions.data.length} entries`;
+      this.reRenderPaginationDescription();
       this.handleChangePage();
     });
 
@@ -284,6 +280,7 @@ class DTable implements ITable {
     pagination.append(description, panel);
     this._tEl.parentElement.appendChild(pagination);
 
+    this.reRenderPaginationDescription();
     this.handleChangePage();
   }
 
@@ -340,6 +337,7 @@ class DTable implements ITable {
     this.render();
     this.handleChangePage();
     this.renderPageButton();
+    this.reRenderPaginationDescription();
   }
 
   handleChangePage(): void {
@@ -420,6 +418,22 @@ class DTable implements ITable {
     this.render();
     this.renderPageButton();
     this.handleChangePage();
+  }
+
+  reRenderPaginationDescription(filtered: boolean = false): void {
+    const description: HTMLSpanElement = document.querySelector('#pagination-description');
+
+    const totalItemCount: number = this._tOptions.data.length;
+    const firstEntryIndex: number = (this._tPagination.currentPage - 1) * this._tPagination.perPage + 1;
+    const lastEntryIndex: number = Math.min(this._tPagination.currentPage * this._tPagination.perPage, totalItemCount);
+
+    if (filtered) {
+      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${this._tData.length} entries
+      (filtered from ${totalItemCount} total entries)`
+      return;
+    }
+
+    description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItemCount} entries`;
   }
 }
 
