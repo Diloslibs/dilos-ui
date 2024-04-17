@@ -240,7 +240,7 @@ class DTable implements ITable {
 
     const handlePrevPage = () => {
       this._tPagination.currentPage--;
-      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage];
+      this._tData = chunkArray(this._tOptions.data)[this._tPagination.currentPage - 1];
       this.render();
       this.reRenderPaginationDescription();
       this.handleChangePage();
