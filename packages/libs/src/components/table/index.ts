@@ -17,10 +17,12 @@ class DTable implements ITable {
     perPage: number,
     currentPage: number,
     totalPage: number,
+    isFilteringActive: boolean,
   } = {
       perPage: 10,
       currentPage: 1,
       totalPage: 0,
+      isFilteringActive: false,
     };
 
   constructor(tableId: string, options: DTableOptions) {
@@ -186,25 +188,22 @@ class DTable implements ITable {
       ));
 
       this._tPagination.currentPage = 1;
-      this._tData = chunkData[this._tPagination.currentPage - 1];
+      this._tData = chunkData[this._tPagination.currentPage - 1] ?? [];
       this._tPagination.totalPage = chunkData.length > 0 ? chunkData.length : 1;
       this.render();
       this.renderPageButton();
       this.handleChangePage();
 
-      const description = document.getElementById('pagination-description');
 
       if (!searchText) {
+        this._tPagination.isFilteringActive = false;
         this.reRenderPaginationDescription();
         return;
       }
-
-      if (this._tData?.length > 0) {
-        this.reRenderPaginationDescription(true);
-        return;
+      else {
+        this._tPagination.isFilteringActive = true;
+        this.reRenderPaginationDescription(this._tData.length === 0);
       }
-      description.textContent = `Showing 0 to 0 (filtered from ${this._tOptions.data.length} total entries)`;
-
     }, 300);
 
     input.addEventListener('input', handleInput);
@@ -420,14 +419,19 @@ class DTable implements ITable {
     this.handleChangePage();
   }
 
-  reRenderPaginationDescription(filtered: boolean = false): void {
+  reRenderPaginationDescription(hasNoData?: boolean): void {
     const description: HTMLSpanElement = document.querySelector('#pagination-description');
 
     const totalItemCount: number = this._tOptions.data.length;
     const firstEntryIndex: number = (this._tPagination.currentPage - 1) * this._tPagination.perPage + 1;
     const lastEntryIndex: number = Math.min(this._tPagination.currentPage * this._tPagination.perPage, totalItemCount);
 
-    if (filtered) {
+    if (hasNoData) {
+      description.textContent = `Showing 0 to 0 (filtered from ${this._tOptions.data.length} total entries)`;
+      return;
+    }
+
+    if (this._tPagination.isFilteringActive) {
       description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${this._tData.length} entries
       (filtered from ${totalItemCount} total entries)`
       return;
