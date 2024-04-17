@@ -10,7 +10,7 @@
 }
 
 .d-checkbox:hover input[type='checkbox']:disabled {
-    @apply border-gray-400;
+    @apply border-gray-400 cursor-not-allowed;
 }
 
 /* Checkbox Icon */
