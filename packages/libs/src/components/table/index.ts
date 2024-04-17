@@ -434,6 +434,7 @@ class DTable implements ITable {
     this.render();
     this.renderPageButton();
     this.handleChangePage();
+    this.reRenderPaginationDescription();
   }
 
   reRenderPaginationDescription(hasNoData?: boolean): void {
