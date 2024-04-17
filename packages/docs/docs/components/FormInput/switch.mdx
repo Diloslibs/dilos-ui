@@ -2,10 +2,102 @@
 sidebar_position: 1
 ---
 
-# Switch
+# Switch Component
 
 DilosUI comes with a switch component.
 
 import Default from '@site/static/usage/v1/forminput/switch/default/index.mdx';
 
 <Default />
+
+## Default
+```html live
+  <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-3 gap-1">
+        <div class="flex flex-col gap-1 p-2">
+          <div class="flex items-center gap-5">
+            <div class="d-switch sm">
+              <label for="toggle1" class="d-switch-main">
+                <input type="checkbox" id="toggle1" class="peer d-switch-input"/>
+                <div class="d-switch-box"></div>
+                <div class="d-switch-slider">
+                  <span class="d-active" />
+                  <span class="d-inactive" />
+                </div>
+              </label>
+              <span>This is text</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1 p-2">
+          <div class="flex items-center gap-5">
+            <div class="d-switch md">
+              <label for="toggle2" class="d-switch-main">
+                <input type="checkbox" id="toggle2" class="peer d-switch-input"/>
+                <div class="d-switch-box"></div>
+                <div class="d-switch-slider">
+                  <span class="d-active" />
+                  <span class="d-inactive" />
+                </div>
+              </label>
+              <span>This is text</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1 p-2">
+          <div class="flex items-center gap-5">
+            <div class="d-switch lg">
+              <label for="toggle3" class="d-switch-main">
+                <input type="checkbox" id="toggle3" class="peer d-switch-input"/>
+                <div class="d-switch-box"></div>
+                <div class="d-switch-slider">
+                  <span class="d-active" />
+                  <span class="d-inactive" />
+                </div>
+              </label>
+              <span>This is text</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+```
+
+
+## Disabled
+```html live
+  <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-3 gap-1">
+        <div class="flex flex-col gap-1 p-2">
+          <div class="flex items-center gap-5">
+            <div class="d-switch lg">
+              <label for="toggle4" class="d-switch-main">
+                <input type="checkbox" id="toggle4" class="peer d-switch-input" disabled/>
+                <div class="d-switch-box"></div>
+                <div class="d-switch-slider">
+                  <span class="d-active" />
+                  <span class="d-inactive" />
+                </div>
+              </label>
+              <span>This is text</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1 p-2">
+          <div class="flex items-center gap-5">
+            <div class="d-switch lg">
+              <label for="toggle5" class="d-switch-main">
+                <input type="checkbox" id="toggle5" class="peer d-switch-input" checked disabled/>
+                <div class="d-switch-box"></div>
+                <div class="d-switch-slider">
+                  <span class="d-active" />
+                  <span class="d-inactive" />
+                </div>
+              </label>
+              <span>This is text</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+```
