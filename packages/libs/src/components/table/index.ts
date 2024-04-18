@@ -7,25 +7,30 @@ class DTable implements ITable {
   _tOptions: DTableOptions = {
     columns: [],
     data: [],
-    showNumbering: true,
+    pagination: {},
+    showNumbering: false,
     showCheckbox: false,
   };
   _tData: any[];
   _tDataShadow: any[];
   _tDataFiltered: any[];
   _tDataFilteredShadow: any[];
-  _checkBoxEl: HTMLInputElement;
   _tPagination: {
     perPage: number,
     currentPage: number,
     totalPage: number,
+    totalData: number,
     isFilteringActive: boolean,
+    isServerSide: boolean,
   } = {
       perPage: 10,
       currentPage: 1,
       totalPage: 0,
+      totalData: 0,
       isFilteringActive: false,
+      isServerSide: false,
     };
+  _checkBoxEl: HTMLInputElement;
 
   constructor(tableId: string, options: DTableOptions) {
     this.checkParams(tableId, options);
@@ -33,15 +38,28 @@ class DTable implements ITable {
     this._tEl = document.getElementById(tableId) as HTMLTableElement;
     this._tOptions = { ...this._tOptions, ...options };
 
-    // Chunk data to make pagination
-    const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.perPage);
-
-    // Set initial data to be displayed
-    if (chunkedData.length > 0) {
-      this._tData = chunkedData[0];
+    if (options?.pagination?.serverSide) {
+      this._tData = this._tOptions.data;
       this._tDataShadow = this._tOptions.data;
-      this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
+      this._tPagination.totalPage = options.pagination.totalData > 0 ? Math.ceil(options.pagination.totalData / options.pagination.perPage) : 1;
+      this._tPagination.isServerSide = options.pagination.serverSide;
+      this._tPagination.perPage = options.pagination.perPage;
+      this._tPagination.totalData = options.pagination.totalData;
     }
+
+    else {
+      // Chunk data to make pagination
+      const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.perPage);
+
+      // Set initial data to be displayed
+      if (chunkedData.length > 0) {
+        this._tData = chunkedData[0];
+        this._tDataShadow = this._tOptions.data;
+        this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
+        this._tPagination.isServerSide = options.pagination.serverSide;
+      }
+    }
+
 
     this.init();
   }
@@ -73,11 +91,6 @@ class DTable implements ITable {
   }
 
   render(): void {
-
-    // console current page
-    const currentPage = this._tPagination.currentPage;
-    console.log('Current Page: ', currentPage);
-
     // clear table
     this._tEl.innerHTML = '';
 
@@ -112,7 +125,7 @@ class DTable implements ITable {
     // create table body
     const tbody = document.createElement('tbody');
     if (this._tData) {
-      this._tData.forEach((row: string) => {
+      this._tData.forEach((row: {}) => {
         const tr = document.createElement('tr');
 
         if (this._tOptions.showCheckbox) {
@@ -130,10 +143,9 @@ class DTable implements ITable {
           tr.appendChild(td);
         }
 
-
-        this._tOptions.columns.forEach((_, i: number) => {
+        this._tOptions.columns.forEach((col, i: number) => {
           const td = document.createElement('td');
-          td.textContent = row[i];
+          td.textContent = row[col.selector];
           tr.appendChild(td);
         });
 
@@ -179,24 +191,35 @@ class DTable implements ITable {
     input.type = 'text';
     input.placeholder = 'Search...';
 
-    const handleInput = debounce(() => {
+    const handleInput = debounce(async() => {
       const searchText: string = input.value.toLowerCase();
-      this._tDataFilteredShadow = this._tDataShadow.filter((row: any[]) =>
-        row.some((item: string | number) =>
-          typeof item === 'string'
-            ? item.toLowerCase().includes(searchText)
-            : typeof item === 'number' && (item as number).toString().includes(searchText)
+
+      if(this._tPagination.isServerSide) {
+        const res = await this._tOptions.pagination.searchQuery(searchText);
+
+        this._tDataFiltered = res.data;
+        this._tData = res.data;
+        this._tPagination.totalPage = res.total;
+        this._tPagination.currentPage = 1;
+      }
+      else{
+        this._tDataFilteredShadow = this._tDataShadow.filter((row: any[]) =>
+          row.some((item: string | number) =>
+            typeof item === 'string'
+              ? item.toLowerCase().includes(searchText)
+              : typeof item === 'number' && (item as number).toString().includes(searchText)
+          )
         )
-      )
-      this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
-
-      this._tPagination.currentPage = 1;
-      this._tData = this._tDataFiltered[this._tPagination.currentPage - 1] ?? [];
-      this._tPagination.totalPage = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
+        this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
+  
+        this._tPagination.currentPage = 1;
+        this._tData = this._tDataFiltered[this._tPagination.currentPage - 1] ?? [];
+        this._tPagination.totalPage = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
+      }
+      
       this.render();
-      this.renderPageButton();
+      this.reRenderPaginationDescription();
       this.handleChangePage();
-
 
       if (!searchText) {
         this._tPagination.isFilteringActive = false;
@@ -231,16 +254,30 @@ class DTable implements ITable {
     panel.classList.add('flex', 'items-center', 'space-x-2');
 
     const handleNextPage = () => {
-      this._tPagination.currentPage++;
-      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
+      if (this._tPagination.isServerSide) {
+        this._tOptions.pagination.nextPage();
+        this._tPagination.currentPage++;
+      }
+      else {
+        this._tPagination.currentPage++;
+        this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
+      }
+
       this.render();
       this.reRenderPaginationDescription();
       this.handleChangePage();
     }
 
     const handlePrevPage = () => {
-      this._tPagination.currentPage--;
-      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
+      if (this._tPagination.isServerSide) {
+        this._tOptions.pagination.prevPage();
+        this._tPagination.currentPage--;
+      }
+      else {
+        this._tPagination.currentPage--;
+        this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
+
+      }
       this.render();
       this.reRenderPaginationDescription();
       this.handleChangePage();
@@ -250,8 +287,17 @@ class DTable implements ITable {
     firstPage.setAttribute('data-table-first-page', '');
     firstPage.textContent = '<<';
     firstPage.addEventListener('click', () => {
-      this._tPagination.currentPage = 1;
-      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage];
+
+      if (this._tPagination.isServerSide) {
+        this._tOptions.pagination.firstPage();
+        this._tPagination.currentPage = 1;
+      }
+
+      else {
+        this._tPagination.currentPage = 1;
+        this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage];
+      }
+
       this.render();
 
       this.reRenderPaginationDescription();
@@ -262,8 +308,17 @@ class DTable implements ITable {
     lastPage.setAttribute('data-table-last-page', '');
     lastPage.textContent = '>>';
     lastPage.addEventListener('click', () => {
-      this._tPagination.currentPage = this._tPagination.totalPage;
-      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
+
+      if (this._tPagination.isServerSide) {
+        this._tOptions.pagination.lastPage();
+        this._tPagination.currentPage = this._tPagination.totalPage;
+      }
+
+      else {
+        this._tPagination.currentPage = this._tPagination.totalPage;
+        this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[this._tPagination.currentPage - 1];
+      }
+
       this.render();
 
       this.reRenderPaginationDescription();
@@ -293,29 +348,59 @@ class DTable implements ITable {
     div.setAttribute('data-table-page-button', '');
     div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2', 'transition-all', 'duration-300');
 
-    const currentPage = this._tPagination.currentPage;
-    const totalPage = this._tPagination.totalPage;
-    const maxPagesToShow = 5;
+    if (this._tPagination.isServerSide) {
 
-    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-    let endPage = Math.min(totalPage, startPage + maxPagesToShow - 1);
+      const currentPage = this._tPagination.currentPage;
+      const totalPage = this._tPagination.totalPage;
+      const maxPagesToShow = 5;
 
-    // Adjust startPage if endPage is at the maximum limit
-    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+      let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+      let endPage = Math.min(totalPage, startPage + maxPagesToShow - 1);
 
-    if (this._tData) {
-      for (let i = startPage; i <= endPage; i++) {
-        const button = document.createElement('button');
-        button.textContent = String(i);
+      // Adjust startPage if endPage is at the maximum limit
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
 
-        if (i === currentPage) {
-          button.classList.add('bg-blue-500', 'text-white');
+      if (this._tData) {
+        for (let i = startPage; i <= endPage; i++) {
+          const button = document.createElement('button');
+          button.textContent = String(i);
+
+          if (i === currentPage) {
+            button.classList.add('bg-blue-500', 'text-white');
+          }
+
+          button.addEventListener('click', () => {
+            this.handleClickPage(i);
+          });
+          div.appendChild(button);
         }
+      }
+    }
+    else {
+      const currentPage = this._tPagination.currentPage;
+      const totalPage = this._tPagination.totalPage;
+      const maxPagesToShow = 5;
 
-        button.addEventListener('click', () => {
-          this.handleClickPage(i);
-        });
-        div.appendChild(button);
+      let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+      let endPage = Math.min(totalPage, startPage + maxPagesToShow - 1);
+
+      // Adjust startPage if endPage is at the maximum limit
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+
+      if (this._tData) {
+        for (let i = startPage; i <= endPage; i++) {
+          const button = document.createElement('button');
+          button.textContent = String(i);
+
+          if (i === currentPage) {
+            button.classList.add('bg-blue-500', 'text-white');
+          }
+
+          button.addEventListener('click', () => {
+            this.handleClickPage(i);
+          });
+          div.appendChild(button);
+        }
       }
     }
 
@@ -337,11 +422,16 @@ class DTable implements ITable {
   handleClickPage(i: number): void {
     this._tPagination.currentPage = i;
 
-    if (this._tPagination.isFilteringActive) {
-      this._tData = this._tDataFiltered[i - 1];
+    if (this._tPagination.isServerSide) {
+      this._tOptions.pagination.goToPage(i);
     }
     else {
-      this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[i - 1];
+      if (this._tPagination.isFilteringActive) {
+        this._tData = this._tDataFiltered[i - 1];
+      }
+      else {
+        this._tData = chunkArray(this._tOptions.data, this._tPagination.perPage)[i - 1];
+      }
     }
 
     this.render();
@@ -415,20 +505,25 @@ class DTable implements ITable {
 
     this._tPagination.perPage = Number(e.target.value);
 
-    let chunkedData: any[][];
-
-    if (this._tPagination.isFilteringActive) {
-      chunkedData = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
+    if (this._tPagination.isServerSide) {
+      this._tOptions.pagination.changeLimit(this._tPagination.perPage);
     }
     else {
-      chunkedData = chunkArray(this._tOptions.data, this._tPagination.perPage);
-    }
+      let chunkedData: any[][];
 
-    // Set initial data to be displayed
-    if (chunkedData.length > 0) {
-      this._tData = chunkedData[0];
-      this._tDataShadow = chunkedData[0];
-      this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
+      if (this._tPagination.isFilteringActive) {
+        chunkedData = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
+      }
+      else {
+        chunkedData = chunkArray(this._tOptions.data, this._tPagination.perPage);
+      }
+
+      // Set initial data to be displayed
+      if (chunkedData.length > 0) {
+        this._tData = chunkedData[0];
+        this._tDataShadow = chunkedData[0];
+        this._tPagination.totalPage = chunkedData.length > 0 ? chunkedData.length : 1;
+      }
     }
 
     this.render();
@@ -457,6 +552,19 @@ class DTable implements ITable {
     }
 
     description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItemCount} entries`;
+  }
+
+  updatePaginationSSR(data: any[], totalData: number, currentPage: number): void {
+    this._tData = data;
+    this._tDataFiltered = data;
+    this._tPagination.totalPage = totalData > 0 ? Math.ceil(totalData / this._tPagination.perPage) : 1;
+    this._tPagination.totalData = totalData;
+    this._tPagination.currentPage = currentPage;
+
+    this.render();
+    this.renderPageButton();
+    this.handleChangePage();
+    this.reRenderPaginationDescription();
   }
 }
 
