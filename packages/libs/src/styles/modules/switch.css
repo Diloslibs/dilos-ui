@@ -27,7 +27,6 @@
   block 
   rounded-full
   focus:shadow-switch
-  hover:shadow-switch
   ;
 }
 
@@ -149,9 +148,7 @@
 /* Toggle Disabled */
 .d-switch-input[disabled] + .d-switch-box {
   @apply 
-  active:shadow-none 
   focus:shadow-none 
-  hover:shadow-none
   cursor-not-allowed 
   bg-gray-200 
   ;
@@ -159,9 +156,7 @@
 
 .d-switch-input[disabled][checked] + .d-switch-box {
   @apply 
-  active:shadow-none 
   focus:shadow-none 
-  hover:shadow-none
   cursor-not-allowed 
  bg-primary-300
   ;
