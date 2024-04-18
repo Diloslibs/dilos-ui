@@ -22,9 +22,10 @@ interface PlaygroundProps {
 	title?: string;
 	version: string;
 	content: ContentItem[];
+	height: number;
 }
 
-const Playground: React.FC<PlaygroundProps> = ({ title, content }) => {
+const Playground: React.FC<PlaygroundProps> = ({ title, content, height }) => {
 	const [activeTab, setActiveTab] = useState<string>(content[0]?.key || "");
 
 	const renderContent = (contentItem: ContentItem) => {
@@ -72,7 +73,11 @@ const Playground: React.FC<PlaygroundProps> = ({ title, content }) => {
 					key={contentItem.key}
 					className={activeTab === contentItem.key ? "block" : "hidden"}
 				>
-					<iframe src={contentItem.src} className={`bg-white w-full h-96`} />
+					<iframe
+						src={contentItem.src}
+						height={height ? height : 384}
+						className={`bg-white w-full`}
+					/>
 					{renderContent(contentItem)}
 				</div>
 			))}
