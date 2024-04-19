@@ -1,0 +1,15 @@
+.d-card {
+  @apply border rounded overflow-hidden shadow-lg bg-gray-50;
+}
+
+.d-card.sm {
+  @apply max-w-sm;
+}
+
+.d-card.md {
+  @apply max-w-md;
+}
+
+.d-card.lg {
+  @apply max-w-lg;
+}
