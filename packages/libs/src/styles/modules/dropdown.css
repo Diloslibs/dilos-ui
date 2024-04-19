@@ -1,0 +1,22 @@
+.d-dropdown {
+    @apply z-10 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow min-w-44;
+}
+
+.d-dropdown-item-container {
+    @apply text-sm text-gray-700;
+}
+
+.d-dropdown-item {
+    @apply cursor-pointer px-4 py-2 hover:bg-gray-100 flex gap-2 items-center;
+}
+
+.d-dropdown-search {
+    @apply p-2;
+}
+
+.d-dropdown-header {
+    @apply px-4 py-2 font-semibold border-b border-gray-200;
+}
+.d-dropdown-footer {
+    @apply px-4 py-2 font-semibold border-t border-gray-200;
+}
