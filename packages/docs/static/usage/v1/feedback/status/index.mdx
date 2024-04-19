@@ -1,0 +1,19 @@
+import Playground from "@site/src/components/global/Playground";
+
+import info from "./info.md";
+import success from "./success.md";
+import danger from "./danger.md";
+import warning from "./warning.md";
+import gray from "./gray.md";
+
+<Playground
+  title="Default Usage Status"
+	version="8"
+	content={[
+		{ key: "info", code: info, src: "/usage/v1/feedback/status/info.html" },
+    { key: "success", code: success, src: "/usage/v1/feedback/status/success.html" },
+    { key: "danger", code: danger, src: "/usage/v1/feedback/status/danger.html" },
+    { key: "warning", code: warning, src: "/usage/v1/feedback/status/warning.html" },
+    { key: "gray", code: gray, src: "/usage/v1/feedback/status/gray.html" },
+	]}
+/>
