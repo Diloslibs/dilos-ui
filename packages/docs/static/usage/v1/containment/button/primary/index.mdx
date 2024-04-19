@@ -1,0 +1,17 @@
+import Playground from "@site/src/components/global/Playground";
+
+import def from "./default.md";
+import outline from "./outline.md";
+import borderless from "./borderless.md";
+import disabled from "./disabled.md";
+
+<Playground
+  title="Primary Usage Button"
+	version="8"
+	content={[
+    { key: "default", code: def, src: "/usage/v1/containment/button/primary/default.html" },
+    { key: "outline", code: outline, src: "/usage/v1/containment/button/primary/outline.html" },
+		{ key: "borderless", code: borderless, src: "/usage/v1/containment/button/primary/borderless.html" },
+    { key: "disabled", code: disabled, src: "/usage/v1/containment/button/primary/disabled.html" },
+	]}
+/>

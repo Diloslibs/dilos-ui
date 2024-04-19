@@ -1,5 +1,5 @@
 .d-checkbox {
-    @apply flex items-center mb-4 cursor-pointer;
+    @apply flex items-center cursor-pointer;
 }
 .d-checkbox input[type='checkbox'] {
     @apply appearance-none relative rounded-[4px] h-5 w-5 border-2 border-gray-400 focus:ring-offset-2 focus:ring-black focus:border-primary-400 outline-none focus:ring-2 checked:bg-primary-400 checked:border-primary-400 disabled:bg-gray-100 disabled:border-gray-300;
@@ -10,7 +10,7 @@
 }
 
 .d-checkbox:hover input[type='checkbox']:disabled {
-    @apply border-gray-400;
+    @apply border-gray-400 cursor-not-allowed;
 }
 
 /* Checkbox Icon */
@@ -46,4 +46,13 @@
 
 .d-checkbox.error input[type='checkbox'] {
     @apply border-error-400 focus:ring-black focus:border-error-400 checked:bg-error-400 checked:border-error-400 disabled:bg-gray-100 disabled:border-gray-300;
+}
+
+
+.d-checkbox.sm .label-checkbox {
+    @apply text-[12px]
+}
+
+.d-checkbox.sm input[type='checkbox'] {
+    @apply w-4 h-4
 }
