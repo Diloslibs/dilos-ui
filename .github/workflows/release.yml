@@ -1,0 +1,60 @@
+name: 'Dilos Production Release'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: choice
+        description: Which version should be published?
+        options:
+          - patch
+          - minor
+          - major
+          - prepatch
+          - preminor
+          - premajor
+          - prerelease
+      tag:
+        required: true
+        type: choice
+        description: Which npm tag should this be published to?
+        options:
+          - latest
+          - next
+      preid:
+        type: choice
+        description: Which prerelease identifier should be used? This is only needed when version is "prepatch", "preminor", "premajor", or "prerelease".
+        options:
+          - ''
+          - alpha
+          - beta
+
+jobs:
+  release-dilos:
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/release-dilos.yml
+    with:
+      tag: ${{ inputs.tag }}
+      version: ${{ inputs.version }}
+      preid: ${{ inputs.preid }}
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  purge-cdn-cache:
+    needs: [release-dilos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge JSDelivr Cache
+        run: |
+          curl -X POST \
+            https://purge.jsdelivr.net/ \
+            -H 'cache-control: no-cache' \
+            -H 'content-type: application/json' \
+            -d '{
+          "path": [
+            "/npm/@dilos/libs@0.0.3/dist/index.min.js",
+            "/npm/@dilos/libs@0.0.3/dist/index.css",
+          ]}'
+        shell: bash
