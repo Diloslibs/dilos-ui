@@ -191,10 +191,10 @@ class DTable implements ITable {
     input.type = 'text';
     input.placeholder = 'Search...';
 
-    const handleInput = debounce(async() => {
+    const handleInput = debounce(async () => {
       const searchText: string = input.value.toLowerCase();
 
-      if(this._tPagination.isServerSide) {
+      if (this._tPagination.isServerSide) {
         const res = await this._tOptions.pagination.searchQuery(searchText);
 
         this._tDataFiltered = res.data;
@@ -202,7 +202,7 @@ class DTable implements ITable {
         this._tPagination.totalPage = res.total;
         this._tPagination.currentPage = 1;
       }
-      else{
+      else {
         this._tDataFilteredShadow = this._tDataShadow.filter((row: any[]) =>
           row.some((item: string | number) =>
             typeof item === 'string'
@@ -211,12 +211,12 @@ class DTable implements ITable {
           )
         )
         this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tPagination.perPage);
-  
+
         this._tPagination.currentPage = 1;
         this._tData = this._tDataFiltered[this._tPagination.currentPage - 1] ?? [];
         this._tPagination.totalPage = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
       }
-      
+
       this.render();
       this.reRenderPaginationDescription();
       this.handleChangePage();
@@ -535,17 +535,26 @@ class DTable implements ITable {
   reRenderPaginationDescription(hasNoData?: boolean): void {
     const description: HTMLSpanElement = document.querySelector('#pagination-description');
 
-    const totalItemCount: number = this._tOptions.data.length;
+    const totalItemCount: number = this._tPagination.totalData;
     const firstEntryIndex: number = (this._tPagination.currentPage - 1) * this._tPagination.perPage + 1;
     const lastEntryIndex: number = Math.min(this._tPagination.currentPage * this._tPagination.perPage, totalItemCount);
 
     if (hasNoData) {
-      description.textContent = `Showing 0 to 0 (filtered from ${this._tOptions.data.length} total entries)`;
+      description.textContent = `Showing 0 to 0 (filtered from ${totalItemCount} total entries)`;
       return;
     }
 
     if (this._tPagination.isFilteringActive) {
-      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${this._tDataFiltered.reduce((acc, curr) => acc + curr.length, 0)} entries
+      let totalItem = 0;
+
+      if (this._tPagination.isServerSide) {
+        totalItem = totalItemCount;
+      }
+      else {
+        totalItem = this._tDataFiltered.reduce((acc, curr) => acc + curr.length, 0);
+      }
+
+      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItem} entries
       (filtered from ${totalItemCount} total entries)`
 
       return;
