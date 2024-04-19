@@ -1,0 +1,15 @@
+import Playground from "@site/src/components/global/Playground";
+
+import def from "./default.md";
+import disabled from "./disabled.md";
+import error from "./error.md";
+
+<Playground	
+	title="Default Usage Text Input"
+	version="8"
+	content={[
+		{ key: "default", code: def, src: "/usage/v1/forminput/textinput/default/default.html" },
+		{ key: "disabled", code: disabled, src: "/usage/v1/forminput/textinput/default/disabled.html" },
+		{ key: "error", code: error, src: "/usage/v1/forminput/textinput/default/error.html" },
+	]}
+/>
