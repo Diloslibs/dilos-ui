@@ -1,0 +1,71 @@
+.d-radio {
+    @apply flex items-center mb-4 cursor-pointer;
+}
+.d-radio input[type='radio'] {
+    @apply appearance-none 
+        relative 
+        rounded-full 
+        h-5
+        w-5 
+        border-2 
+        border-gray-400 
+        focus:border-primary-400
+        outline-none
+        focus:ring-2
+        checked:border-primary-400
+        disabled:bg-gray-100
+        disabled:border-gray-300;
+}
+
+.d-radio:hover input[type='radio'] {
+    @apply border-gray-500;
+}
+
+.d-radio input[type='radio']::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    z-index: 9;
+    @apply w-[75%] h-[75%] bg-primary-400 rounded-full disabled:bg-gray-300;
+}
+
+/* radio Checked State */
+.d-radio input[type='radio']:checked::before {
+    opacity: 1;
+}
+
+.d-radio:hover input[type='radio']:disabled {
+    @apply border-gray-400 cursor-not-allowed;
+}
+
+.d-radio .label-radio {
+    @apply ms-2 text-[16px] font-normal !text-gray-700;
+}
+
+.d-radio .subtext-radio {
+    @apply ms-2 text-[14px] font-normal !text-gray-500;
+}
+
+.d-radio.error input[type='radio'] {
+    @apply border-error-400
+    focus:border-error-400
+    checked:border-error-400
+    disabled:bg-gray-100
+    disabled:border-gray-300;
+}
+.d-radio.error input[type='radio']::before {
+    @apply border-error-400
+    focus:border-error-400
+    checked:bg-error-400
+    checked:border-error-400
+    disabled:bg-gray-100
+    disabled:border-gray-300;
+}
+
+.d-radio.error input[type='radio']::before {
+    @apply bg-error-400 disabled:bg-gray-300;
+}
