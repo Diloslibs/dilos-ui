@@ -645,19 +645,6 @@ class DTable implements ITable {
 
     description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItemCount} entries`;
   }
-
-  updatePaginationSSR(data: any[], totalData: number, currentPage: number): void {
-    this._tData = data;
-    this._tDataFiltered = data;
-    this._tPagination.totalPages = totalData > 0 ? Math.ceil(totalData / this._tPagination.limit) : 1;
-    this._tPagination.totalData = totalData;
-    this._tPagination.currentPage = currentPage;
-
-    this.render();
-    this.renderPageButton();
-    this.handleChangePage();
-    this.reRenderPaginationDescription();
-  }
 }
 
 export default DTable;
