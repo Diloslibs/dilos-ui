@@ -30,41 +30,38 @@
   <!-- Script JS Dilos -->
   <script src="./../../libs/dist/index.js"></script>
   <script type="module">
-    const options = {
-      data: [],
-      limit: 10,
-      total: 100,
-      page: 1,
-    };
 
-    async function fetchData(page = 1, limit = 10) {
-      const response = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${(page - 1) * limit}`);
-      const res = await response.json();
 
-      options.data = res.products;
-      options.total = res.total;
-      options.limit = res.limit;
+    // let data = [];
 
-      return {
-        data: options.data,
-        total: options.total,
-      };
-    }
+    // async function fetchData(page = 1, limit = 10) {
+    //   const response = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${(page - 1) * limit}`);
+    //   const res = await response.json();
 
-    async function searchData(page = 1, limit = 10, q = "") {
-      const response = await fetch(`https://dummyjson.com/products/search?q=${q}&limit=${limit}`);
-      const res = await response.json();
+    //   data = res.products;
+    //   options.total = res.total;
+    //   options.limit = res.limit;
 
-      options.data = res.products;
-      options.total = res.total;
+    //   return {
+    //     data: options.data,
+    //     total: options.total,
+    //   };
+    // }
 
-      return {
-        data: options.data,
-        total: options.total,
-      };
-    }
+    // async function searchData(page = 1, limit = 10, q = "") {
+    //   const response = await fetch(`https://dummyjson.com/products/search?q=${q}&limit=${limit}`);
+    //   const res = await response.json();
 
-    await fetchData();
+    //   options.data = res.products;
+    //   options.total = res.total;
+
+    //   return {
+    //     data: options.data,
+    //     total: options.total,
+    //   };
+    // }
+
+    // await fetchData();
 
     const table = new DTable("d-table", {
       columns: [
@@ -77,73 +74,31 @@
           selector: "title",
         },
         {
-          title: "Description",
-          selector: "description",
+          title: "Brand",
+          selector: "brand",
         },
       ],
-      data: options.data,
+      data: [],
       pagination: {
         serverSide: true,
-        perPage: options.limit,
-        totalData: options.total,
-        page: options.page,
-        nextPage: async () => {
-          options.page++;
-          const { data, total } = await fetchData(options.page, options.limit);
-          table.updatePaginationSSR(data, total, options.page);
-        },
-        prevPage: async () => {
-          options.page--;
-          const { data, total } = await fetchData(options.page, options.limit);
-          table.updatePaginationSSR(data, total, options.page);
-        },
-        firstPage: async () => {
-          options.page = 1;
+        limit: 10, // default limit is 10
+        fetchData: async (options) => {
+          // options contains
+          const { q, limit, currentPage } = options;
 
-          const { data, total } = await fetchData(options.page, options.limit);
-          table.updatePaginationSSR(data, total, options.page);
-        },
-        lastPage: async () => {
-          options.page = Math.ceil(options.total / options.limit);
+          let endpoint = `https://dummyjson.com/products/search?q=${q}&limit=${limit}&skip=${(currentPage - 1) * limit}`;
 
-          const { data, total } = await fetchData(options.page, options.limit);
-          table.updatePaginationSSR(data, total, options.page);
-        },
-        goToPage: async (page) => {
-          options.page = page;
+          const res = await fetch(endpoint);
+          const data = await res.json();
 
-          const { data, total } = await fetchData(options.page, options.limit);
-          table.updatePaginationSSR(data, total, options.page);
-        },
-        changeLimit: async (limit) => {
-          options.limit = limit;
-          options.page = 1;
-
-          const { data, total } = await fetchData(options.page, options.limit);
-          table.updatePaginationSSR(data, total, options.page);
-        },
-        searchQuery: async (q) => {
-          let data = [];
-          let total = 0;
-
-          if (!q) {
-            const res = await fetchData(options.page, options.limit);
-            data = res.data
-            total = res.total
-          }
-          else {
-            const res = await searchData(options.page, options.limit, q);
-            data = res.data
-            total = res.total
-          }
-          table.updatePaginationSSR(data, total, options.page);
-
+          // update table state
+          // this use to re-render update the table data
           return {
-            data,
-            total,
+            data: data.products,
+            totalData: data.total,
           };
         }
-      },
+      }
     });
   </script>
 </body>

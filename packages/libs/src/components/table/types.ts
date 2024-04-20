@@ -12,3 +12,11 @@ export type DTableOptions = {
   showNumbering: boolean,
   showCheckbox: boolean,
 }
+
+export type TableState = {
+  totalData?: number,
+  currentPage?: number,
+  totalPages?: number,
+  limit?: number,
+  q?: string,
+}
