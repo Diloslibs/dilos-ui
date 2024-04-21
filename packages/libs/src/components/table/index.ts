@@ -215,13 +215,30 @@ class DTable implements ITable {
     div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
 
     const select = document.createElement('select');
+
+    const options = [10, 25, 50, 100];
+
+    // if has limit on props
+    // then set the value to select
+    if (this._tOptions.pagination.limit) {
+      // push and sort the value
+      options.push(this._tOptions.pagination.limit);
+      options.sort((a, b) => a - b);
+    }
+
     select.id = 'select-per-page';
-    select.innerHTML = `
-      <option value="10">10</option>
-      <option value="25">25</option>
-      <option value="50">50</option>
-      <option value="100">100</option>
-    `;
+
+    // mapping content
+    options.map((option) => {
+      const opt = document.createElement('option');
+      opt.value = String(option);
+      opt.textContent = String(option);
+      select.appendChild(opt);
+    });
+
+    if (this._tOptions.pagination.limit) {
+      select.value = String(this._tOptions.pagination.limit);
+    }
 
     select.addEventListener('change', this.handleChangePerPage.bind(this));
 
