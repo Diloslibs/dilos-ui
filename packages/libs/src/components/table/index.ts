@@ -26,40 +26,56 @@ class DTable implements ITable {
   _checkBoxEl: HTMLInputElement;
 
   constructor(tableId: string, options: DTableOptions) {
-    this.checkParams(tableId, options);
+    try {
+      this._checkParams(tableId, options);
 
-    this._tEl = document.getElementById(tableId) as HTMLTableElement;
-    this._tOptions = { ...this._tOptions, ...options };
+      this._tEl = document.getElementById(tableId) as HTMLTableElement;
+      this._tOptions = { ...this._tOptions, ...options };
 
-    // Check if server side pagination is enabled
-    this._tOptions.serverSide = options.serverSide ?? false;
-
-    if (this._tOptions.serverSide) {
-
-      this._tOptions.fetchData = options?.fetchData;
-      if (this._tOptions.fetchData) {
-
+      // Check if server side pagination is enabled
+      this._tOptions.serverSide = options.serverSide ?? false;
+      if (this._tOptions.serverSide) {
+        this._tOptions.fetchData = options?.fetchData;
         this._tState.limit = options.pagination.limit;
         this.initTable();
       }
       else {
-        console.error('Dilos: please provide fetchData function for server side pagination');
+        // Chunk data to make pagination
+        const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.limit);
+
+        // Set initial data to be displayed
+        if (chunkedData.length > 0) {
+          this._tData = chunkedData[0];
+          this._tDataShadow = this._tOptions.data;
+          this._tState.totalPages = chunkedData.length > 0 ? chunkedData.length : 1;
+        }
       }
+
+      this.init();
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  _checkParams(id: string, options: DTableOptions): void {
+    if (!id) {
+      throw new Error('Missing table id');
     }
 
-    else {
-      // Chunk data to make pagination
-      const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.limit);
-
-      // Set initial data to be displayed
-      if (chunkedData.length > 0) {
-        this._tData = chunkedData[0];
-        this._tDataShadow = this._tOptions.data;
-        this._tState.totalPages = chunkedData.length > 0 ? chunkedData.length : 1;
-      }
+    if (!options?.columns) {
+      throw new Error('Missing columns');
     }
 
-    this.init();
+    if (!options?.data) {
+      throw new Error('Missing data');
+    }
+
+    if (options?.serverSide) {
+      if (!options?.fetchData) {
+        throw new Error('Missing fetchData function for server side pagination');
+      }
+    }
   }
 
   async initTable() {
@@ -80,20 +96,6 @@ class DTable implements ITable {
     this.render();
     this.reRenderPaginationDescription();
     this.renderPageButton();
-  }
-
-  checkParams(id: string, options: DTableOptions): void {
-    if (!id) {
-      console.error('Dilos: please provide table id');
-    }
-
-    if (!options.columns) {
-      console.error('Dilos: please provide columns for the table');
-    }
-
-    if (!options.data) {
-      console.error('Dilos: please provide data for the table');
-    }
   }
 
   init(): void {
@@ -201,7 +203,7 @@ class DTable implements ITable {
 
     if (newLimit !== undefined && !options.includes(newLimit)) {
       options.push(newLimit)
-      options.sort((a: number, b:number) => a - b);
+      options.sort((a: number, b: number) => a - b);
     }
 
     select.id = 'select-per-page';
