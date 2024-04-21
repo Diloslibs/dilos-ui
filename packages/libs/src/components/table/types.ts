@@ -5,12 +5,22 @@ export type Columns = {
   sortable?: boolean,
 }
 
+export type fetchData = (state: TableState) => Promise<{
+  data: [],
+  totalData: number,
+}>;
+
+
 export type DTableOptions = {
-  pagination?: any
+  pagination?: {
+    limit?: number,
+  }
   columns: Columns[],
   data: any[],
   showNumbering: boolean,
   showCheckbox: boolean,
+  serverSide?: boolean,
+  fetchData?: fetchData,
 }
 
 export type TableState = {

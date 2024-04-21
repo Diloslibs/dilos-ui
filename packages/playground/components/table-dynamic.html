@@ -45,27 +45,27 @@
           selector: "brand",
         },
       ],
+      serverSide: true,
       data: [],
+      fetchData: async (options) => {
+        // options contains
+        const { q, limit, currentPage } = options;
+
+        let endpoint = `https://dummyjson.com/products/search?q=${q}&limit=${limit}&skip=${(currentPage - 1) * limit}`;
+
+        const res = await fetch(endpoint);
+        const data = await res.json();
+
+        // update table state
+        // this use to re-render update the table data
+        return {
+          data: data.products,
+          totalData: data.total,
+        };
+      },
       pagination: {
-        serverSide: true,
         limit: 30, // default limit is 10
-        fetchData: async (options) => {
-          // options contains
-          const { q, limit, currentPage } = options;
-
-          let endpoint = `https://dummyjson.com/products/search?q=${q}&limit=${limit}&skip=${(currentPage - 1) * limit}`;
-
-          const res = await fetch(endpoint);
-          const data = await res.json();
-
-          // update table state
-          // this use to re-render update the table data
-          return {
-            data: data.products,
-            totalData: data.total,
-          };
-        }
-      }
+      },
     });
   </script>
 </body>

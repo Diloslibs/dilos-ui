@@ -10,26 +10,12 @@ class DTable implements ITable {
     pagination: {},
     showNumbering: false,
     showCheckbox: false,
+    serverSide: false,
   };
   _tData: any[];
   _tDataShadow: any[];
   _tDataFiltered: any[];
   _tDataFilteredShadow: any[];
-  _tPagination: {
-    limit: number,
-    currentPage: number,
-    totalPages: number,
-    totalData: number,
-    isFilteringActive: boolean,
-    isServerSide: boolean,
-  } = {
-      limit: 10,
-      currentPage: 1,
-      totalPages: 0,
-      totalData: 0,
-      isFilteringActive: false,
-      isServerSide: false,
-    };
   _tState: TableState = {
     totalData: 0,
     currentPage: 1,
@@ -45,21 +31,15 @@ class DTable implements ITable {
     this._tEl = document.getElementById(tableId) as HTMLTableElement;
     this._tOptions = { ...this._tOptions, ...options };
 
-    if (options?.pagination?.serverSide) {
-      // this._tData = this._tOptions.data;
-      // this._tDataShadow = this._tOptions.data;
-      // this._tPagination.totalPages = options.pagination.totalData > 0 ? Math.ceil(options.pagination.totalData / options.pagination.limit) : 1;
-      this._tPagination.isServerSide = options.pagination.serverSide;
-      // this._tPagination.limit = op tions.pagination.perPage;
-      // this._tPagination.totalData = options.pagination.totalData
+    // Check if server side pagination is enabled
+    this._tOptions.serverSide = options.serverSide ?? false;
 
-      // init fetch data
-      if (options.pagination.fetchData) {
-        // this.setState({
-        //   limit: options.pagination.limit,
-        // });
+    if (this._tOptions.serverSide) {
+
+      this._tOptions.fetchData = options?.fetchData;
+      if (this._tOptions.fetchData) {
+
         this._tState.limit = options.pagination.limit;
-
         this.initTable();
       }
       else {
@@ -69,14 +49,13 @@ class DTable implements ITable {
 
     else {
       // Chunk data to make pagination
-      const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.perPage);
+      const chunkedData: string[][] = chunkArray(this._tOptions.data, options.pagination.limit);
 
       // Set initial data to be displayed
       if (chunkedData.length > 0) {
         this._tData = chunkedData[0];
         this._tDataShadow = this._tOptions.data;
-        this._tPagination.totalPages = chunkedData.length > 0 ? chunkedData.length : 1;
-        this._tPagination.isServerSide = options.pagination.serverSide;
+        this._tState.totalPages = chunkedData.length > 0 ? chunkedData.length : 1;
       }
     }
 
@@ -84,7 +63,7 @@ class DTable implements ITable {
   }
 
   async initTable() {
-    const res = await this._tOptions.pagination.fetchData(this._tState);
+    const res = await this._tOptions.fetchData(this._tState);
     this.setState(res.data, {
       totalData: res.totalData,
     });
@@ -249,14 +228,14 @@ class DTable implements ITable {
     const handleInput = debounce(async () => {
       const searchText: string = input.value.toLowerCase();
 
-      if (this._tPagination.isServerSide) {
+      if (this._tOptions.serverSide) {
         this._tState.q = searchText;
         this._tState.currentPage = 1;
 
-        const res = await this._tOptions.pagination.fetchData(this._tState);
+        const res = await this._tOptions.fetchData(this._tState);
 
         this._tDataFiltered = res.data;
-        this._tPagination.currentPage = 1;
+        this._tState.currentPage = 1;
 
         this.setState(res.data, {
           totalData: res.totalData,
@@ -271,11 +250,11 @@ class DTable implements ITable {
               : typeof item === 'number' && (item as number).toString().includes(searchText)
           )
         )
-        this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tPagination.limit);
+        this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tState.limit);
 
-        this._tPagination.currentPage = 1;
-        this._tData = this._tDataFiltered[this._tPagination.currentPage - 1] ?? [];
-        this._tPagination.totalPages = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
+        this._tState.currentPage = 1;
+        this._tData = this._tDataFiltered[this._tState.currentPage - 1] ?? [];
+        this._tState.totalPages = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
       }
 
       this.render();
@@ -283,14 +262,12 @@ class DTable implements ITable {
       this.handleChangePage();
 
       if (!searchText) {
-        this._tPagination.isFilteringActive = false;
-        this._tPagination.currentPage = 1;
-        this._tData = chunkArray(this._tOptions.data, this._tPagination.limit)[this._tPagination.currentPage - 1];
+        this._tState.currentPage = 1;
+        this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
         this.reRenderPaginationDescription();
         return;
       }
       else {
-        this._tPagination.isFilteringActive = true;
         this.reRenderPaginationDescription(this._tData.length === 0);
       }
     }, 300);
@@ -315,18 +292,18 @@ class DTable implements ITable {
     panel.classList.add('flex', 'items-center', 'space-x-2');
 
     const handleNextPage = async () => {
-      if (this._tPagination.isServerSide) {
+      if (this._tOptions.serverSide) {
         this._tState.currentPage++;
 
-        const res = await this._tOptions.pagination.fetchData(this._tState);
+        const res = await this._tOptions.fetchData(this._tState);
 
         this.setState(res.data, {
           totalData: res.totalData,
         });
       }
       else {
-        this._tPagination.currentPage++;
-        this._tData = chunkArray(this._tOptions.data, this._tPagination.limit)[this._tPagination.currentPage - 1];
+        this._tState.currentPage++;
+        this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
       }
 
       this.render();
@@ -335,18 +312,18 @@ class DTable implements ITable {
     }
 
     const handlePrevPage = async () => {
-      if (this._tPagination.isServerSide) {
+      if (this._tOptions.serverSide) {
         this._tState.currentPage--;
 
-        const res = await this._tOptions.pagination.fetchData(this._tState);
+        const res = await this._tOptions.fetchData(this._tState);
 
         this.setState(res.data, {
           totalData: res.totalData,
         });
       }
       else {
-        this._tPagination.currentPage--;
-        this._tData = chunkArray(this._tOptions.data, this._tPagination.limit)[this._tPagination.currentPage - 1];
+        this._tState.currentPage--;
+        this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
 
       }
       this.render();
@@ -359,11 +336,11 @@ class DTable implements ITable {
     firstPage.textContent = '<<';
     firstPage.addEventListener('click', () => {
 
-      if (this._tPagination.isServerSide) {
+      if (this._tOptions.serverSide) {
         this._tState.currentPage = 1;
 
         new Promise(async () => {
-          const res = await this._tOptions.pagination.fetchData(this._tState);
+          const res = await this._tOptions.fetchData(this._tState);
 
           this.setState(res.data, {
             totalData: res.totalData,
@@ -372,8 +349,8 @@ class DTable implements ITable {
       }
 
       else {
-        this._tPagination.currentPage = 1;
-        this._tData = chunkArray(this._tOptions.data, this._tPagination.limit)[this._tPagination.currentPage];
+        this._tState.currentPage = 1;
+        this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage];
       }
 
       this.render();
@@ -387,11 +364,11 @@ class DTable implements ITable {
     lastPage.textContent = '>>';
     lastPage.addEventListener('click', () => {
 
-      if (this._tPagination.isServerSide) {
+      if (this._tOptions.serverSide) {
         this._tState.currentPage = this._tState.totalPages;
 
         new Promise(async () => {
-          const res = await this._tOptions.pagination.fetchData(this._tState);
+          const res = await this._tOptions.fetchData(this._tState);
 
           this.setState(res.data, {
             totalData: res.totalData,
@@ -400,8 +377,8 @@ class DTable implements ITable {
       }
 
       else {
-        this._tPagination.currentPage = this._tPagination.totalPages;
-        this._tData = chunkArray(this._tOptions.data, this._tPagination.limit)[this._tPagination.currentPage - 1];
+        this._tState.currentPage = this._tState.totalPages;
+        this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
       }
 
       this.render();
@@ -433,7 +410,7 @@ class DTable implements ITable {
     div.setAttribute('data-table-page-button', '');
     div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2', 'transition-all', 'duration-300');
 
-    if (this._tPagination.isServerSide) {
+    if (this._tOptions.serverSide) {
       const currentPage = this._tState.currentPage;
       const totalPages = this._tState.totalPages;
       const maxPagesToShow = 5; 1
@@ -461,8 +438,8 @@ class DTable implements ITable {
       }
     }
     else {
-      const currentPage = this._tPagination.currentPage;
-      const totalPages = this._tPagination.totalPages;
+      const currentPage = this._tState.currentPage;
+      const totalPages = this._tState.totalPages;
       const maxPagesToShow = 5;
 
       let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
@@ -506,17 +483,17 @@ class DTable implements ITable {
   async handleClickPage(i: number) {
     this._tState.currentPage = i;
 
-    if (this._tPagination.isServerSide) {
+    if (this._tOptions.serverSide) {
       this._tState.currentPage = i;
 
-      const res = await this._tOptions.pagination.fetchData(this._tState);
+      const res = await this._tOptions.fetchData(this._tState);
 
       this.setState(res.data, {
         totalData: res.totalData,
       });
     }
     else {
-      if (this._tPagination.isFilteringActive) {
+      if (this._tState.q) {
         this._tData = this._tDataFiltered[i - 1];
       }
       else {
@@ -591,16 +568,16 @@ class DTable implements ITable {
 
   handleChangePerPage = (e: any): void => {
     // reset pagination current page
-    this._tPagination.currentPage = 1;
+    this._tState.currentPage = 1;
 
-    this._tPagination.limit = Number(e.target.value);
+    this._tState.limit = Number(e.target.value);
 
-    if (this._tPagination.isServerSide) {
-      this._tState.limit = this._tPagination.limit;
+    if (this._tOptions.serverSide) {
+      this._tState.limit = this._tState.limit;
       this._tState.currentPage = 1;
 
       new Promise(async () => {
-        const res = await this._tOptions.pagination.fetchData(this._tState);
+        const res = await this._tOptions.fetchData(this._tState);
 
         this.setState(res.data, {
           totalData: res.totalData,
@@ -610,18 +587,18 @@ class DTable implements ITable {
     else {
       let chunkedData: any[][];
 
-      if (this._tPagination.isFilteringActive) {
-        chunkedData = chunkArray(this._tDataFilteredShadow, this._tPagination.limit);
+      if (this._tState.q) {
+        chunkedData = chunkArray(this._tDataFilteredShadow, this._tState.limit);
       }
       else {
-        chunkedData = chunkArray(this._tOptions.data, this._tPagination.limit);
+        chunkedData = chunkArray(this._tOptions.data, this._tState.limit);
       }
 
       // Set initial data to be displayed
       if (chunkedData.length > 0) {
         this._tData = chunkedData[0];
         this._tDataShadow = chunkedData[0];
-        this._tPagination.totalPages = chunkedData.length > 0 ? chunkedData.length : 1;
+        this._tState.totalPages = chunkedData.length > 0 ? chunkedData.length : 1;
       }
     }
 
@@ -643,10 +620,10 @@ class DTable implements ITable {
       return;
     }
 
-    if (this._tPagination.isFilteringActive) {
+    if (this._tState.q) {
       let totalItem = 0;
 
-      if (this._tPagination.isServerSide) {
+      if (this._tOptions.serverSide) {
         totalItem = totalItemCount;
       }
       else {
