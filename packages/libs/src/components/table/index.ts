@@ -216,14 +216,13 @@ class DTable implements ITable {
 
     const select = document.createElement('select');
 
-    const options = [10, 25, 50, 100];
+    const options: number[] = [10, 25, 50, 100];
 
-    // if has limit on props
-    // then set the value to select
-    if (this._tOptions.pagination.limit) {
-      // push and sort the value
-      options.push(this._tOptions.pagination.limit);
-      options.sort((a, b) => a - b);
+    const newLimit = this._tOptions.pagination.limit;
+
+    if (newLimit !== undefined && !options.includes(newLimit)) {
+      options.push(newLimit)
+      options.sort((a: number, b:number) => a - b);
     }
 
     select.id = 'select-per-page';
@@ -236,7 +235,7 @@ class DTable implements ITable {
       select.appendChild(opt);
     });
 
-    if (this._tOptions.pagination.limit) {
+    if (newLimit !== undefined) {
       select.value = String(this._tOptions.pagination.limit);
     }
 
