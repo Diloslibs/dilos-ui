@@ -397,36 +397,34 @@ class DTable implements ITable {
     setButtonState('last-page', currentPage < totalPages);
   }
 
-  _handleChangePerPage = (e: any): void => {
-    // reset pagination current page
+  _handleChangePerPage = async (e: any): Promise<void> => {
+    // Reset pagination current page
     this._tState.currentPage = 1;
 
     this._tState.limit = Number(e.target.value);
 
     if (this._tOptions.serverSide) {
-      this._tState.limit = this._tState.limit;
-      this._tState.currentPage = 1;
+      // If server-side pagination, fetch new data
+      const res = await this._tOptions.fetchData(this._tState);
 
-      new Promise(async () => {
-        const res = await this._tOptions.fetchData(this._tState);
-
-        this._update(res.data, {
-          totalData: res.totalData,
-        });
+      this._update(res.data, {
+        totalData: res.totalData,
       });
-    }
-    else {
-      let chunkedData: any[];
+    } else {
+      // Client-side pagination
+      let dataToDisplay = this._tOptions.data;
 
       if (this._tState.q) {
-        chunkedData = chunkArray(this._tDataFilteredShadow, this._tState.limit);
-      }
-      else {
-        chunkedData = chunkArray(this._tOptions.data, this._tState.limit);
+        // Filter data if search query is present
+        dataToDisplay = this._tDataFilteredShadow;
       }
 
+      // Chunk the data for pagination
+      const chunkedData = chunkArray(dataToDisplay, this._tState.limit);
+
+      // Update the table with the first chunk of data
       this._update(chunkedData[0], {
-        totalData: this._tOptions.data.length,
+        totalData: dataToDisplay.length,
       });
     }
   }
