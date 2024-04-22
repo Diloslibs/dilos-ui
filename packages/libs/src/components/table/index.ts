@@ -229,7 +229,7 @@ class DTable implements ITable {
       select.value = String(this._tOptions.pagination.limit);
     }
 
-    select.addEventListener('change', this.handleChangePerPage.bind(this));
+    select.addEventListener('change', this._handleChangePerPage.bind(this));
 
     const input = document.createElement('input');
 
@@ -306,22 +306,22 @@ class DTable implements ITable {
     const firstPage = document.createElement('button');
     firstPage.setAttribute('data-table-first-page', '');
     firstPage.textContent = '<<';
-    firstPage.addEventListener('click', this._handleFirstPage);
+    firstPage.addEventListener('click', this._handlePage.bind(this, 'first'));
 
     const lastPage = document.createElement('button');
     lastPage.setAttribute('data-table-last-page', '');
     lastPage.textContent = '>>';
-    lastPage.addEventListener('click', this._handleLastPage);
+    lastPage.addEventListener('click', this._handlePage.bind(this, 'last'));
 
     const prev = document.createElement('button');
     prev.id = 'prev-page';
     prev.textContent = '<';
-    prev.addEventListener('click', this._handlePrevPage);
+    prev.addEventListener('click', this._handlePage.bind(this, 'prev'));
 
     const next = document.createElement('button');
     next.id = 'next-page';
     next.textContent = '>';
-    next.addEventListener('click', this._handleNextPage);
+    next.addEventListener('click', this._handlePage.bind(this, 'next'));
 
     panel.append(firstPage, prev, next, lastPage);
     pagination.append(description, panel);
@@ -355,9 +355,7 @@ class DTable implements ITable {
           button.classList.add('bg-blue-500', 'text-white');
         }
 
-        button.addEventListener('click', () => {
-          this.handleClickPage(i);
-        });
+        button.addEventListener('click', this._handlePage.bind(this, 'click', i));
         div.appendChild(button);
       }
     }
@@ -375,34 +373,6 @@ class DTable implements ITable {
     }
 
     container.insertBefore(div, container.children[middleIndex]);
-  }
-
-  async handleClickPage(i: number) {
-    this._tState.currentPage = i;
-
-    if (this._tOptions.serverSide) {
-      this._tState.currentPage = i;
-
-      const res = await this._tOptions.fetchData(this._tState);
-
-      this._update(res.data, {
-        totalData: res.totalData,
-      });
-    }
-    else {
-      let data: any[];
-
-      if (this._tState.q) {
-        data = this._tDataFiltered[i - 1];
-      }
-      else {
-        data = chunkArray(this._tOptions.data, this._tState.limit)[i - 1];
-      }
-
-      this._update(data, {
-        totalData: this._tOptions.data.length,
-      });
-    }
   }
 
   _updatePageNavigation(): void {
@@ -461,7 +431,7 @@ class DTable implements ITable {
     }
   }
 
-  handleChangePerPage = (e: any): void => {
+  _handleChangePerPage = (e: any): void => {
     // reset pagination current page
     this._tState.currentPage = 1;
 
@@ -495,90 +465,56 @@ class DTable implements ITable {
     }
   }
 
-  _handleFirstPage = async (): Promise<void> => {
+  _handlePage = async (direction: 'first' | 'last' | 'next' | 'prev' | 'click', page?: number): Promise<void> => {
+    let newPage = this._tState.currentPage;
+
+    if (direction === 'click' && page !== undefined) {
+      newPage = page;
+    } else {
+      switch (direction) {
+        case 'first':
+          newPage = 1;
+          break;
+        case 'last':
+          newPage = this._tState.totalPages;
+          break;
+        case 'next':
+          newPage++;
+          break;
+        case 'prev':
+          newPage--;
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (newPage < 1) {
+      newPage = 1;
+    } else if (newPage > this._tState.totalPages) {
+      newPage = this._tState.totalPages;
+    }
+
+    this._tState.currentPage = newPage;
+
     if (this._tOptions.serverSide) {
-      this._tState.currentPage = 1;
-
-      new Promise(async () => {
-        const res = await this._tOptions.fetchData(this._tState);
-
-        this._update(res.data, {
-          totalData: res.totalData,
-        });
-      });
-    }
-
-    else {
-      this._tState.currentPage = 1;
-      const data: any[] = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage];
-
-      this._update(data, {
-        totalData: this._tOptions.data.length,
-      });
-    }
-
-  }
-
-  _handleLastPage = async (): Promise<void> => {
-    if (this._tOptions.serverSide) {
-      this._tState.currentPage = this._tState.totalPages;
-
-      new Promise(async () => {
-        const res = await this._tOptions.fetchData(this._tState);
-
-        this._update(res.data, {
-          totalData: res.totalData,
-        });
-      });
-    }
-
-    else {
-      this._tState.currentPage = this._tState.totalPages;
-      const data: any[] = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
-
-      this._update(data, {
-        totalData: this._tOptions.data.length,
-      });
-    }
-  }
-
-  _handleNextPage = async (): Promise<void> => {
-    if (this._tOptions.serverSide) {
-      this._tState.currentPage++;
-
       const res = await this._tOptions.fetchData(this._tState);
 
       this._update(res.data, {
         totalData: res.totalData,
       });
-    }
-    else {
-      this._tState.currentPage++;
-      const data: any[] = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
+    } else {
+      let data: any[];
+
+      if (this._tState.q) {
+        data = this._tDataFiltered[newPage - 1];
+      } else {
+        data = chunkArray(this._tOptions.data, this._tState.limit)[newPage - 1];
+      }
 
       this._update(data, {
         totalData: this._tOptions.data.length,
       });
-    }
-  }
-
-  _handlePrevPage = async (): Promise<void> => {
-    if (this._tOptions.serverSide) {
-      this._tState.currentPage--;
-
-      const res = await this._tOptions.fetchData(this._tState);
-
-      this._update(res.data, {
-        totalData: res.totalData,
-      });
-    }
-    else {
-      this._tState.currentPage--;
-      const data: any[] = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
-
-      this._update(data, {
-        totalData: this._tOptions.data.length,
-      })
     }
   }
 
