@@ -14,7 +14,7 @@ export declare interface ITable {
   _update(data: [], state: TableState): void,
   _updatePagination(): void,
   _updatePageButton(): void,
-  _updatePageNavigation(): void,
+  _updatePageNavigator(): void,
   _renderRowCheckbox(): void,
 
   destroy(): void,

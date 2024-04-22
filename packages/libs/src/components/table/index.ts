@@ -108,7 +108,7 @@ class DTable implements ITable {
     this._render();
     this._updatePagination();
     this._updatePageButton();
-    this._updatePageNavigation();
+    this._updatePageNavigator();
   }
 
   destroy(): void {
@@ -269,7 +269,7 @@ class DTable implements ITable {
 
         this._render();
         this._updatePagination();
-        this._updatePageNavigation();
+        this._updatePageNavigator();
       }
 
 
@@ -304,12 +304,12 @@ class DTable implements ITable {
     panel.classList.add('flex', 'items-center', 'space-x-2');
 
     const firstPage = document.createElement('button');
-    firstPage.setAttribute('data-table-first-page', '');
+    firstPage.id = 'first-page';
     firstPage.textContent = '<<';
     firstPage.addEventListener('click', this._handlePage.bind(this, 'first'));
 
     const lastPage = document.createElement('button');
-    lastPage.setAttribute('data-table-last-page', '');
+    lastPage.id = 'last-page';
     lastPage.textContent = '>>';
     lastPage.addEventListener('click', this._handlePage.bind(this, 'last'));
 
@@ -328,7 +328,7 @@ class DTable implements ITable {
     this._tEl.parentElement.appendChild(pagination);
 
     this._updatePagination();
-    this._updatePageNavigation();
+    this._updatePageNavigator();
   }
 
   _updatePageButton(): void {
@@ -375,60 +375,26 @@ class DTable implements ITable {
     container.insertBefore(div, container.children[middleIndex]);
   }
 
-  _updatePageNavigation(): void {
+  _updatePageNavigator(): void {
     const { currentPage, totalPages } = this._tState;
 
-    // disable prev button
-    if (currentPage <= 1) {
-      const prev = document.getElementById('prev-page');
-      prev.setAttribute('disabled', '');
-      prev.classList.add('cursor-not-allowed');
-    }
-    // enable prev button
-    else {
-      const prev = document.getElementById('prev-page');
-      prev.removeAttribute('disabled');
-      prev.classList.remove('cursor-not-allowed');
-    }
+    const setButtonState = (buttonId: string, enabled: boolean) => {
+      const button = document.getElementById(buttonId);
+      if (button) {
+        if (enabled) {
+          button.removeAttribute('disabled');
+          button.classList.remove('cursor-not-allowed');
+        } else {
+          button.setAttribute('disabled', '');
+          button.classList.add('cursor-not-allowed');
+        }
+      }
+    };
 
-    // disable next button
-    if (currentPage === totalPages) {
-      const next = document.getElementById('next-page');
-      next.setAttribute('disabled', '');
-      next.classList.add('cursor-not-allowed');
-    }
-    // enable next button
-    else {
-      const next = document.getElementById('next-page');
-      next.removeAttribute('disabled');
-      next.classList.remove('cursor-not-allowed');
-    }
-
-    // disable first page button
-    if (currentPage === 1) {
-      const firstPage = document.querySelector('[data-table-first-page]');
-      firstPage.setAttribute('disabled', '');
-      firstPage.classList.add('cursor-not-allowed');
-    }
-    // enable first page button
-    else {
-      const firstPage = document.querySelector('[data-table-first-page]');
-      firstPage.removeAttribute('disabled');
-      firstPage.classList.remove('cursor-not-allowed');
-    }
-
-    // disable last page button
-    if (currentPage === totalPages) {
-      const lastPage = document.querySelector('[data-table-last-page]');
-      lastPage.setAttribute('disabled', '');
-      lastPage.classList.add('cursor-not-allowed');
-    }
-    // enable last page button
-    else {
-      const lastPage = document.querySelector('[data-table-last-page]');
-      lastPage.removeAttribute('disabled');
-      lastPage.classList.remove('cursor-not-allowed');
-    }
+    setButtonState('prev-page', currentPage > 1);
+    setButtonState('next-page', currentPage < totalPages);
+    setButtonState('first-page', currentPage > 1);
+    setButtonState('last-page', currentPage < totalPages);
   }
 
   _handleChangePerPage = (e: any): void => {
