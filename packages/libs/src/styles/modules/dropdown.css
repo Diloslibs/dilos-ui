@@ -18,5 +18,5 @@
     @apply px-4 py-2 font-semibold border-b border-gray-200;
 }
 .d-dropdown-footer {
-    @apply px-4 py-2 font-semibold border-t border-gray-200;
+    @apply p-2 font-semibold border-t border-gray-200;
 }
