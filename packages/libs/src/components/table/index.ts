@@ -1,6 +1,6 @@
 import { chunkArray, debounce } from "../../utils";
 import { ITable } from "./interface";
-import { DTableOptions, Columns, TableState } from "./types";
+import { DTableOptions, Columns, TableState, TableStateSort } from "./types";
 
 class DTable implements ITable {
   _tId: string;
@@ -31,6 +31,7 @@ class DTable implements ITable {
     totalPages: 0,
     limit: 10,
     q: '',
+    sort: [],
   }
   _checkBoxEl: HTMLInputElement;
 
@@ -110,7 +111,7 @@ class DTable implements ITable {
 
     this._tState = {
       ...this._tState,
-      totalData: state.totalData,
+      ...state,
       totalPages: state.totalData > 0 ? Math.ceil(state.totalData / this._tState.limit) : 1,
     };
 
@@ -205,18 +206,14 @@ class DTable implements ITable {
       const isSortable = this._tOptions.columns.find((c) => c.selector === col.selector)?.sortable ?? false;
       if (isSortable) {
         th.classList.add('cursor-pointer');
-
-
         // add sort icon
         const sortIcon = document.createElement('span');
         sortIcon.classList.add('ml-2');
         wrapper.appendChild(sortIcon);
 
-        // th.addEventListener('click', this._handleSort.bind(this, col.selector));
-        th.addEventListener('click', () => {
-          console.log('Sorting by', col.selector);
-        });
-        console.log('Adding event listener to', th);
+        // set data attributes
+        wrapper.setAttribute(`dls-${this._tId}-th`, col.selector);
+        th.addEventListener('click', this._handleSort.bind(this, col.selector));
       }
       th.appendChild(wrapper);
       tr.appendChild(th);
@@ -235,7 +232,7 @@ class DTable implements ITable {
     this._tBody.innerHTML = '';
 
     if (this._tData) {
-      this._tData.forEach((row: {}) => {
+      this._tData.forEach((row: {}, i: number) => {
         const tr = document.createElement('tr');
 
         if (this._tOptions.showCheckbox) {
@@ -249,8 +246,8 @@ class DTable implements ITable {
 
         if (this._tOptions.showNumbering) {
           const td = document.createElement('td');
-          td.innerHTML = String(this._tOptions.data.indexOf(row) + 1);
           tr.appendChild(td);
+          td.innerHTML = String(this._tState.currentPage * this._tState.limit - this._tState.limit + i + 1);
         }
 
         this._tOptions.columns.forEach((col, i: number) => {
@@ -490,7 +487,6 @@ class DTable implements ITable {
   _updatePagination(hasNoData?: boolean): void {
     const description: HTMLSpanElement = document.querySelector('#pagination-description');
 
-    console.log('Description', description)
 
     const totalItemCount: number = this._tState.totalData;
     if (hasNoData) {
@@ -627,8 +623,100 @@ class DTable implements ITable {
     }
   }
 
-  _handleSort = (selector: string): void => {
-    console.log('Sorting by', selector);
+  _algorithmSort = (data: any[], sort: TableStateSort[]): any[] => {
+    let sortedData = [...data];
+
+    sort.forEach((s) => {
+      sortedData = sortedData.sort((a, b) => {
+        let fieldA = a[s.field];
+        let fieldB = b[s.field];
+
+        if (typeof fieldA === 'string') {
+          fieldA = fieldA.toLowerCase();
+          fieldB = fieldB.toLowerCase();
+        }
+
+        if (s.direction === 'asc') {
+          if (fieldA < fieldB) {
+            return -1;
+          }
+          if (fieldA > fieldB) {
+            return 1;
+          }
+          return 0;
+        } else {
+          if (fieldA > fieldB) {
+            return -1;
+          }
+          if (fieldA < fieldB) {
+            return 1;
+          }
+          return 0;
+        }
+      });
+    });
+
+    return sortedData;
+  }
+
+  _handleSort = async (selector: string): Promise<void> => {
+    const th: HTMLTableElement = document.querySelector(`[dls-${this._tId}-th="${selector}"]`);
+    let span: HTMLSpanElement | null = th.querySelector(`[dls-${this._tId}-sort="${selector}"]`);
+
+    console.log('th', th)
+    console.log('span', span)
+
+    // Get the current sort state from the table state
+    let arrSort: TableStateSort[] = this._tState.sort;
+
+    // Find the current sort configuration for the specified field
+    let currentSort = arrSort.find((s) => s.field === selector);
+
+    // If no sort configuration exists for the field, add it in ascending order
+    if (!currentSort) {
+      arrSort = [...arrSort, { field: selector, direction: 'asc' }];
+
+      // Create a span element to display the sort icon
+      let span = document.createElement('span');
+      span.setAttribute(`dls-${this._tId}-sort`, selector);
+      span.textContent = '🔼';
+      th.appendChild(span);
+    } else {
+      // Toggle the sort direction for the field
+      if (currentSort.direction === 'asc') {
+        // update the sort configuration to descending
+        arrSort = arrSort.map((s) => s.field === selector ? { ...s, direction: 'desc' } : s);
+        span!.textContent = '🔽'; // Update the sort icon to descending
+      } else if (currentSort.direction === 'desc') {
+        // Remove the sort configuration if it is already in descending order
+        arrSort = arrSort.filter((s) => s.field !== selector);
+        span!.textContent = ''; // Remove the sort icon from the DOM
+        span!.remove();
+      } else {
+        // If the current sort direction is neither ascending nor descending, set it to ascending
+        arrSort = arrSort.map((s) => s.field === selector ? { ...s, direction: 'asc' } : s);
+        span!.textContent = '🔼'; // Update the sort icon to ascending
+      }
+    }
+
+    this._tState.sort = arrSort;
+    
+    if(this._tOptions.serverSide){
+      const res = await this._tOptions.fetchData(this._tState);
+
+      this._update(res.data, {
+        totalData: res.totalData,
+      }); 
+
+      return;
+    }
+
+    // Sort the data based on the sort configuration
+    const sortedData = this._algorithmSort(this._tOptions.data, arrSort);
+
+    this._update(sortedData, {
+      totalData: sortedData.length
+    })
   }
 }
 

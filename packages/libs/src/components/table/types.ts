@@ -27,10 +27,16 @@ export type DTableOptions = {
   showPagination?: boolean,
 }
 
+export type TableStateSort = {
+  field: string,
+  direction: 'asc' | 'desc',
+}
+
 export type TableState = {
   totalData?: number,
   currentPage?: number,
   totalPages?: number,
   limit?: number,
   q?: string,
+  sort?: TableStateSort[],
 }

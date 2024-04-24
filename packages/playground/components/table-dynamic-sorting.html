@@ -30,39 +30,68 @@
   <!-- Script JS Dilos -->
   <script src="./../../libs/dist/index.js"></script>
   <script>
-    const fetchData = () => {
-      let arr = [];
 
-      for (let i = 1; i <= 123; i++) {
-        arr.push({
-          id: i,
-          title: `Title ${i}`,
-          brand: `Brand ${i}`,
-        });
+    const fetchData = async (options) => {
+      // options contains
+      const { q, limit, currentPage, sort } = options;
+
+      // fetch data from server
+      let endpoint = `https://api-dashboard-clone.motiolibs.com/api/v1/webinars?page=${currentPage}&limit=${limit}&search=${q}`;
+
+      if (sort) {
+        // read price
+        const price = sort.find((s) => s.field === "price");
+        if (price) {
+          endpoint += `&sort_price=${price.direction === "asc" ? "high" : "low"}`
+        }
+
+        const added = sort.find((s) => s.field === "start_time");
+        if (added) {
+          endpoint += `&sort_added=${added.direction === "asc" ? "latest" : "oldest"}`
+        }
       }
 
-      return arr;
-    };
+      const res = await fetch(endpoint, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQwMTg4MzMsImlhdCI6MTcxMzkzMjQzMywiZGF0YSI6eyJjbG9uZV9pZCI6IjE5OThiMTAxLTBkMDQtNDY5Ni04ZDMzLWRmZTYxODI2ZTRjZiIsInJvbGVfaWQiOiIyOTRhYzg5Yi0yZWNiLTQ1NmQtYTk0Ny00MzAzM2RlZDAwMTIiLCJ1c2VyX2lkIjoiMjViYzMzNjYtNzU0OS00NTg5LTkwYWUtNjAzMmNiNmE5NDEzIn19.QgnG4l7KbMALEvtyKVtOZvxzyT9zpAkrNQ6pduda47E",
+          "x-api-key": "service123"
+        }
+      });
+      const data = await res.json();
+
+      // update table state
+      // this use to re-render update the table data
+      return {
+        data: data.data,
+        totalData: data.pagination.total_data,
+      };
+    }
 
     const table = new DTable("d-table", {
       columns: [
         {
-          title: "Id",
-          selector: "id",
-        },
-        {
-          title: "Title",
+          title: "Judul",
           selector: "title",
         },
         {
-          title: "Brand",
-          selector: "brand",
+          title: "Waktu Mulai",
+          selector: "start_time",
+          sortable: true,
+        },
+        {
+          title: "Harga",
+          selector: "price",
+          sortable: true,
         },
       ],
-      data: fetchData(),
+      serverSide: true,
+      data: [],
+      fetchData: fetchData,
       pagination: {
         limit: 75,
       },
+      showNumbering: true,
     });
   </script>
 </body>

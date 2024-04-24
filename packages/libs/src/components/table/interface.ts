@@ -1,4 +1,4 @@
-import { DTableOptions, TableState } from "./types";
+import { DTableOptions, TableState, TableStateSort } from "./types";
 
 export declare interface ITable {
   _tId: string,
@@ -23,6 +23,7 @@ export declare interface ITable {
   _updatePageButton(): void,
   _updatePageNavigator(): void,
   _renderRowCheckbox(): void,
-
+  _handleSort(selector: string): Promise<void>,
+  _algorithmSort(data: any[], sort: TableStateSort[]): any[],
   destroy(): void,
 }
