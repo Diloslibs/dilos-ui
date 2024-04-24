@@ -30,41 +30,41 @@
   <!-- Script JS Dilos -->
   <script src="./../../libs/dist/index.js"></script>
   <script>
+    const fetchData = () => {
+      let arr = [];
+
+      for (let i = 1; i <= 123; i++) {
+        arr.push({
+          id: i,
+          title: `Title ${i}`,
+          brand: `Brand ${i}`,
+        });
+      }
+
+      return arr;
+    };
+
     const table = new DTable("d-table", {
       columns: [
         {
           title: "Id",
           selector: "id",
+          sortable: false,
         },
         {
           title: "Title",
           selector: "title",
+          sortable: true,
         },
         {
           title: "Brand",
           selector: "brand",
+          sortable: true,
         },
       ],
-      serverSide: true,
-      data: [],
-      fetchData: async (options) => {
-        // options contains
-        const { q, limit, currentPage } = options;
-
-        let endpoint = `https://dummyjson.com/products/search?q=${q}&limit=${limit}&skip=${(currentPage - 1) * limit}`;
-
-        const res = await fetch(endpoint);
-        const data = await res.json();
-
-        // update table state
-        // this use to re-render update the table data
-        return {
-          data: data.products,
-          totalData: data.total,
-        };
-      },
+      data: fetchData(),
       pagination: {
-        limit: 30, // default limit is 10
+        limit: 10,
       },
     });
   </script>

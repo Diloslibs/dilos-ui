@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table | Dilos</title>
+
+  <!-- Script CSS Dilos -->
+  <link rel="stylesheet" href="./../../libs/dist/index.css">
+
+  <!-- Tailwind Integration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="my-0 mx-auto min-h-full max-w-screen-md py-16">
+    <div class="flex flex-col gap-5">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-2xl font-bold">Minimal Configuration To Run!</h1>
+
+        <div class="bg-white p-4 border rounded-md">
+          <table id="d-table" class="d-table d-table-responsive"></table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Script JS Dilos -->
+  <script src="./../../libs/dist/index.js"></script>
+  <script>
+    const table = new DTable("d-table", {
+      columns: [
+        {
+          title: "Id",
+          selector: "id",
+        },
+        {
+          title: "Title",
+          selector: "title",
+        },
+        {
+          title: "Brand",
+          selector: "brand",
+        },
+        {
+          title: "Description",
+          selector: "description",
+        }
+      ],
+      serverSide: true,
+      data: [],
+      fetchData: async (options) => {
+        // options contains
+        const { q, limit, currentPage } = options;
+
+        let endpoint = `https://dummyjson.com/products/search?q=${q}&limit=${limit}&skip=${(currentPage - 1) * limit}`;
+
+        const res = await fetch(endpoint);
+        const data = await res.json();
+
+        // update table state
+        // this use to re-render update the table data
+        return {
+          data: data.products,
+          totalData: data.total,
+        };
+      },
+      pagination: {
+        limit: 30, // default limit is 10
+      },
+    });
+  </script>
+</body>
+
+</html>

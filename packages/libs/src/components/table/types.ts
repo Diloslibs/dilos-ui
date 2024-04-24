@@ -21,6 +21,10 @@ export type DTableOptions = {
   showCheckbox: boolean,
   serverSide?: boolean,
   fetchData?: fetchData,
+  showLimit?: boolean,
+  showSearch?: boolean,
+  showEntries?: boolean,
+  showPagination?: boolean,
 }
 
 export type TableState = {

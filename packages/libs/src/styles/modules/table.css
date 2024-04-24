@@ -7,12 +7,12 @@
 .d-table>thead>tr th:first-child {
   @apply rounded-l-md border-y border-l;
 }
- 
+
 .d-table>thead>tr th:last-child {
   @apply rounded-r-md border-y border-r;
 }
 
-.d-table>thead>tr :not(.th:first-child, .th:last-child) {
+.d-table>thead>tr th:not(.th:first-child, .th:last-child) {
   @apply border-y;
 }
 
@@ -35,6 +35,7 @@
 .d-table.striped-y>thead>tr>th {
   @apply bg-transparent;
 }
+
 .d-table.striped-y>tbody>tr>td:nth-child(even),
 .d-table.striped-y>thead>tr>th:nth-child(even) {
   @apply bg-gray-100;

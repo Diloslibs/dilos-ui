@@ -3,7 +3,13 @@ import { ITable } from "./interface";
 import { DTableOptions, Columns, TableState } from "./types";
 
 class DTable implements ITable {
+  _tId: string;
+  _tWrapper: HTMLElement;
+  _tWrapHeader: HTMLElement;
+  _tWrapFooter: HTMLElement;
   _tEl: HTMLTableElement;
+  _tHead: HTMLTableSectionElement;
+  _tBody: HTMLTableSectionElement;
   _tOptions: DTableOptions = {
     columns: [],
     data: [],
@@ -11,6 +17,10 @@ class DTable implements ITable {
     showNumbering: false,
     showCheckbox: false,
     serverSide: false,
+    showLimit: true,
+    showSearch: true,
+    showEntries: true,
+    showPagination: true,
   };
   _tData: any[];
   _tDataFiltered: any[];
@@ -28,7 +38,9 @@ class DTable implements ITable {
     try {
       this._checkParams(tableId, options);
 
-      this._tEl = document.getElementById(tableId) as HTMLTableElement;
+      // set table id
+      this._tId = tableId;
+
       this._tOptions = { ...this._tOptions, ...options };
 
       // Check if server side pagination is enabled
@@ -69,10 +81,7 @@ class DTable implements ITable {
   }
 
   async _init(): Promise<void> {
-    this._renderInputSearch();
-    this._renderPagination();
-    this._renderRowCheckbox();
-
+    this._render();
     if (this._tOptions.serverSide) {
 
       const res = await this._tOptions.fetchData(this._tState);
@@ -105,7 +114,7 @@ class DTable implements ITable {
       totalPages: state.totalData > 0 ? Math.ceil(state.totalData / this._tState.limit) : 1,
     };
 
-    this._render();
+    this._renderTableBody();
     this._updatePagination();
     this._updatePageButton();
     this._updatePageNavigator();
@@ -118,13 +127,55 @@ class DTable implements ITable {
   }
 
   _render(): void {
-    console.log(this._tData);
+    this._renderTableStructure();
+    this._renderWrapHeader();
+    this._renderTableHeader();
+    this._renderWrapFooter();
+    this._renderRowCheckbox();
+  }
 
-    // clear table
-    this._tEl.innerHTML = '';
+  /**
+    * Renders the table structure by wrapping the table with a div for styling purposes,
+    * setting up table header and body elements, and appending them to the table.
+  */
+  _renderTableStructure(): void {
+    // Get the table element
+    this._tEl = document.getElementById(this._tId) as HTMLTableElement;
 
-    // create table header
+    // Wrap the table with a div
+    this._tWrapper = document.createElement('div');
+
+    // Set data attributes to the wrapper
+    this._tWrapper.setAttribute(`dls-wrap-${this._tId}`, '');
+
+    // Set overflow to auto for horizontal scrolling
+    this._tWrapper.style.overflowX = 'auto';
+
+    // Insert the wrapper before the table in the DOM
+    this._tEl.parentElement.insertBefore(this._tWrapper, this._tEl);
+
+    // Append the table to the wrapper
+    this._tWrapper.appendChild(this._tEl);
+
+    // Create and set the table header element
     const thead = document.createElement('thead');
+    this._tHead = thead;
+
+    // Create and set the table body element
+    const tbody = document.createElement('tbody');
+    this._tBody = tbody;
+
+    // Append the table header and body to the table
+    this._tEl.appendChild(thead);
+    this._tEl.appendChild(tbody);
+  }
+
+  /**
+   * Renders the table header based on the specified options and columns.
+   * Includes checkboxes, numbering, column titles, and sorting icons if applicable.
+  */
+  _renderTableHeader(): void {
+    // create table header
     const tr = document.createElement('tr');
 
     if (this._tOptions.showCheckbox) {
@@ -144,15 +195,45 @@ class DTable implements ITable {
 
     this._tOptions.columns.forEach((col: Columns) => {
       const th = document.createElement('th');
-      th.textContent = col.title;
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('flex', 'justify-between', 'items-center');
+
+      const span = document.createElement('span');
+      span.textContent = col.title
+      wrapper.appendChild(span);
+
+      const isSortable = this._tOptions.columns.find((c) => c.selector === col.selector)?.sortable ?? false;
+      if (isSortable) {
+        th.classList.add('cursor-pointer');
+
+
+        // add sort icon
+        const sortIcon = document.createElement('span');
+        sortIcon.classList.add('ml-2');
+        wrapper.appendChild(sortIcon);
+
+        // th.addEventListener('click', this._handleSort.bind(this, col.selector));
+        th.addEventListener('click', () => {
+          console.log('Sorting by', col.selector);
+        });
+        console.log('Adding event listener to', th);
+      }
+      th.appendChild(wrapper);
       tr.appendChild(th);
     });
 
-    thead.appendChild(tr);
-    this._tEl.innerHTML += thead.outerHTML;
+    // append table header to table
+    this._tHead.appendChild(tr);
+  }
 
-    // create table body
-    const tbody = document.createElement('tbody');
+  /**
+   * Renders the table body based on the provided data.
+   * Includes rows with checkboxes, numbering, and column values.
+  */
+  _renderTableBody(): void {
+    // clear table body
+    this._tBody.innerHTML = '';
+
     if (this._tData) {
       this._tData.forEach((row: {}) => {
         const tr = document.createElement('tr');
@@ -178,12 +259,15 @@ class DTable implements ITable {
           tr.appendChild(td);
         });
 
-        tbody.appendChild(tr);
+        this._tBody.appendChild(tr);
       });
     }
-    this._tEl.appendChild(tbody);
   }
 
+  /**
+   * Renders the row checkbox functionality.
+   * Listens for changes in the table checkall checkbox and updates all row checkboxes accordingly.
+   */
   _renderRowCheckbox(): void {
     // get table checkall
     this._checkBoxEl = document.querySelector('[data-table-checkall]');
@@ -200,138 +284,166 @@ class DTable implements ITable {
     }
   }
 
-  async _renderInputSearch() {
+  async _renderWrapHeader() {
     const div = document.createElement('div');
-    div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
-
     const select = document.createElement('select');
-
-    const options: number[] = [10, 25, 50, 100];
-
-    const newLimit = this._tOptions.pagination.limit;
-
-    if (newLimit !== undefined && !options.includes(newLimit)) {
-      options.push(newLimit)
-      options.sort((a: number, b: number) => a - b);
-    }
-
-    select.id = 'select-per-page';
-
-    // mapping content
-    options.map((option) => {
-      const opt = document.createElement('option');
-      opt.value = String(option);
-      opt.textContent = String(option);
-      select.appendChild(opt);
-    });
-
-    if (newLimit !== undefined) {
-      select.value = String(this._tOptions.pagination.limit);
-    }
-
-    select.addEventListener('change', this._handleChangePerPage.bind(this));
-
     const input = document.createElement('input');
 
-    input.type = 'text';
-    input.placeholder = 'Search...';
+    if (this._tOptions.showLimit) {
+      div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
 
-    const handleInput = debounce(async () => {
-      const searchText: string = input.value.toLowerCase();
 
-      if (this._tOptions.serverSide) {
-        this._tState.q = searchText;
-        this._tState.currentPage = 1;
+      const options: number[] = [10, 25, 50, 100];
 
-        const res = await this._tOptions.fetchData(this._tState);
+      const newLimit = this._tOptions.pagination.limit;
 
-        this._tDataFiltered = res.data;
-        this._tState.currentPage = 1;
-
-        this._update(res.data, {
-          totalData: res.totalData,
-        });
-
+      if (newLimit !== undefined && !options.includes(newLimit)) {
+        options.push(newLimit)
+        options.sort((a: number, b: number) => a - b);
       }
-      else {
-        this._tDataFilteredShadow = this._tOptions.data.filter((row: any[]) =>
-          row.some((item: string | number) =>
-            typeof item === 'string'
-              ? item.toLowerCase().includes(searchText)
-              : typeof item === 'number' && (item as number).toString().includes(searchText)
+
+      select.id = 'select-per-page';
+
+      // mapping content
+      options.map((option) => {
+        const opt = document.createElement('option');
+        opt.value = String(option);
+        opt.textContent = String(option);
+        select.appendChild(opt);
+      });
+
+      if (newLimit !== undefined) {
+        select.value = String(this._tOptions.pagination.limit);
+      }
+
+      select.addEventListener('change', this._handleChangePerPage.bind(this));
+      div.appendChild(select);
+    }
+
+    if (this._tOptions.showSearch) {
+      input.type = 'text';
+      input.placeholder = 'Search...';
+
+      const handleInput = debounce(async () => {
+        const searchText: string = input.value.toLowerCase();
+
+        if (this._tOptions.serverSide) {
+          this._tState.q = searchText;
+          this._tState.currentPage = 1;
+
+          const res = await this._tOptions.fetchData(this._tState);
+
+          this._tDataFiltered = res.data;
+          this._tState.currentPage = 1;
+
+          this._update(res.data, {
+            totalData: res.totalData,
+          });
+
+        }
+        else {
+          this._tDataFilteredShadow = this._tOptions.data.filter((row: any[]) =>
+            row.some((item: string | number) =>
+              typeof item === 'string'
+                ? item.toLowerCase().includes(searchText)
+                : typeof item === 'number' && (item as number).toString().includes(searchText)
+            )
           )
-        )
-        this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tState.limit);
+          this._tDataFiltered = chunkArray(this._tDataFilteredShadow, this._tState.limit);
 
-        this._tState.currentPage = 1;
-        this._tData = this._tDataFiltered[this._tState.currentPage - 1] ?? [];
-        this._tState.totalPages = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
+          this._tState.currentPage = 1;
+          this._tData = this._tDataFiltered[this._tState.currentPage - 1] ?? [];
+          this._tState.totalPages = this._tDataFiltered.length > 0 ? this._tDataFiltered.length : 1;
 
-        this._render();
-        this._updatePagination();
-        this._updatePageNavigator();
-      }
+          this._renderTableBody();
+          this._updatePagination();
+          this._updatePageNavigator();
+        }
 
 
-      if (!searchText) {
-        this._tState.currentPage = 1;
-        this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
-        this._updatePagination();
-        return;
-      }
-      else {
-        this._updatePagination(this._tData.length === 0);
-      }
-    }, 300);
+        if (!searchText) {
+          this._tState.currentPage = 1;
+          this._tData = chunkArray(this._tOptions.data, this._tState.limit)[this._tState.currentPage - 1];
+          this._updatePagination();
+          return;
+        }
+        else {
+          this._updatePagination(this._tData.length === 0);
+        }
+      }, 300);
 
-    input.addEventListener('input', handleInput);
+      input.addEventListener('input', handleInput);
 
-    div.appendChild(select);
-    div.appendChild(input);
-    this._tEl.parentElement.insertBefore(div, this._tEl);
+      div.appendChild(input);
+    }
+
+    // Append the wrapper to the table
+    if (this._tOptions.showLimit || this._tOptions.showSearch) {
+      this._tWrapper.parentElement.insertBefore(div, this._tWrapper);
+    }
   }
 
-  async _renderPagination() {
-    const pagination = document.createElement('div');
-    pagination.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
+  async _renderWrapFooter() {
+    let wrapFooter: HTMLElement = document.createElement('div');
+    wrapFooter.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
 
-    const description = document.createElement('span');
-    description.id = 'pagination-description';
-    description.textContent = `Loading`;
+    let entries: HTMLElement | null;
+    let panel: HTMLElement | null;
 
-    const panel = document.createElement('div');
-    panel.setAttribute('data-table-pagination-panel', '');
-    panel.classList.add('flex', 'items-center', 'space-x-2');
 
-    const firstPage = document.createElement('button');
-    firstPage.id = 'first-page';
-    firstPage.textContent = '<<';
-    firstPage.addEventListener('click', this._handlePage.bind(this, 'first'));
+    if (this._tOptions.showEntries) {
+      entries = document.createElement('span');
+      entries.id = 'pagination-description';
+      entries.textContent = `Loading`;
+      wrapFooter.appendChild(entries);
+    }
 
-    const lastPage = document.createElement('button');
-    lastPage.id = 'last-page';
-    lastPage.textContent = '>>';
-    lastPage.addEventListener('click', this._handlePage.bind(this, 'last'));
+    if (this._tOptions.showPagination) {
+      panel = document.createElement('div')
+      panel.setAttribute('data-table-pagination-panel', '');
+      panel.classList.add('flex', 'items-center', 'space-x-2');
 
-    const prev = document.createElement('button');
-    prev.id = 'prev-page';
-    prev.textContent = '<';
-    prev.addEventListener('click', this._handlePage.bind(this, 'prev'));
+      const firstPage = document.createElement('button');
+      firstPage.id = 'first-page';
+      firstPage.textContent = '<<';
+      firstPage.addEventListener('click', this._handlePage.bind(this, 'first'));
 
-    const next = document.createElement('button');
-    next.id = 'next-page';
-    next.textContent = '>';
-    next.addEventListener('click', this._handlePage.bind(this, 'next'));
+      const lastPage = document.createElement('button');
+      lastPage.id = 'last-page';
+      lastPage.textContent = '>>';
+      lastPage.addEventListener('click', this._handlePage.bind(this, 'last'));
 
-    panel.append(firstPage, prev, next, lastPage);
-    pagination.append(description, panel);
-    this._tEl.parentElement.appendChild(pagination);
+      const prev = document.createElement('button');
+      prev.id = 'prev-page';
+      prev.textContent = '<';
+      prev.addEventListener('click', this._handlePage.bind(this, 'prev'));
 
-    this._updatePagination();
-    this._updatePageNavigator();
+      const next = document.createElement('button');
+      next.id = 'next-page';
+      next.textContent = '>';
+      next.addEventListener('click', this._handlePage.bind(this, 'next'));
+
+      panel.append(firstPage, prev, next, lastPage);
+      wrapFooter.append(panel);
+    }
+
+
+    if (this._tOptions.showEntries || this._tOptions.showPagination) {
+
+      if (this._tOptions.showPagination && !this._tOptions.showEntries) {
+        wrapFooter.style.justifyContent = 'flex-end';
+      }
+
+      this._tWrapper.parentElement.appendChild(wrapFooter);
+
+      this._updatePagination();
+      this._updatePageNavigator();
+    }
   }
 
   _updatePageButton(): void {
+    if (!this._tOptions.showPagination) return;
+
     const div = document.createElement('div');
     div.setAttribute('data-table-page-button', '');
     div.classList.add('flex', 'justify-between', 'items-center', 'space-x-2', 'transition-all', 'duration-300');
@@ -373,6 +485,39 @@ class DTable implements ITable {
     }
 
     container.insertBefore(div, container.children[middleIndex]);
+  }
+
+  _updatePagination(hasNoData?: boolean): void {
+    const description: HTMLSpanElement = document.querySelector('#pagination-description');
+
+    console.log('Description', description)
+
+    const totalItemCount: number = this._tState.totalData;
+    if (hasNoData) {
+      description.textContent = `Showing 0 to 0 (filtered from ${totalItemCount} total entries)`;
+      return;
+    }
+
+    const firstEntryIndex: number = (this._tState.currentPage - 1) * this._tState.limit + 1;
+    const lastEntryIndex: number = Math.min(this._tState.currentPage * this._tState.limit, totalItemCount);
+
+    if (this._tState.q) {
+      let totalItem = 0;
+
+      if (this._tOptions.serverSide) {
+        totalItem = totalItemCount;
+      }
+      else {
+        totalItem = this._tDataFiltered.reduce((acc, curr) => acc + curr.length, 0);
+      }
+
+      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItem} entries
+      (filtered from ${totalItemCount} total entries)`
+
+      return;
+    }
+
+    description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItemCount} entries`;
   }
 
   _updatePageNavigator(): void {
@@ -482,35 +627,8 @@ class DTable implements ITable {
     }
   }
 
-  _updatePagination(hasNoData?: boolean): void {
-    const description: HTMLSpanElement = document.querySelector('#pagination-description');
-
-    const totalItemCount: number = this._tState.totalData;
-    if (hasNoData) {
-      description.textContent = `Showing 0 to 0 (filtered from ${totalItemCount} total entries)`;
-      return;
-    }
-
-    const firstEntryIndex: number = (this._tState.currentPage - 1) * this._tState.limit + 1;
-    const lastEntryIndex: number = Math.min(this._tState.currentPage * this._tState.limit, totalItemCount);
-
-    if (this._tState.q) {
-      let totalItem = 0;
-
-      if (this._tOptions.serverSide) {
-        totalItem = totalItemCount;
-      }
-      else {
-        totalItem = this._tDataFiltered.reduce((acc, curr) => acc + curr.length, 0);
-      }
-
-      description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItem} entries
-      (filtered from ${totalItemCount} total entries)`
-
-      return;
-    }
-
-    description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItemCount} entries`;
+  _handleSort = (selector: string): void => {
+    console.log('Sorting by', selector);
   }
 }
 
