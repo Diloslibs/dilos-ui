@@ -17,6 +17,7 @@ class DTable implements ITable {
     showNumbering: false,
     showCheckbox: false,
     serverSide: false,
+    expandable: false,
     showLimit: true,
     showSearch: true,
     showEntries: true,
@@ -53,6 +54,10 @@ class DTable implements ITable {
 
       if (this._tOptions.serverSide) {
         this._tOptions.fetchData = options?.fetchData;
+      }
+
+      if (this._tOptions.expandable) {
+        this._tOptions.expandableFormater = options?.expandableFormater;
       }
 
       this._init();
@@ -211,7 +216,12 @@ class DTable implements ITable {
   */
   _renderTableHeader(): void {
     // create table header
-    const tr = document.createElement('tr');
+    const tr: HTMLTableRowElement = document.createElement('tr');
+
+    if (this._tOptions.expandable) {
+      const th: HTMLTableCellElement = document.createElement('th');
+      tr.appendChild(th);
+    }
 
     if (this._tOptions.showCheckbox) {
       const th = document.createElement('th');
@@ -269,9 +279,20 @@ class DTable implements ITable {
       this._tData.forEach((row: {}, i: number) => {
         const tr = document.createElement('tr');
 
+        if (this._tOptions.expandable) {
+          const td: HTMLTableCellElement = document.createElement('td');
+          const button: HTMLButtonElement = document.createElement('button');
+
+          button.textContent = '>';
+          button.addEventListener('click', this._handleClickExpand.bind(this));
+          td.appendChild(button);
+          tr.appendChild(td);
+        }
+
+
         if (this._tOptions.showCheckbox) {
-          const td = document.createElement('td');
-          const input = document.createElement('input');
+          const td: HTMLTableCellElement = document.createElement('td');
+          const input: HTMLInputElement = document.createElement('input');
           input.type = 'checkbox';
           input.setAttribute('data-checkbox-row', '');
           td.appendChild(input);
@@ -279,13 +300,13 @@ class DTable implements ITable {
         }
 
         if (this._tOptions.showNumbering) {
-          const td = document.createElement('td');
+          const td: HTMLTableCellElement = document.createElement('td');
           tr.appendChild(td);
           td.innerHTML = String(this._tState.currentPage * this._tState.limit - this._tState.limit + i + 1);
         }
 
         this._tOptions.columns.forEach((col, i: number) => {
-          const td = document.createElement('td');
+          const td: HTMLTableCellElement = document.createElement('td');
           td.textContent = row[col.selector];
           tr.appendChild(td);
         });
@@ -716,6 +737,40 @@ class DTable implements ITable {
     const sortedData = this._algorithmSort(this._tOptions.data, arrSort);
 
     this._update(sortedData, sortedData.length)
+  }
+
+  _handleClickExpand = (e: any): void => {
+    // get the parent row
+    const tr: HTMLTableRowElement = e.target.closest('tr');
+    const isExpanded: string = tr.getAttribute('data-expand');
+    const nextTr: HTMLTableRowElement = tr.nextElementSibling as HTMLTableRowElement;
+
+    // add new row
+    if (!isExpanded) {
+      e.target.textContent = 'v';
+      tr.setAttribute('data-expand', 'true');
+      const newTr: HTMLTableRowElement = document.createElement('tr');
+      const td: HTMLTableCellElement = document.createElement('td');
+
+      // get th length from thead
+      td.colSpan = this._tHead.querySelector('tr').children.length;
+
+      // get current data
+      const data: any[] = this._tData[tr.rowIndex - 1];
+
+      // return html element
+      const parser: DOMParser = new DOMParser();
+      const html: Document = parser.parseFromString(this._tOptions.expandableFormater(data), 'text/html');
+      td.innerHTML = html.body.innerHTML;
+
+      newTr.appendChild(td);
+      tr.after(newTr);
+    } else {
+      // remove row
+      e.target.textContent = '>';
+      tr.removeAttribute('data-expand');
+      nextTr.remove();
+    }
   }
 }
 

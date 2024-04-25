@@ -54,7 +54,7 @@
       const res = await fetch(endpoint, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQwMTg4MzMsImlhdCI6MTcxMzkzMjQzMywiZGF0YSI6eyJjbG9uZV9pZCI6IjE5OThiMTAxLTBkMDQtNDY5Ni04ZDMzLWRmZTYxODI2ZTRjZiIsInJvbGVfaWQiOiIyOTRhYzg5Yi0yZWNiLTQ1NmQtYTk0Ny00MzAzM2RlZDAwMTIiLCJ1c2VyX2lkIjoiMjViYzMzNjYtNzU0OS00NTg5LTkwYWUtNjAzMmNiNmE5NDEzIn19.QgnG4l7KbMALEvtyKVtOZvxzyT9zpAkrNQ6pduda47E",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQxMDUyNzcsImlhdCI6MTcxNDAxODg3NywiZGF0YSI6eyJjbG9uZV9pZCI6IjE5OThiMTAxLTBkMDQtNDY5Ni04ZDMzLWRmZTYxODI2ZTRjZiIsInJvbGVfaWQiOiIyOTRhYzg5Yi0yZWNiLTQ1NmQtYTk0Ny00MzAzM2RlZDAwMTIiLCJ1c2VyX2lkIjoiMjViYzMzNjYtNzU0OS00NTg5LTkwYWUtNjAzMmNiNmE5NDEzIn19.K8UVEhWGwzUweJsyYQebFoKqj_dYpArB32OIiZals-I",
           "x-api-key": "service123"
         }
       });
@@ -92,6 +92,16 @@
         limit: 75,
       },
       showNumbering: true,
+      expandable: true,
+      expandableFormater: (data) => {
+        return `
+          <div class="p-4 bg-gray-100">
+            <p class="text-lg font-bold">${data.title}</p>
+            <p class="text-sm text-gray-500">${data.start_time} - ${data.end_time}</p>  
+            <p class="text-sm text-gray-500">${data.description}</p>
+          </div>
+        `;
+      },
     });
   </script>
 </body>
