@@ -1,6 +1,6 @@
 import { chunkArray, debounce } from "../../utils";
 import { ITable } from "./interface";
-import { DTableOptions, Columns, TableState, TableStateSort } from "./types";
+import { DTableOptions, Columns, TableState, TableStateSort, fetchData } from "./types";
 
 class DTable implements ITable {
   _tId: string;
@@ -33,6 +33,7 @@ class DTable implements ITable {
     q: '',
     sort: [],
   }
+  _tLoading: boolean = false;
   _checkBoxEl: HTMLInputElement;
 
   constructor(tableId: string, options: DTableOptions) {
@@ -84,10 +85,7 @@ class DTable implements ITable {
   async _init(): Promise<void> {
     this._render();
     if (this._tOptions.serverSide) {
-
-      const res = await this._tOptions.fetchData(this._tState);
-
-      this._update(res.data, res.totalData);
+      await this._fetchData();
     } else {
 
       // Chunk data to make pagination
@@ -102,9 +100,42 @@ class DTable implements ITable {
     }
   }
 
+  _setLoading(loading: boolean): void {
+    // get dls-wrap-d-table
+    // const wrapTable: HTMLElement = document.querySelector(`[dls-wrap-${this._tId}]`);
+
+    // console.log(wrapTable)
+
+    // update style
+    // wrapTable.style.backgroundColor = loading ? 'rgba(0, 0, 0, 0.1)' : 'transparent';
+
+    this._tEl.style.opacity = loading ? '0.5' : '1';
+    
+
+    this._tLoading = loading;
+  }
+
+  _fetchData = async (): Promise<void> => {
+    try{
+      this._setLoading(true);
+      const res = await this._tOptions.fetchData(this._tState);
+      this._update(res.data, res.totalData);
+    }
+    catch(error){
+      console.error(error);
+    }
+    finally{
+      // this._setLoading(false);
+    }
+  }
+
   _update(data: any[], totalData: number): void {
     this._tData = data;
-    this._tState.totalPages = totalData > 0 ? Math.ceil(totalData / this._tState.limit) : 1,
+  
+    this._setState({
+      totalData,
+      totalPages: totalData > 0 ? Math.ceil(totalData / this._tState.limit) : 1,
+    })
 
     this._renderTableBody();
     this._updatePagination();
@@ -641,9 +672,6 @@ class DTable implements ITable {
   _handleSort = async (selector: string): Promise<void> => {
     const th: HTMLTableElement = document.querySelector(`[dls-${this._tId}-th="${selector}"]`);
     let span: HTMLSpanElement | null = th.querySelector(`[dls-${this._tId}-sort="${selector}"]`);
-
-    console.log('th', th)
-    console.log('span', span)
 
     // Get the current sort state from the table state
     let arrSort: TableStateSort[] = this._tState.sort;
