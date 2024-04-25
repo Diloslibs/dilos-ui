@@ -102,36 +102,34 @@ class DTable implements ITable {
 
   _setLoading(loading: boolean): void {
     // get dls-wrap-d-table
-    // const wrapTable: HTMLElement = document.querySelector(`[dls-wrap-${this._tId}]`);
+    const wrapTable: HTMLElement = document.querySelector(`[dls-load-${this._tId}]`);
 
-    // console.log(wrapTable)
-
-    // update style
-    // wrapTable.style.backgroundColor = loading ? 'rgba(0, 0, 0, 0.1)' : 'transparent';
-
-    this._tEl.style.opacity = loading ? '0.5' : '1';
-    
+    if (loading) {
+      wrapTable.classList.remove('hidden');
+    } else {
+      wrapTable.classList.add('hidden');
+    }
 
     this._tLoading = loading;
   }
 
   _fetchData = async (): Promise<void> => {
-    try{
+    try {
       this._setLoading(true);
       const res = await this._tOptions.fetchData(this._tState);
       this._update(res.data, res.totalData);
     }
-    catch(error){
+    catch (error) {
       console.error(error);
     }
-    finally{
-      // this._setLoading(false);
+    finally {
+      this._setLoading(false);
     }
   }
 
   _update(data: any[], totalData: number): void {
     this._tData = data;
-  
+
     this._setState({
       totalData,
       totalPages: totalData > 0 ? Math.ceil(totalData / this._tState.limit) : 1,
@@ -174,9 +172,19 @@ class DTable implements ITable {
 
     // Set data attributes to the wrapper
     this._tWrapper.setAttribute(`dls-wrap-${this._tId}`, '');
-
-    // Set overflow to auto for horizontal scrolling
     this._tWrapper.style.overflowX = 'auto';
+    this._tWrapper.style.position = 'relative';
+
+    // Add custom classes to the wrapper
+    const div: HTMLDivElement = document.createElement('div');
+    const span: HTMLSpanElement = document.createElement('span');
+
+    div.setAttribute(`dls-load-${this._tId}`, '');
+    div.classList.add("absolute", "top-0", "min-h-full", "min-w-full", "flex", "justify-center", "items-center", "z-10", "bg-gray-100", "bg-opacity-40", "hidden");
+    span.classList.add("d-loader");
+
+    div.appendChild(span);
+    this._tWrapper.appendChild(div);
 
     // Insert the wrapper before the table in the DOM
     this._tEl.parentElement.insertBefore(this._tWrapper, this._tEl);
@@ -352,12 +360,7 @@ class DTable implements ITable {
 
         if (this._tOptions.serverSide) {
           this._setState({ q: searchText, currentPage: 1 });
-
-          const res = await this._tOptions.fetchData(this._tState);
-
-          this._tDataFiltered = res.data;
-
-          this._update(res.data, res.totalData);
+          this._fetchData();
         }
         else {
           this._tDataFilteredShadow = this._tOptions.data.filter((row: any[]) =>
@@ -563,10 +566,7 @@ class DTable implements ITable {
     this._setState({ currentPage: 1, limit: Number(e.target.value) });
 
     if (this._tOptions.serverSide) {
-      // If server-side pagination, fetch new data
-      const res = await this._tOptions.fetchData(this._tState);
-
-      this._update(res.data, res.totalData);
+      this._fetchData();
     } else {
       // Client-side pagination
       let dataToDisplay = this._tOptions.data;
@@ -617,9 +617,7 @@ class DTable implements ITable {
     this._setState({ currentPage: newPage });
 
     if (this._tOptions.serverSide) {
-      const res = await this._tOptions.fetchData(this._tState);
-
-      this._update(res.data, res.totalData);
+      this._fetchData();
     } else {
       let data: any[];
 
@@ -707,11 +705,9 @@ class DTable implements ITable {
     }
 
     this._setState({ sort: arrSort });
-    
-    if(this._tOptions.serverSide){
-      const res = await this._tOptions.fetchData(this._tState);
 
-      this._update(res.data, res.totalData); 
+    if (this._tOptions.serverSide) {
+      this._fetchData();
 
       return;
     }
