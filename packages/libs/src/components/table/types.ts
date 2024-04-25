@@ -3,6 +3,7 @@ export type Columns = {
   selector: string,
   searchable?: boolean,
   sortable?: boolean,
+  format?: (row: any) => string,
 }
 
 export type fetchData = (state: TableState) => Promise<{

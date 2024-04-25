@@ -307,7 +307,16 @@ class DTable implements ITable {
 
         this._tOptions.columns.forEach((col, i: number) => {
           const td: HTMLTableCellElement = document.createElement('td');
-          td.textContent = row[col.selector];
+
+          if (this._tOptions.columns[i].format) {
+            const parser: DOMParser = new DOMParser();
+            const html: Document = parser.parseFromString(this._tOptions.columns[i].format(row), 'text/html');
+            td.innerHTML = html.body.innerHTML;
+          }
+          else {
+            td.textContent = row[col.selector];
+          }
+
           tr.appendChild(td);
         });
 

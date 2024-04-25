@@ -76,13 +76,25 @@
         },
         {
           title: "Waktu Mulai",
-          selector: "start_time",
           sortable: true,
+          format: (data) => {
+            const intl = new Intl.DateTimeFormat("id-ID", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            });
+            const startTime = intl.format(new Date(data.start_time));
+            const endTime = intl.format(new Date(data.end_time));
+
+            return `${startTime} - ${endTime}`;
+          }
         },
         {
           title: "Harga",
           selector: "price",
           sortable: true,
+          format: (data) => {
+            return `Rp ${data.price.toLocaleString()}`;
+          }
         },
       ],
       serverSide: true,
