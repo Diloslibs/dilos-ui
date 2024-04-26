@@ -22,7 +22,7 @@ export type DTableOptions = {
   showCheckbox: boolean,
   serverSide?: boolean,
   expandable?: boolean,
-  expandableFormater?: (row: any) => string,
+  expandableFormat?: (row: any) => string,
   fetchData?: fetchData,
   showLimit?: boolean,
   showSearch?: boolean,

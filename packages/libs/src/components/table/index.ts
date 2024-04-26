@@ -1,6 +1,6 @@
 import { chunkArray, debounce } from "../../utils";
 import { ITable } from "./interface";
-import { DTableOptions, Columns, TableState, TableStateSort, fetchData } from "./types";
+import { DTableOptions, Columns, TableState, TableStateSort } from "./types";
 
 class DTable implements ITable {
   _tId: string;
@@ -57,7 +57,7 @@ class DTable implements ITable {
       }
 
       if (this._tOptions.expandable) {
-        this._tOptions.expandableFormater = options?.expandableFormater;
+        this._tOptions.expandableFormat = options?.expandableFormat;
       }
 
       this._init();
@@ -83,6 +83,12 @@ class DTable implements ITable {
     if (options?.serverSide) {
       if (!options?.fetchData) {
         throw new Error('Missing fetchData function for server side pagination');
+      }
+    }
+
+    if (options?.expandable) {
+      if (!options?.expandableFormat) {
+        throw new Error('Missing expandableFormat function for expandable table');
       }
     }
   }
@@ -769,7 +775,7 @@ class DTable implements ITable {
 
       // return html element
       const parser: DOMParser = new DOMParser();
-      const html: Document = parser.parseFromString(this._tOptions.expandableFormater(data), 'text/html');
+      const html: Document = parser.parseFromString(this._tOptions.expandableFormat(data), 'text/html');
       td.innerHTML = html.body.innerHTML;
 
       newTr.appendChild(td);
