@@ -89,6 +89,12 @@
           }
         },
         {
+          'title': 'Kreator',
+          format: (data) => {
+            return data.creator.full_name;
+          }
+        },
+        {
           title: "Harga",
           selector: "price",
           sortable: true,
@@ -105,12 +111,11 @@
       },
       showNumbering: true,
       expandable: true,
-      expandableFormater: (data) => {
+      expandableFormat: (data) => {
         return `
-          <div class="p-4 bg-gray-100">
+          <div class="p-4 bg-gray-100 w-full">
             <p class="text-lg font-bold">${data.title}</p>
-            <p class="text-sm text-gray-500">${data.start_time} - ${data.end_time}</p>  
-            <p class="text-sm text-gray-500">${data.description}</p>
+            ${data.description}
           </div>
         `;
       },
