@@ -67,7 +67,7 @@ class DTable implements ITable {
     }
   }
 
-  _checkParams(id: string, options: DTableOptions): void {
+  _checkParams = (id: string, options: DTableOptions): void => {
     if (!id) {
       throw new Error('Missing table id');
     }
@@ -93,7 +93,7 @@ class DTable implements ITable {
     }
   }
 
-  async _init(): Promise<void> {
+  _init = async(): Promise<void> => {
     this._render();
     if (this._tOptions.serverSide) {
       await this._fetchData();
@@ -111,7 +111,7 @@ class DTable implements ITable {
     }
   }
 
-  _setLoading(loading: boolean): void {
+  _setLoading = (loading: boolean): void => {
     // get dls-wrap-d-table
     const wrapTable: HTMLElement = document.querySelector(`[dls-load-${this._tId}]`);
 
@@ -138,7 +138,7 @@ class DTable implements ITable {
     }
   }
 
-  _update(data: any[], totalData: number): void {
+  _update = (data: any[], totalData: number): void => {
     this._tData = data;
 
     this._setState({
@@ -152,17 +152,17 @@ class DTable implements ITable {
     this._updatePageNavigator();
   }
 
-  _setState(state: TableState): void {
+  _setState = (state: TableState): void => {
     this._tState = { ...this._tState, ...state };
   }
 
-  destroy(): void {
+  destroy = (): void => {
     if (this._tEl) {
       this._tEl.innerHTML = '';
     }
   }
 
-  _render(): void {
+  _render = (): void => {
     this._renderTableStructure();
     this._renderWrapHeader();
     this._renderTableHeader();
@@ -174,7 +174,7 @@ class DTable implements ITable {
     * Renders the table structure by wrapping the table with a div for styling purposes,
     * setting up table header and body elements, and appending them to the table.
   */
-  _renderTableStructure(): void {
+  _renderTableStructure = (): void => {
     // Get the table element
     this._tEl = document.getElementById(this._tId) as HTMLTableElement;
 
@@ -220,7 +220,7 @@ class DTable implements ITable {
    * Renders the table header based on the specified options and columns.
    * Includes checkboxes, numbering, column titles, and sorting icons if applicable.
   */
-  _renderTableHeader(): void {
+  _renderTableHeader = (): void => {
     // create table header
     const tr: HTMLTableRowElement = document.createElement('tr');
 
@@ -277,7 +277,7 @@ class DTable implements ITable {
    * Renders the table body based on the provided data.
    * Includes rows with checkboxes, numbering, and column values.
   */
-  _renderTableBody(): void {
+  _renderTableBody = (): void => {
     // clear table body
     this._tBody.innerHTML = '';
 
@@ -335,7 +335,7 @@ class DTable implements ITable {
    * Renders the row checkbox functionality.
    * Listens for changes in the table checkall checkbox and updates all row checkboxes accordingly.
    */
-  _renderRowCheckbox(): void {
+  _renderRowCheckbox = (): void => {
     // get table checkall
     this._checkBoxEl = document.querySelector('[data-table-checkall]');
 
@@ -351,7 +351,7 @@ class DTable implements ITable {
     }
   }
 
-  async _renderWrapHeader() {
+  _renderWrapHeader = async () => {
     const div = document.createElement('div');
     const select = document.createElement('select');
     const input = document.createElement('input');
@@ -439,7 +439,7 @@ class DTable implements ITable {
     }
   }
 
-  async _renderWrapFooter() {
+  _renderWrapFooter = async () => {
     let wrapFooter: HTMLElement = document.createElement('div');
     wrapFooter.classList.add('flex', 'justify-between', 'items-center', 'space-x-2');
 
@@ -497,7 +497,7 @@ class DTable implements ITable {
     }
   }
 
-  _updatePageButton(): void {
+  _updatePageButton = (): void => {
     if (!this._tOptions.showPagination) return;
 
     const div = document.createElement('div');
@@ -543,7 +543,7 @@ class DTable implements ITable {
     container.insertBefore(div, container.children[middleIndex]);
   }
 
-  _updatePagination(hasNoData?: boolean): void {
+  _updatePagination = (hasNoData?: boolean): void => {
     const description: HTMLSpanElement = document.querySelector('#pagination-description');
 
 
@@ -575,7 +575,7 @@ class DTable implements ITable {
     description.textContent = `Showing ${firstEntryIndex} to ${lastEntryIndex} of ${totalItemCount} entries`;
   }
 
-  _updatePageNavigator(): void {
+  _updatePageNavigator = (): void => {
     const { currentPage, totalPages } = this._tState;
 
     const setButtonState = (buttonId: string, enabled: boolean) => {
