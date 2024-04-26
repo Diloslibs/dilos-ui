@@ -284,6 +284,7 @@ class DTable implements ITable {
     if (this._tData) {
       this._tData.forEach((row: {}, i: number) => {
         const tr = document.createElement('tr');
+        tr.setAttribute('data-row', i.toString());
 
         if (this._tOptions.expandable) {
           const td: HTMLTableCellElement = document.createElement('td');
@@ -770,8 +771,10 @@ class DTable implements ITable {
       // get th length from thead
       td.colSpan = this._tHead.querySelector('tr').children.length;
 
+      // const get data index
+      const i: number = Number(tr.getAttribute('data-row'));
       // get current data
-      const data: any[] = this._tData[tr.rowIndex - 1];
+      const data: any[] = this._tData[i];
 
       // return html element
       const parser: DOMParser = new DOMParser();
