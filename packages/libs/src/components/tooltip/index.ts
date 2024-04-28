@@ -200,7 +200,7 @@ class Tooltip implements TooltipInterface {
             });
         }
 
-        // Ignore clicks on the target element (ie. dropdown itself)
+        // Ignore clicks on the target element (ie. tooltip itself)
         if (
             clickedEl !== targetEl &&
             !targetEl.contains(clickedEl) &&
@@ -307,33 +307,33 @@ class Tooltip implements TooltipInterface {
     }
 }
 
-export function initDropdowns() {
+export function initTooltips() {
     document
-        .querySelectorAll('[d-dropdown-toggle]')
+        .querySelectorAll('[d-tooltip-toggle]')
         .forEach(($triggerEl) => {
-            const dropdownId = $triggerEl.getAttribute('d-dropdown-toggle');
-            const $dropdownEl = document.getElementById(dropdownId);
-            console.error(dropdownId)
-            if ($dropdownEl) {
+            const tooltipId = $triggerEl.getAttribute('d-tooltip-toggle');
+            const $tooltipEl = document.getElementById(tooltipId);
+
+            if ($tooltipEl) {
                 const placement = $triggerEl.getAttribute(
-                    'd-dropdown-place'
+                    'd-tooltip-place'
                 );
                 const offsetSkidding = $triggerEl.getAttribute(
-                    'd-dropdown-offset-skidding'
+                    'd-tooltip-offset-skidding'
                 );
                 const offsetDistance = $triggerEl.getAttribute(
-                    'd-dropdown-offset-distance'
+                    'd-tooltip-offset-distance'
                 );
                 const triggerType = $triggerEl.getAttribute(
-                    'd-dropdown-trigger'
+                    'd-tooltip-trigger'
                 );
-                const delay = $triggerEl.getAttribute('d-dropdown-delay');
+                const delay = $triggerEl.getAttribute('d-tooltip-delay');
                 const ignoreClickOutsideClass = $triggerEl.getAttribute(
-                    'd-dropdown-ignore-click-outside-class'
+                    'd-tooltip-ignore-click-outside-class'
                 );
 
                 new Tooltip(
-                    $dropdownEl as HTMLElement,
+                    $tooltipEl as HTMLElement,
                     $triggerEl as HTMLElement,
                     {
                         placement: placement ? placement : Default.placement,
@@ -354,14 +354,14 @@ export function initDropdowns() {
                 );
             } else {
                 console.error(
-                    `The dropdown element with id "${dropdownId}" does not exist. Please check the data-dropdown-toggle attribute.`
+                    `The dropdown element with id "${tooltipId}" does not exist. Please check the data-dropdown-toggle attribute.`
                 );
             }
         });
 }
 
 if (typeof window !== 'undefined') {
-    initDropdowns();
+    initTooltips();
 }
 
 export default Tooltip;
