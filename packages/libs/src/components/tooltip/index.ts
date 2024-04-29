@@ -308,7 +308,6 @@ class Tooltip implements TooltipInterface {
 }
 
 export function initTooltips() {
-    console.log("HERE")
     document
         .querySelectorAll('[d-tooltip-toggle]')
         .forEach(($triggerEl) => {
@@ -362,7 +361,6 @@ export function initTooltips() {
 }
 
 if (typeof window !== 'undefined') {
-    console.log("AKAK")
     initTooltips();
 }
 

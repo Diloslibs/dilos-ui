@@ -11,19 +11,25 @@
 			href="https://cdn.jsdelivr.net/npm/@dilos/libs@0.0.3/dist/index.css"
 		/>
 	</head>
-
 	<body>
-		<div class="my-0 mx-auto min-h-full max-w-screen-md py-16">
+        <div class="flex items-center justify-center h-screen">
             <div class="flex flex-col gap-5">
-				<div class="flex flex-col gap-6">
-					<div class="d-tooltip dark">
+				<div class="flex gap-6">
+					<button 
+                        d-tooltip-toggle="tooltip-right"
+                        d-tooltip-trigger="click"
+                        d-tooltip-place="left"
+                        class="d-btn primary xs">
+                            Click Here
+                    </button>
+					<div class="d-tooltip dark hidden" id="tooltip-right" >
 						<div class="d-tip right"></div>
 						Tooltip text here
 					</div>
 				</div>
 			</div>
-		</div>
+        </div>
 		<!-- Script JS Dilos -->
-        <script src="./../../libs/dist/index.js"></script>
+        <script src="./../../../../../../../libs/dist/index.js"></script>
 	</body>
 </html>

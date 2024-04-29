@@ -13,27 +13,48 @@
 	</head>
 
 	<body>
-		<div class="my-0 mx-auto min-h-full max-w-screen-md py-16">
+		<div class="flex items-center justify-center h-screen">
             <div class="flex flex-col gap-5">
-				<div class="flex flex-col gap-6">
-					<div class="d-tooltip light">
+				<div class="flex gap-6">
+					<button 
+						d-tooltip-toggle="tooltip-bottom-left"
+						d-tooltip-trigger="click"
+						d-tooltip-place="top-start"
+						class="d-btn primary xs my-8">
+							Click Left
+					</button>
+					<div class="d-tooltip light hidden" id="tooltip-bottom-left">
 						<div class="d-tip bottom bottom-left"></div>
 						Tooltip text here
 					</div>
-		
-					<div class="d-tooltip light">
+
+					<button 
+						d-tooltip-toggle="tooltip-bottom-center"
+						d-tooltip-trigger="click"
+						d-tooltip-place="top"
+						class="d-btn primary xs my-8">
+							Click Center
+					</button>
+					<div class="d-tooltip light hidden" id="tooltip-bottom-center">
 						<div class="d-tip bottom bottom-center"></div>
 						Tooltip text here
 					</div>
-		
-					<div class="d-tooltip light">
+
+					<button 
+						d-tooltip-toggle="tooltip-bottom-right"
+						d-tooltip-trigger="hover"
+						d-tooltip-place="top-end"
+						class="d-btn primary xs my-8">
+							Hover Right
+					</button>
+					<div class="d-tooltip light hidden" id="tooltip-bottom-right">
 						<div class="d-tip bottom bottom-right"></div>
 						Tooltip text here
 					</div>
 				</div>
 			</div>
 		</div>
-        <!-- Script JS Dilos -->
-        <script src="./../../libs/dist/index.js"></script>
+		<!-- Script JS Dilos -->
+		<script src="./../../../../../../../libs/dist/index.js"></script>
 	</body>
 </html>
