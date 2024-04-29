@@ -8,7 +8,7 @@ import type { TooltipOptions } from './types';
 import { TooltipInterface } from './interface';
 
 const Default: TooltipOptions = {
-    placement: 'bottom',
+    placement: 'bottom-start',
     triggerType: 'click',
     offsetSkidding: 0,
     offsetDistance: 10,
@@ -308,6 +308,7 @@ class Tooltip implements TooltipInterface {
 }
 
 export function initTooltips() {
+    console.log("HERE")
     document
         .querySelectorAll('[d-tooltip-toggle]')
         .forEach(($triggerEl) => {
@@ -361,6 +362,7 @@ export function initTooltips() {
 }
 
 if (typeof window !== 'undefined') {
+    console.log("AKAK")
     initTooltips();
 }
 
