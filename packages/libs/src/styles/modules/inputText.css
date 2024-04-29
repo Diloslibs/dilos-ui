@@ -38,6 +38,14 @@
     @apply pl-[70px];
 }
 
+.d-input-container.addons-right .d-input-text {
+    @apply pr-[70px];
+}
+
+.d-input-container.addons-both .d-input-text {
+    @apply px-[70px];
+}
+
 .d-input-container.ic-left .d-input-text {
     @apply pl-[40px];
 }
@@ -61,4 +69,11 @@
 
 .box-ic-right {
     @apply absolute top-[50%] translate-y-[-50%] w-[30px] right-[10px];
+}
+
+.addons-left .box-addons {
+    @apply absolute top-[50%] translate-y-[-50%] w-[50px] left-[10px] z-50;
+}
+.addons-right .box-addons {
+    @apply absolute top-[50%] translate-y-[-50%] w-[50px] right-[10px] z-50;
 }
