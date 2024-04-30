@@ -57,7 +57,7 @@ const Playground: React.FC<PlaygroundProps> = ({ title, content, height }) => {
 	return (
 		<div className="">
 			{title && <h2 className="mb-3">{title}</h2>}
-			<div className="border border-zinc-500 rounded-t-md p-3 flex items-center gap-3">
+			<div className="border border-muted rounded-t-lg p-3 flex items-center gap-3">
 				{content.map((contentItem) => (
 					<button
 						key={contentItem.key}
@@ -73,11 +73,13 @@ const Playground: React.FC<PlaygroundProps> = ({ title, content, height }) => {
 					key={contentItem.key}
 					className={activeTab === contentItem.key ? "block" : "hidden"}
 				>
-					<iframe
-						src={contentItem.src}
-						height={height ? height : 384}
-						className={`bg-white w-full`}
-					/>
+					<div className="border border-muted border-t-0 mb-3 rounded-b-lg overflow-hidden">
+						<iframe
+							src={contentItem.src}
+							height={height ? height : 384}
+							className={`bg-white w-full`}
+						/>
+					</div>
 					{renderContent(contentItem)}
 				</div>
 			))}

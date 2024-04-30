@@ -3,16 +3,33 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Tooltip</title>
-        <link rel="stylesheet" href="/packages/libs/dist/index.css">
-	</head>
+		<title>Accordion | Dilos</title>
 
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@dilos/libs@0.0.3/dist/index.css"
+		/>
+	</head>
 	<body>
-        <div class="flex flex-col gap-6">
-			<div class="d-tooltip light">
-				<div class="d-tip left"></div>
-				Tooltip text here
+        <div class="flex items-center justify-center h-screen">
+            <div class="flex flex-col gap-5">
+				<div class="flex gap-6">
+					<button 
+                        d-tooltip-toggle="tooltip-left"
+                        d-tooltip-trigger="click"
+                        d-tooltip-place="right"
+                        class="d-btn primary xs">
+                            Click Here
+                    </button>
+					<div class="d-tooltip light hidden" id="tooltip-left" >
+						<div class="d-tip left"></div>
+						Tooltip text here
+					</div>
+				</div>
 			</div>
-		</div>
+        </div>
+		<!-- Script JS Dilos -->
+        <script src="./../../../../../../../libs/dist/index.js"></script>
 	</body>
 </html>
