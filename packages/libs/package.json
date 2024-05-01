@@ -1,16 +1,20 @@
 {
-  "name": "@dilos/libs",
+  "name": "@dilos/preline",
   "private": false,
-  "version": "0.0.5",
+  "version": "0.0.3",
   "author": {
     "name": "Dilos Core Team"
   },
   "description": "A collection of libraries for Dilos",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "files": [
-    "dist"
+    "build",
+    "plugin.js"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Diloslibs/dilos-ui.git"
@@ -19,18 +23,23 @@
     "start": "concurrently pnpm:start:*",
     "start:webpack": "webpack --mode=development --watch",
     "start:tailwind": "npx tailwindcss -i ./src/styles/index.css -o ./dist/index.css --watch",
-    "build": "concurrently pnpm:build:*",
-    "build:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
-    "build:ts": "webpack --mode=production"
+    "build-html": "concurrently pnpm:build-html:*",
+    "build-html:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
+    "build-html:ts": "webpack --mode=production --config=tools/webpack/html/webpack.config.js",
+    "build-npm": "webpack --config=tools/webpack/npm/webpack.config.js",
+    "generate-dts": "dts-bundle-generator --config dts-config.js"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
     "concurrently": "^8.2.2",
     "css-loader": "^6.10.0",
+    "dts-bundle-generator": "^9.5.1",
     "mini-css-extract-plugin": "^2.8.1",
     "postcss-loader": "^8.1.1",
     "rm": "^0.1.8",
+    "source-map-loader": "^5.0.0",
     "tailwindcss": "^3.4.1",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.2",

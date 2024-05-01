@@ -9,13 +9,18 @@ module.exports = {
     filename: '[name].js',
     libraryTarget: 'umd',
     umdNamedDefine: true,
-    path: path.resolve(__dirname, 'dist/'),
+    path: path.resolve(__dirname, '../../../dist/'),
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: path.resolve(__dirname, '../../ts/html/tsconfig.json'),
+          },
+        },
         exclude: /node_modules/,
       },
       {

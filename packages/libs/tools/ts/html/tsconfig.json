@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
     // Output directory
-    "outDir": "dist",
+    "outDir": "../../../dist",
     // skip node_modules check
     "skipLibCheck": true,
     // Generate d.ts files
     "declaration": true,
   },
   "include": [
-    "src",
+    "../../../src",
+  ],
+  "exclude": [
+    "../../../src/npm"
   ]
 }
