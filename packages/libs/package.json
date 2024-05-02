@@ -26,8 +26,9 @@
     "build-html": "concurrently pnpm:build-html:*",
     "build-html:css": "tailwindcss -i ./src/styles/index.css -o ./dist/index.css --minify",
     "build-html:ts": "webpack --mode=production --config=tools/webpack/html/webpack.config.js",
-    "build-npm": "webpack --config=tools/webpack/npm/webpack.config.js",
-    "generate-dts": "dts-bundle-generator --config dts-config.js"
+    "build-npm": "concurrently pnpm:build-npm:*",
+    "build-npm:ts": "webpack --config=tools/webpack/npm/webpack.config.js",
+    "build-npm:dts": "dts-bundle-generator --config dts-config.js"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",

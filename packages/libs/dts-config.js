@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const pluginsDir = './src/npm/plugins';
-const distDir = './build';
+const distDir = './../playground-react/build';
 const excludePlugins = ['base-plugin'];
 
 const outputConfig = { noBanner: true };
@@ -13,7 +13,7 @@ const config = {
 	entries: [
 		{
 			filePath: './src/npm/index.ts',
-			outFile: './build/index.d.ts',
+			outFile: './../playground/build/index.d.ts',
 			output: outputConfig,
 		},
 		...fs

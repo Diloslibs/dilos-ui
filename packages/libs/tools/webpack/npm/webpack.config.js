@@ -40,7 +40,7 @@ module.exports = {
   },
   resolve: { extensions: ['.ts', '.js'] },
   output: {
-    path: path.resolve(__dirname, '../../../build'),
+    path: path.resolve(__dirname, '../../../../playground-react/build'),
     filename: '[name].js',
     library: { type: 'umd' },
   },
