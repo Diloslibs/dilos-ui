@@ -1,20 +1,23 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
+const path = require('path');
+
 module.exports = {
-  watch: true,
   stats: 'minimal',
   entry: {
     'index': './src/index.ts',
+    'accordion': './src/components/accordion/index.ts',
+    'dropdown': './src/components/dropdown/index.ts',
   },
   output: {
     filename: '[name].js',
     library: { type: 'umd' },
-    path: path.resolve(__dirname, '../playground-react/build/'),
+    path: path.resolve(__dirname, './dist'),
   },
   module: {
     rules: [
+      // Improve web debugging experience with source maps.
       { test: /\.ts?$/, enforce: 'pre', use: ['source-map-loader'] },
       {
         test: /\.ts$/,

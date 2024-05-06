@@ -1,4 +1,11 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/*
+ * Dropdown
+ * @version: x.x.x
+ * @author: Dilos
+ * @license: -
+ * Copyright 2024 Dilos
+*/
+
 import { createPopper } from '@popperjs/core'
 import type {
     Options as PopperOptions,
@@ -382,6 +389,12 @@ export function initDropdowns() {
         }
     })
 }
+
+window.addEventListener('load', () => {
+    console.log("Dropdowns loaded")
+    initDropdowns()
+});
+
 
 if (typeof window !== 'undefined') {
     initDropdowns()

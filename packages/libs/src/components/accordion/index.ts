@@ -1,3 +1,11 @@
+/*
+ * Accordion
+ * @version: x.x.x
+ * @author: Dilos
+ * @license: -
+ * Copyright 2024 Dilos
+*/
+
 import { IAccordion } from './interface'
 import { AccordionItem, AccordionOptions } from './types'
 
