@@ -1,5 +1,11 @@
+<script setup>
+  import Accordion from './components/Accordion.vue';
+  import Dropdown from './components/Dropdown.vue';
+</script>
+
 <template>
-  <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <div class="flex flex-col gap-6">
+    <Accordion />
+    <Dropdown />
+  </div>
 </template>
