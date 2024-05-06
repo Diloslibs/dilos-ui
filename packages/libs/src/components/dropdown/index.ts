@@ -347,7 +347,7 @@ export function initDropdowns() {
     document.querySelectorAll('[d-dropdown-toggle]').forEach($triggerEl => {
         const dropdownId = $triggerEl.getAttribute('d-dropdown-toggle')
         const $dropdownEl = document.getElementById(dropdownId)
-        console.error(dropdownId)
+
         if ($dropdownEl) {
             const placement = $triggerEl.getAttribute('d-dropdown-place')
             const offsetSkidding = $triggerEl.getAttribute(
@@ -391,7 +391,6 @@ export function initDropdowns() {
 }
 
 window.addEventListener('load', () => {
-    console.log("Dropdowns loaded")
     initDropdowns()
 });
 

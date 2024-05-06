@@ -1,4 +1,3 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const path = require('path');
@@ -24,20 +23,11 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-        ],
-      },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.css'],
+    extensions: ['.ts', '.js'],
   },
-  plugins: [new MiniCssExtractPlugin()],
   optimization: {
     minimize: true,
     minimizer: [
