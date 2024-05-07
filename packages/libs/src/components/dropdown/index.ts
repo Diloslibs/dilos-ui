@@ -13,6 +13,7 @@ import type {
 } from '@popperjs/core'
 import type { DropdownOptions } from './types'
 import { DropdownInterface } from './interface'
+import { ICollectionItem } from '../../interfaces'
 
 const Default: DropdownOptions = {
     placement: 'bottom',
@@ -21,9 +22,9 @@ const Default: DropdownOptions = {
     offsetDistance: 10,
     delay: 300,
     ignoreClickOutsideClass: false,
-    onShow: () => {},
-    onHide: () => {},
-    onToggle: () => {}
+    onShow: () => { },
+    onHide: () => { },
+    onToggle: () => { }
 }
 
 class Dropdown implements DropdownInterface {
@@ -341,62 +342,69 @@ class Dropdown implements DropdownInterface {
     updateOnToggle(callback: () => void) {
         this._options.onToggle = callback
     }
+
+    static autoInit() {
+        document.querySelectorAll('[d-dropdown-toggle]').forEach($triggerEl => {
+            const dropdownId = $triggerEl.getAttribute('d-dropdown-toggle')
+            const $dropdownEl = document.getElementById(dropdownId)
+
+            if ($dropdownEl) {
+                const placement = $triggerEl.getAttribute('d-dropdown-place')
+                const offsetSkidding = $triggerEl.getAttribute(
+                    'd-dropdown-offset-skidding'
+                )
+                const offsetDistance = $triggerEl.getAttribute(
+                    'd-dropdown-offset-distance'
+                )
+                const triggerType = $triggerEl.getAttribute('d-dropdown-trigger')
+                const delay = $triggerEl.getAttribute('d-dropdown-delay')
+                const ignoreClickOutsideClass = $triggerEl.getAttribute(
+                    'd-dropdown-ignore-click-outside-class'
+                )
+
+                new Dropdown(
+                    $dropdownEl as HTMLElement,
+                    $triggerEl as HTMLElement,
+                    {
+                        placement: placement ? placement : Default.placement,
+                        triggerType: triggerType
+                            ? triggerType
+                            : Default.triggerType,
+                        offsetSkidding: offsetSkidding
+                            ? parseInt(offsetSkidding)
+                            : Default.offsetSkidding,
+                        offsetDistance: offsetDistance
+                            ? parseInt(offsetDistance)
+                            : Default.offsetDistance,
+                        delay: delay ? parseInt(delay) : Default.delay,
+                        ignoreClickOutsideClass: ignoreClickOutsideClass
+                            ? ignoreClickOutsideClass
+                            : Default.ignoreClickOutsideClass
+                    } as DropdownOptions
+                )
+            } else {
+                console.error(
+                    `The dropdown element with id "${dropdownId}" does not exist. Please check the data-dropdown-toggle attribute.`
+                )
+            }
+        })
+    }
 }
 
-export function initDropdowns() {
-    document.querySelectorAll('[d-dropdown-toggle]').forEach($triggerEl => {
-        const dropdownId = $triggerEl.getAttribute('d-dropdown-toggle')
-        const $dropdownEl = document.getElementById(dropdownId)
-
-        if ($dropdownEl) {
-            const placement = $triggerEl.getAttribute('d-dropdown-place')
-            const offsetSkidding = $triggerEl.getAttribute(
-                'd-dropdown-offset-skidding'
-            )
-            const offsetDistance = $triggerEl.getAttribute(
-                'd-dropdown-offset-distance'
-            )
-            const triggerType = $triggerEl.getAttribute('d-dropdown-trigger')
-            const delay = $triggerEl.getAttribute('d-dropdown-delay')
-            const ignoreClickOutsideClass = $triggerEl.getAttribute(
-                'd-dropdown-ignore-click-outside-class'
-            )
-
-            new Dropdown(
-                $dropdownEl as HTMLElement,
-                $triggerEl as HTMLElement,
-                {
-                    placement: placement ? placement : Default.placement,
-                    triggerType: triggerType
-                        ? triggerType
-                        : Default.triggerType,
-                    offsetSkidding: offsetSkidding
-                        ? parseInt(offsetSkidding)
-                        : Default.offsetSkidding,
-                    offsetDistance: offsetDistance
-                        ? parseInt(offsetDistance)
-                        : Default.offsetDistance,
-                    delay: delay ? parseInt(delay) : Default.delay,
-                    ignoreClickOutsideClass: ignoreClickOutsideClass
-                        ? ignoreClickOutsideClass
-                        : Default.ignoreClickOutsideClass
-                } as DropdownOptions
-            )
-        } else {
-            console.error(
-                `The dropdown element with id "${dropdownId}" does not exist. Please check the data-dropdown-toggle attribute.`
-            )
-        }
-    })
+declare global {
+    interface Window {
+        DDropdown: Function;
+        $dDropdownCollection: ICollectionItem<Dropdown>[];
+    }
 }
 
 window.addEventListener('load', () => {
-    initDropdowns()
+    Dropdown.autoInit();
 });
 
 
 if (typeof window !== 'undefined') {
-    initDropdowns()
+    window.DDropdown = Dropdown;
 }
 
-export default Dropdown
+export default Dropdown;
