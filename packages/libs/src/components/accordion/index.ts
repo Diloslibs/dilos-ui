@@ -167,13 +167,9 @@ export function initAccordions() {
 
 window.addEventListener('load', () => {
     initAccordions()
-
-    // Uncomment for debug
-    // console.log('Accordion collection:', window.$hsAccordionCollection);
 });
 
 if (typeof window !== 'undefined') {
-    console.log("Accordion initialized, anjay")
     initAccordions()
 }
 export default Accordion
