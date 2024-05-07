@@ -3,7 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,vue}",
-    "./node_modules/@dilos/preline/dist/*.js"
+    "./node_modules/@dilos/libs/dist/*.js"
   ],
   theme: {
     extend: {},
