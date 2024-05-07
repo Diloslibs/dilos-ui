@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { cn } from "@/utils/cn";
 
+import "@dilos/libs/dist/index.css";
+import "@dilos/libs";
+
+import { IStaticMethods } from "@dilos/libs";
 import HamburgerLogo from "@/assets/icons/hamburger.svg";
 
+declare global {
+  interface Window {
+    DStaticMethods: IStaticMethods;
+  }
+}
+
 const MainLayout: React.FC = () => {
+  const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
+  // handle resize window
   useEffect(() => {
     const handleResize = (): void => {
       if (window.innerWidth < 640) {
@@ -22,6 +34,10 @@ const MainLayout: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // handle auto init
+  useEffect(() => {
+    window.DStaticMethods.autoInit();
+  }, [location.pathname]);
 
   return (
     <>
