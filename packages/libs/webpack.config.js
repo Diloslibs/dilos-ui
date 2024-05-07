@@ -6,8 +6,6 @@ module.exports = {
   stats: 'minimal',
   entry: {
     'index': './src/index.ts',
-    'accordion': './src/components/accordion/index.ts',
-    'dropdown': './src/components/dropdown/index.ts',
   },
   output: {
     filename: '[name].js',
