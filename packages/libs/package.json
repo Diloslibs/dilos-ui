@@ -29,7 +29,6 @@
   "devDependencies": {
     "@types/node": "^20.11.30",
     "concurrently": "^8.2.2",
-    "rm": "^0.1.8",
     "source-map-loader": "^5.0.0",
     "tailwindcss": "^3.4.1",
     "terser-webpack-plugin": "^5.3.10",
