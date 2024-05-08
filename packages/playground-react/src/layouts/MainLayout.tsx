@@ -83,6 +83,14 @@ const MainLayout: React.FC = () => {
                 <span className="flex-1 ms-3 whitespace-nowrap">Dropdown</span>
               </Link>
             </li>
+            <li>
+              <Link
+                to="/tooltip"
+                className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">Tooltip</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </aside>

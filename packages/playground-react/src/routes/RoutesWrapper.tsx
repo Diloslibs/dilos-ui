@@ -3,6 +3,7 @@ import MainLayout from "@/layouts/MainLayout";
 import HomePage from "@/pages/HomePage";
 import Accordion from "@/components/Accordion";
 import Dropdown from "@/components/Dropdown";
+import Tooltip from "@/components/Tooltip";
 
 const RouteWrapper: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const RouteWrapper: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/accordion" element={<Accordion />} />
           <Route path="/dropdown" element={<Dropdown />} />
+          <Route path="/tooltip" element={<Tooltip />} />
         </Route>
       </Routes>
     </BrowserRouter>
