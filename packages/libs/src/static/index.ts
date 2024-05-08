@@ -1,12 +1,12 @@
 /*
- * HSStaticMethods
+ * DStaticMethods
  * @version: 2.1.0
- * @author: HTMLStream
+ * @author: Dilos
  * @license: Licensed under MIT (https://preline.co/docs/license.html)
- * Copyright 2023 HTMLStream
+ * Copyright 2024 Dilos
  */
 
-import { COLLECTIONS } from '../spa';
+import { COLLECTIONS } from '@/spa';
 import { IStaticMethods } from './interface';
 
 declare global {

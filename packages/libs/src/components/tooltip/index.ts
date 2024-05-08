@@ -6,7 +6,7 @@ import type {
 } from '@popperjs/core';
 import type { TooltipOptions } from './types';
 import { TooltipInterface } from './interface';
-import { ICollectionItem } from '../../interfaces';
+import { ICollectionItem } from '@/interfaces';
 
 const Default: TooltipOptions = {
     placement: 'bottom-start',

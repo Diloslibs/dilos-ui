@@ -6,6 +6,13 @@
     "skipLibCheck": true,
     // Generate d.ts files
     "declaration": true,
+    // Path
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
   },
   "include": [
     "src",

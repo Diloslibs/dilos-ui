@@ -6,7 +6,7 @@
  * Copyright 2024 Dilos
 */
 
-import { ICollectionItem } from '../../interfaces'
+import { ICollectionItem } from '@/interfaces'
 import { IAccordion } from './interface'
 import { AccordionItem, AccordionOptions } from './types'
 

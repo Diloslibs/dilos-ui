@@ -13,7 +13,7 @@ import type {
 } from '@popperjs/core'
 import type { DropdownOptions } from './types'
 import { DropdownInterface } from './interface'
-import { ICollectionItem } from '../../interfaces'
+import { ICollectionItem } from '@/interfaces'
 
 const Default: DropdownOptions = {
     placement: 'bottom',
