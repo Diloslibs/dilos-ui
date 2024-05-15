@@ -15,6 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/Diloslibs/dilos-ui.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "concurrently pnpm:start:*",
     "start:webpack": "webpack --mode=development --watch",
@@ -26,15 +29,11 @@
   "devDependencies": {
     "@types/node": "^20.11.30",
     "concurrently": "^8.2.2",
-    "css-loader": "^6.10.0",
-    "mini-css-extract-plugin": "^2.8.1",
-    "postcss-loader": "^8.1.1",
-    "rm": "^0.1.8",
+    "source-map-loader": "^5.0.0",
     "tailwindcss": "^3.4.1",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.5.1",
     "typescript": "^5.2.2",
-    "vite": "^5.2.2",
-    "vite-plugin-dts": "^3.7.3",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
   },
