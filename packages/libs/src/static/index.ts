@@ -2,7 +2,7 @@
  * DStaticMethods
  * @version: 2.1.0
  * @author: Dilos
- * @license: Licensed under MIT (https://preline.co/docs/license.html)
+ * @license: -
  * Copyright 2024 Dilos
  */
 
