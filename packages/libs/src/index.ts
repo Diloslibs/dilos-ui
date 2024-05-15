@@ -1,9 +1,6 @@
-import Accordion from './components/accordion';
-import Dropdown from './components/dropdown';
-import Table from './components/table';
-import Tooltip from './components/tooltip';
+export { default as Accordion } from '@/components/accordion';
+export { default as Dropdown } from '@/components/dropdown';
+export { default as Tooltip } from '@/components/tooltip';
+export { default as DStaticMethods } from '@/static';
 
-export { Accordion };
-export { Dropdown };
-export { Table };
-export { Tooltip };
+export { IStaticMethods } from '@/static/interface';

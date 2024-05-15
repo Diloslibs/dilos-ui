@@ -1,3 +1,12 @@
+/*
+ * Accordion
+ * @version: x.x.x
+ * @author: Dilos
+ * @license: -
+ * Copyright 2024 Dilos
+*/
+
+import { ICollectionItem } from '@/interfaces'
 import { IAccordion } from './interface'
 import { AccordionItem, AccordionOptions } from './types'
 
@@ -113,51 +122,62 @@ class Accordion implements IAccordion {
     getItem(id: string): AccordionItem | undefined {
         return this._items.filter(item => item.id === id)[0]
     }
+
+    static autoInit() {
+        document.querySelectorAll('[data-accordion]').forEach($accordionEl => {
+            const alwaysOpen = $accordionEl.getAttribute('data-accordion')
+            const activeClasses = $accordionEl.getAttribute('data-active-classes')
+            const inactiveClasses = $accordionEl.getAttribute(
+                'data-inactive-classes'
+            )
+            const items = [] as AccordionItem[]
+            $accordionEl
+                .querySelectorAll('[data-accordion-target]')
+                .forEach($triggerEl => {
+                    if ($triggerEl.closest('[data-accordion]') === $accordionEl) {
+                        const item = {
+                            id: $triggerEl.getAttribute('data-accordion-target'),
+                            triggerEl: $triggerEl,
+                            targetEl: document.querySelector(
+                                $triggerEl.getAttribute('data-accordion-target')
+                            ),
+                            iconEl: $triggerEl.querySelector(
+                                '[data-accordion-icon]'
+                            ),
+                            active:
+                                $triggerEl.getAttribute('aria-expanded') === 'true'
+                                    ? true
+                                    : false
+                        } as AccordionItem
+                        items.push(item)
+                    }
+                })
+
+            new Accordion($accordionEl as HTMLElement, items, {
+                alwaysOpen: alwaysOpen === 'open' ? true : false,
+                activeClasses: activeClasses
+                    ? activeClasses
+                    : Default.activeClasses,
+                inactiveClasses: inactiveClasses
+                    ? inactiveClasses
+                    : Default.inactiveClasses
+            } as AccordionOptions)
+        })
+    }
 }
 
-export function initAccordions() {
-    document.querySelectorAll('[data-accordion]').forEach($accordionEl => {
-        const alwaysOpen = $accordionEl.getAttribute('data-accordion')
-        const activeClasses = $accordionEl.getAttribute('data-active-classes')
-        const inactiveClasses = $accordionEl.getAttribute(
-            'data-inactive-classes'
-        )
-        const items = [] as AccordionItem[]
-        $accordionEl
-            .querySelectorAll('[data-accordion-target]')
-            .forEach($triggerEl => {
-                if ($triggerEl.closest('[data-accordion]') === $accordionEl) {
-                    const item = {
-                        id: $triggerEl.getAttribute('data-accordion-target'),
-                        triggerEl: $triggerEl,
-                        targetEl: document.querySelector(
-                            $triggerEl.getAttribute('data-accordion-target')
-                        ),
-                        iconEl: $triggerEl.querySelector(
-                            '[data-accordion-icon]'
-                        ),
-                        active:
-                            $triggerEl.getAttribute('aria-expanded') === 'true'
-                                ? true
-                                : false
-                    } as AccordionItem
-                    items.push(item)
-                }
-            })
-
-        new Accordion($accordionEl as HTMLElement, items, {
-            alwaysOpen: alwaysOpen === 'open' ? true : false,
-            activeClasses: activeClasses
-                ? activeClasses
-                : Default.activeClasses,
-            inactiveClasses: inactiveClasses
-                ? inactiveClasses
-                : Default.inactiveClasses
-        } as AccordionOptions)
-    })
+declare global {
+    interface Window {
+        DAccordion: Function;
+        $dAccordionCollection: ICollectionItem<Accordion>[];
+    }
 }
+
+window.addEventListener('load', () => {
+    Accordion.autoInit()
+});
 
 if (typeof window !== 'undefined') {
-    initAccordions()
+    window.DAccordion = Accordion;
 }
-export default Accordion
+export default Accordion;

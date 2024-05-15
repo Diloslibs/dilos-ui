@@ -6,6 +6,7 @@ import type {
 } from '@popperjs/core';
 import type { TooltipOptions } from './types';
 import { TooltipInterface } from './interface';
+import { ICollectionItem } from '@/interfaces';
 
 const Default: TooltipOptions = {
     placement: 'bottom-start',
@@ -14,9 +15,9 @@ const Default: TooltipOptions = {
     offsetDistance: 10,
     delay: 300,
     ignoreClickOutsideClass: false,
-    onShow: () => {},
-    onHide: () => {},
-    onToggle: () => {},
+    onShow: () => { },
+    onHide: () => { },
+    onToggle: () => { },
 };
 
 class Tooltip implements TooltipInterface {
@@ -305,63 +306,73 @@ class Tooltip implements TooltipInterface {
     updateOnToggle(callback: () => void) {
         this._options.onToggle = callback;
     }
+    static autoInit() {
+        document
+            .querySelectorAll('[d-tooltip-toggle]')
+            .forEach(($triggerEl) => {
+                const tooltipId = $triggerEl.getAttribute('d-tooltip-toggle');
+                const $tooltipEl = document.getElementById(tooltipId);
+
+                if ($tooltipEl) {
+                    const placement = $triggerEl.getAttribute(
+                        'd-tooltip-place'
+                    );
+                    const offsetSkidding = $triggerEl.getAttribute(
+                        'd-tooltip-offset-skidding'
+                    );
+                    const offsetDistance = $triggerEl.getAttribute(
+                        'd-tooltip-offset-distance'
+                    );
+                    const triggerType = $triggerEl.getAttribute(
+                        'd-tooltip-trigger'
+                    );
+                    const delay = $triggerEl.getAttribute('d-tooltip-delay');
+                    const ignoreClickOutsideClass = $triggerEl.getAttribute(
+                        'd-tooltip-ignore-click-outside-class'
+                    );
+
+                    new Tooltip(
+                        $tooltipEl as HTMLElement,
+                        $triggerEl as HTMLElement,
+                        {
+                            placement: placement ? placement : Default.placement,
+                            triggerType: triggerType
+                                ? triggerType
+                                : Default.triggerType,
+                            offsetSkidding: offsetSkidding
+                                ? parseInt(offsetSkidding)
+                                : Default.offsetSkidding,
+                            offsetDistance: offsetDistance
+                                ? parseInt(offsetDistance)
+                                : Default.offsetDistance,
+                            delay: delay ? parseInt(delay) : Default.delay,
+                            ignoreClickOutsideClass: ignoreClickOutsideClass
+                                ? ignoreClickOutsideClass
+                                : Default.ignoreClickOutsideClass,
+                        } as TooltipOptions
+                    );
+                } else {
+                    console.error(
+                        `The dropdown element with id "${tooltipId}" does not exist. Please check the data-dropdown-toggle attribute.`
+                    );
+                }
+            });
+    }
 }
 
-export function initTooltips() {
-    document
-        .querySelectorAll('[d-tooltip-toggle]')
-        .forEach(($triggerEl) => {
-            const tooltipId = $triggerEl.getAttribute('d-tooltip-toggle');
-            const $tooltipEl = document.getElementById(tooltipId);
-
-            if ($tooltipEl) {
-                const placement = $triggerEl.getAttribute(
-                    'd-tooltip-place'
-                );
-                const offsetSkidding = $triggerEl.getAttribute(
-                    'd-tooltip-offset-skidding'
-                );
-                const offsetDistance = $triggerEl.getAttribute(
-                    'd-tooltip-offset-distance'
-                );
-                const triggerType = $triggerEl.getAttribute(
-                    'd-tooltip-trigger'
-                );
-                const delay = $triggerEl.getAttribute('d-tooltip-delay');
-                const ignoreClickOutsideClass = $triggerEl.getAttribute(
-                    'd-tooltip-ignore-click-outside-class'
-                );
-
-                new Tooltip(
-                    $tooltipEl as HTMLElement,
-                    $triggerEl as HTMLElement,
-                    {
-                        placement: placement ? placement : Default.placement,
-                        triggerType: triggerType
-                            ? triggerType
-                            : Default.triggerType,
-                        offsetSkidding: offsetSkidding
-                            ? parseInt(offsetSkidding)
-                            : Default.offsetSkidding,
-                        offsetDistance: offsetDistance
-                            ? parseInt(offsetDistance)
-                            : Default.offsetDistance,
-                        delay: delay ? parseInt(delay) : Default.delay,
-                        ignoreClickOutsideClass: ignoreClickOutsideClass
-                            ? ignoreClickOutsideClass
-                            : Default.ignoreClickOutsideClass,
-                    } as TooltipOptions
-                );
-            } else {
-                console.error(
-                    `The dropdown element with id "${tooltipId}" does not exist. Please check the data-dropdown-toggle attribute.`
-                );
-            }
-        });
+declare global {
+    interface Window {
+        DTooltip: typeof Tooltip;
+        $dTooltipCollection: ICollectionItem<Tooltip>[];
+    }
 }
+
+window.addEventListener('load', () => {
+    Tooltip.autoInit();
+});
 
 if (typeof window !== 'undefined') {
-    initTooltips();
+    window.DTooltip = Tooltip;
 }
 
 export default Tooltip;
