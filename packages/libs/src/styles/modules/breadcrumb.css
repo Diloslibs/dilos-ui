@@ -1,0 +1,31 @@
+.d-breadcrumb {
+  @apply flex items-center whitespace-nowrap p-4;
+}
+
+.d-breadcrumb>li {
+  @apply inline-flex items-center;
+}
+
+.d-breadcrumb>li>a {
+  @apply flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600;
+}
+
+.d-breadcrumb>li.active {
+  @apply text-blue-600;
+}
+
+.d-breadcrumb>li .separator {
+  @apply flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400;
+}
+
+.d-breadcrumb.bordered {
+  @apply border shadow-sm;
+}
+
+.d-breadcrumb.bordered-t {
+  @apply border-t;
+}
+
+.d-breadcrumb.bordered-b {
+  @apply border-b;
+}
