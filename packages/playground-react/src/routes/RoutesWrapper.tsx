@@ -4,6 +4,7 @@ import HomePage from "@/pages/HomePage";
 import Dropdown from "@/components/Dropdown";
 import Tooltip from "@/components/Tooltip";
 import AccordionPage from "@/pages/Containment/AccordionPage";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const RouteWrapper: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const RouteWrapper: React.FC = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/accordion" element={<AccordionPage />} />
+          <Route path="/breadcrumb" element={<Breadcrumb />} />
           <Route path="/dropdown" element={<Dropdown />} />
           <Route path="/tooltip" element={<Tooltip />} />
         </Route>
