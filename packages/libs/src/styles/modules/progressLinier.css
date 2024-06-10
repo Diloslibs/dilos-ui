@@ -1,0 +1,147 @@
+.d-progress-linier {
+}
+
+.d-progress-linier .linier {
+  @apply
+  flex 
+  items-center 
+  gap-x-3 
+  whitespace-nowrap
+  ;
+}
+
+.d-progress-linier .progress-title {
+  @apply
+  mb-2 
+  flex 
+  justify-between 
+  items-center
+  ;
+}
+
+.d-progress-linier .progress-title .title {
+  @apply
+  text-sm 
+  font-semibold 
+  text-gray-800
+  ;
+}
+
+.d-progress-linier .progress-title .label {
+  @apply
+  text-sm 
+  text-gray-800
+  ;
+}
+
+.d-progress-linier .linier-label {
+  @apply
+  w-10 
+  text-end
+  ;
+}
+
+.d-progress-linier .linier-label .label {
+  @apply
+  text-sm 
+  text-gray-800
+  ;
+}
+
+.d-progress-linier .float-label {
+  @apply
+  inline-block 
+  mb-2 
+  py-0.5 
+  px-1.5 
+  bg-primary-200
+  border 
+  border-primary-300
+  text-xs 
+  font-medium 
+  text-primary-350
+  rounded-lg;
+}
+
+.d-progress-linier .progress-bar {
+  @apply 
+  flex 
+  w-full 
+  h-3
+  bg-gray-300 
+  rounded-full 
+  overflow-hidden;
+}
+
+.d-progress-linier.sm .progress-bar {
+  @apply 
+  flex 
+  w-full 
+  h-1
+  bg-gray-300 
+  rounded-full 
+  overflow-hidden;
+}
+
+.d-progress-linier.md .progress-bar {
+  @apply 
+  flex 
+  w-full 
+  h-2
+  bg-gray-300 
+  rounded-full 
+  overflow-hidden;
+}
+
+.d-progress-linier.lg .progress-bar {
+  @apply 
+  flex 
+  w-full 
+  h-3
+  bg-gray-300 
+  rounded-full 
+  overflow-hidden;
+}
+
+.d-progress-linier .progress {
+  @apply 
+  flex 
+  flex-col 
+  justify-center 
+  rounded-full 
+  overflow-hidden 
+  bg-primary-350 
+  text-xs 
+  text-white 
+  text-center 
+  whitespace-nowrap 
+  transition 
+  duration-500
+  relative
+  ;
+}
+
+
+.d-progress-linier .d-animate::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(233, 233, 233, 1) 0,
+    rgba(233, 233, 233, 0.9) 50%,
+    rgba(233, 233, 233, 0.8) 100%
+  );
+  animation: shimmer 3s ease-out infinite;
+  content: "";
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(0%);
+    opacity: 0;
+  }
+} 
