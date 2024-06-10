@@ -1,0 +1,163 @@
+.d-avatar-text {
+  @apply
+  flex 
+  items-center 
+  gap-4
+  ;
+}
+
+.d-avatar-text .title {
+  @apply
+  block 
+  antialiased 
+  font-semibold 
+  leading-relaxed 
+  tracking-normal 
+  text-inherit
+  ;
+}
+
+.d-avatar-text .subtitle {
+  @apply
+  block 
+  antialiased 
+  font-normal 
+  leading-normal 
+  text-gray-700
+  ;
+}
+
+.d-avatar {
+  @apply
+  relative 
+  inline-block
+  object-cover 
+  object-center
+  ;
+}
+
+.d-avatar.circle {
+  @apply
+  !rounded-full
+  ;
+}
+
+.d-avatar.square-rounded {
+  @apply
+  rounded-lg
+  ;
+}
+
+.d-avatar.square {
+  @apply
+  !rounded-none
+  ;
+}
+
+.d-avatar.xs{
+  @apply
+  h-6 w-6
+  ;
+}
+
+.d-avatar.sm{
+  @apply
+  h-9 w-9
+  ;
+}
+
+.d-avatar.md{
+  @apply
+  h-12 w-12
+  ;
+}
+
+.d-avatar.lg{
+  @apply
+  h-[58px] w-[58px]
+  ;
+}
+
+.d-avatar.xl{
+  @apply
+  h-[74px] w-[74px]
+  ;
+}
+
+.d-avatar.xxl{
+  @apply
+  h-[110px] w-[110px]
+  ;
+}
+
+.d-avatar-text .d-avatar.xs + .d-info .title {
+  @apply
+  text-[9px]
+  ;
+}
+
+.d-avatar-text .d-avatar.sm + .d-info .title {
+  @apply
+  text-sm
+  ;
+}
+
+.d-avatar-text .d-avatar.md + .d-info .title {
+  @apply
+  text-base
+  ;
+}
+
+.d-avatar-text .d-avatar.lg + .d-info .title {
+  @apply
+  text-lg
+  ;
+}
+
+.d-avatar-text .d-avatar.xl + .d-info .title {
+  @apply
+  text-xl
+  ;
+}
+
+.d-avatar-text .d-avatar.xxl + .d-info .title {
+  @apply
+  text-2xl
+  ;
+}
+
+.d-avatar-text .d-avatar.xs + .d-info .subtitle {
+  @apply
+  text-[9px]
+  ;
+}
+
+.d-avatar-text .d-avatar.sm + .d-info .subtitle {
+  @apply
+  text-sm
+  ;
+}
+
+.d-avatar-text .d-avatar.md + .d-info .subtitle {
+  @apply
+  text-base
+  ;
+}
+
+.d-avatar-text .d-avatar.lg + .d-info .subtitle {
+  @apply
+  text-lg
+  ;
+}
+
+.d-avatar-text .d-avatar.xl + .d-info .subtitle {
+  @apply
+  text-xl
+  ;
+}
+
+.d-avatar-text .d-avatar.xxl + .d-info .subtitle {
+  @apply
+  text-2xl
+  ;
+}
