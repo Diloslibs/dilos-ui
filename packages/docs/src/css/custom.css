@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 /**
  * Any CSS included here will be global. The classic template
@@ -9,6 +10,15 @@
  */
 
 /* You can override the default Infima variables here. */
+
+html {
+	font-family: "Inter", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Inter", sans-serif;
+}
+
 :root {
 	--ifm-color-primary: #2e8555;
 	--ifm-color-primary-dark: #29784c;
@@ -50,4 +60,47 @@ a.navbar__item.navbar__link,
 a.footer__link-item,
 .theme-edit-this-page {
 	@apply flex items-center gap-1;
+}
+
+.breadcrumbs {
+	@apply flex;
+}
+
+.breadcrumbs__item {
+	display: flex;
+	align-items: center;
+}
+.max-container {
+	@apply max-w-[1600px] mx-auto w-full;
+}
+.navbar {
+	@apply max-container border-0 shadow-none;
+}
+.main-wrapper {
+	@apply max-container;
+}
+.theme-doc-sidebar-container {
+	@apply !border-none
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	@apply bg-zinc-400;
+}
+
+::-webkit-scrollbar-thumb {
+	@apply bg-zinc-300;
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	@apply bg-zinc-200
+}
+
+.table-of-contents__link--active {
+	@apply font-semibold;
 }
