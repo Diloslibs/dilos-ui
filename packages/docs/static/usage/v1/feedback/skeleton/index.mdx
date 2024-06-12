@@ -1,0 +1,25 @@
+import Playground from "@site/src/components/global/Playground";
+
+import def from "./default.md";
+import card from "./card.md";
+import image from "./image.md";
+import list from "./list.md";
+import testimonial from "./testimonial.md";
+import text from "./text.md";
+import video from "./video.md";
+import widget from "./widget.md";
+
+<Playground
+  title="Default Skeleton"
+	version="8"
+	content={[
+		{ key: "default", code: def, src: "/usage/v1/feedback/skeleton/default.html" },
+		{ key: "card", code: card, src: "/usage/v1/feedback/skeleton/card.html" },
+		{ key: "image", code: image, src: "/usage/v1/feedback/skeleton/image.html" },
+		{ key: "list", code: list, src: "/usage/v1/feedback/skeleton/list.html" },
+		{ key: "testimonial", code: testimonial, src: "/usage/v1/feedback/skeleton/testimonial.html" },
+		{ key: "text", code: text, src: "/usage/v1/feedback/skeleton/text.html" },
+		{ key: "video", code: video, src: "/usage/v1/feedback/skeleton/video.html" },
+		{ key: "widget", code: widget, src: "/usage/v1/feedback/skeleton/widget.html" },
+	]}
+/>
