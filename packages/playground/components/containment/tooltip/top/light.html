@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Tooltip Top Dark | Dilos</title>
+
+	<!-- Import CSS from Folder Libs -->
+	<link rel="stylesheet" href="../../../../../libs/dist/index.css" />
+
+	<!-- Important to embed Tailwind Script -->
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+	<div class="flex items-center justify-center h-screen">
+		<div class="flex flex-col gap-5">
+			<div class="flex gap-6">
+				<button d-tooltip-toggle="tooltip-top-left" d-tooltip-trigger="click" d-tooltip-place="bottom-start"
+					class="d-btn primary xs my-8">
+					Click Left
+				</button>
+				<div class="d-tooltip light hidden" id="tooltip-top-left">
+					<div class="d-tip top top-left"></div>
+					Tooltip text here
+				</div>
+
+				<button d-tooltip-toggle="tooltip-top-center" d-tooltip-trigger="click" d-tooltip-place="bottom"
+					class="d-btn primary xs my-8">
+					Click Center
+				</button>
+				<div class="d-tooltip light hidden" id="tooltip-top-center">
+					<div class="d-tip top top-center"></div>
+					Tooltip text here
+				</div>
+
+				<button d-tooltip-toggle="tooltip-top-right" d-tooltip-trigger="hover" d-tooltip-place="bottom-end"
+					class="d-btn primary xs my-8">
+					Hover Right
+				</button>
+				<div class="d-tooltip light hidden" id="tooltip-top-right">
+					<div class="d-tip top top-right"></div>
+					Tooltip text here
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Script JS Dilos -->
+	<script src="../../../../../libs/dist/index.js"></script>
+</body>
+
+</html>
