@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Dropdown Search | Dilos</title>
+
+	<!-- Import CSS from Folder Libs -->
+	<link rel="stylesheet" href="../../../../../libs/dist/index.css" />
+
+	<!-- Important to embed Tailwind Script -->
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen w-screen flex items-center justify-center">
+	<div class="flex gap-3">
+		<div class="">
+			<button d-dropdown-toggle="dropdown-search" d-dropdown-trigger="click" d-dropdown-place="bottom"
+				class="d-btn primary xs">
+				With Search Bar
+			</button>
+
+			<!-- Dropdown menu -->
+			<div id="dropdown-search" class="d-dropdown hidden">
+				<div class="d-dropdown-item-container">
+					<div class="d-dropdown-search">
+						<input type="text" class="d-input-text sm w-60" placeholder="Placeholder" />
+					</div>
+					<div class="d-dropdown-item">Dashboard</div>
+					<div class="d-dropdown-item">Settings</div>
+					<div class="d-dropdown-item">Earnings</div>
+					<div class="d-divider sm"></div>
+					<div class="d-dropdown-item">Sign out</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Script JS Dilos -->
+	<script src="../../../../../libs/dist/index.js"></script>
+</body>
+
+</html>

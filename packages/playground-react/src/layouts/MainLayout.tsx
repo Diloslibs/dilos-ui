@@ -77,6 +77,14 @@ const MainLayout: React.FC = () => {
             </li>
             <li>
               <Link
+                to="/breadcrumb"
+                className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
+              >
+                <span className="flex-1 ms-3 whitespace-nowrap">Breadcrumb</span>
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/dropdown"
                 className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
               >

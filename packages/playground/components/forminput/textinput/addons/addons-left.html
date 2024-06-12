@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Text Input Addons Left | Dilos</title>
+
+	<!-- Import CSS from Folder Libs -->
+	<link rel="stylesheet" href="../../../../../libs/dist/index.css" />
+
+	<!-- Important to embed Tailwind Script -->
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+	<div class="flex items-center justify-center h-screen">
+		<div class="d-input-container addons-left">
+			<div class="box-addons">
+				<button d-dropdown-toggle="dropdown-basic" d-dropdown-trigger="click" d-dropdown-place="bottom-start"
+					d-dropdown-offset-skidding="-10" class="flex items-center gap-2">
+					<!-- FLAG -->
+					<svg width="30" height="22" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<g filter="url(#filter0_dd_7312_17054)">
+							<g clip-path="url(#clip0_7312_17054)">
+								<mask id="mask0_7312_17054" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+									width="24" height="16">
+									<rect x="3" y="2" width="24" height="16" fill="white" />
+								</mask>
+								<g mask="url(#mask0_7312_17054)">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V18H27V2H3Z" fill="#F7FCFF" />
+								</g>
+								<mask id="mask1_7312_17054" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+									width="24" height="16">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V18H27V2H3Z" fill="white" />
+								</mask>
+								<g mask="url(#mask1_7312_17054)">
+									<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V10H27V2H3Z" fill="#E31D1C" />
+								</g>
+							</g>
+						</g>
+						<defs>
+							<filter id="filter0_dd_7312_17054" x="0" y="0" width="30" height="22" filterUnits="userSpaceOnUse"
+								color-interpolation-filters="sRGB">
+								<feFlood flood-opacity="0" result="BackgroundImageFix" />
+								<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+									result="hardAlpha" />
+								<feOffset dy="1" />
+								<feGaussianBlur stdDeviation="1.5" />
+								<feComposite in2="hardAlpha" operator="out" />
+								<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+								<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_7312_17054" />
+								<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+									result="hardAlpha" />
+								<feMorphology radius="1" operator="erode" in="SourceAlpha" result="effect2_dropShadow_7312_17054" />
+								<feOffset dy="1" />
+								<feGaussianBlur stdDeviation="1" />
+								<feComposite in2="hardAlpha" operator="out" />
+								<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+								<feBlend mode="normal" in2="effect1_dropShadow_7312_17054" result="effect2_dropShadow_7312_17054" />
+								<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_7312_17054" result="shape" />
+							</filter>
+							<clipPath id="clip0_7312_17054">
+								<rect x="3" y="2" width="24" height="16" rx="2" fill="white" />
+							</clipPath>
+						</defs>
+					</svg>
+
+					<!-- Chevron -->
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M13.3538 6.35375L8.35378 11.3538C8.30734 11.4002 8.2522 11.4371 8.1915 11.4623C8.1308 11.4874 8.06574 11.5004 8.00003 11.5004C7.93432 11.5004 7.86926 11.4874 7.80856 11.4623C7.74786 11.4371 7.69271 11.4002 7.64628 11.3538L2.64628 6.35375C2.57627 6.28382 2.52859 6.1947 2.50926 6.09765C2.48994 6.00061 2.49984 5.90002 2.53772 5.8086C2.57559 5.71719 2.63974 5.63908 2.72204 5.58414C2.80433 5.5292 2.90108 5.49992 3.00003 5.5H13C13.099 5.49992 13.1957 5.5292 13.278 5.58414C13.3603 5.63908 13.4245 5.71719 13.4623 5.8086C13.5002 5.90002 13.5101 6.00061 13.4908 6.09765C13.4715 6.1947 13.4238 6.28382 13.3538 6.35375Z"
+							fill="#344054" />
+					</svg>
+				</button>
+
+				<!-- Dropdown menu -->
+				<div id="dropdown-basic" class="d-dropdown hidden">
+					<div class="d-dropdown-item-container">
+						<div class="d-dropdown-item">
+							<svg width="30" height="22" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<g filter="url(#filter0_dd_7312_9166)">
+									<g clip-path="url(#clip0_7312_9166)">
+										<mask id="mask0_7312_9166" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+											width="24" height="16">
+											<rect x="3" y="2" width="24" height="16" fill="white" />
+										</mask>
+										<g mask="url(#mask0_7312_9166)">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 12.667H27V18.0003H3V12.667Z" fill="#FFD018" />
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 7.33301H27V12.6663H3V7.33301Z"
+												fill="#E31D1C" />
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2H27V7.33333H3V2Z" fill="#272727" />
+										</g>
+									</g>
+								</g>
+								<defs>
+									<filter id="filter0_dd_7312_9166" x="0" y="0" width="30" height="22" filterUnits="userSpaceOnUse"
+										color-interpolation-filters="sRGB">
+										<feFlood flood-opacity="0" result="BackgroundImageFix" />
+										<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+											result="hardAlpha" />
+										<feOffset dy="1" />
+										<feGaussianBlur stdDeviation="1.5" />
+										<feComposite in2="hardAlpha" operator="out" />
+										<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+										<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_7312_9166" />
+										<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+											result="hardAlpha" />
+										<feMorphology radius="1" operator="erode" in="SourceAlpha" result="effect2_dropShadow_7312_9166" />
+										<feOffset dy="1" />
+										<feGaussianBlur stdDeviation="1" />
+										<feComposite in2="hardAlpha" operator="out" />
+										<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+										<feBlend mode="normal" in2="effect1_dropShadow_7312_9166" result="effect2_dropShadow_7312_9166" />
+										<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_7312_9166" result="shape" />
+									</filter>
+									<clipPath id="clip0_7312_9166">
+										<rect x="3" y="2" width="24" height="16" rx="2" fill="white" />
+									</clipPath>
+								</defs>
+							</svg>
+
+							+49
+						</div>
+						<div class="d-dropdown-item">
+							<svg width="30" height="22" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<g filter="url(#filter0_dd_7312_17054)">
+									<g clip-path="url(#clip0_7312_17054)">
+										<mask id="mask0_7312_17054" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+											width="24" height="16">
+											<rect x="3" y="2" width="24" height="16" fill="white" />
+										</mask>
+										<g mask="url(#mask0_7312_17054)">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V18H27V2H3Z" fill="#F7FCFF" />
+										</g>
+										<mask id="mask1_7312_17054" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+											width="24" height="16">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V18H27V2H3Z" fill="white" />
+										</mask>
+										<g mask="url(#mask1_7312_17054)">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V10H27V2H3Z" fill="#E31D1C" />
+										</g>
+									</g>
+								</g>
+								<defs>
+									<filter id="filter0_dd_7312_17054" x="0" y="0" width="30" height="22" filterUnits="userSpaceOnUse"
+										color-interpolation-filters="sRGB">
+										<feFlood flood-opacity="0" result="BackgroundImageFix" />
+										<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+											result="hardAlpha" />
+										<feOffset dy="1" />
+										<feGaussianBlur stdDeviation="1.5" />
+										<feComposite in2="hardAlpha" operator="out" />
+										<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+										<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_7312_17054" />
+										<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+											result="hardAlpha" />
+										<feMorphology radius="1" operator="erode" in="SourceAlpha" result="effect2_dropShadow_7312_17054" />
+										<feOffset dy="1" />
+										<feGaussianBlur stdDeviation="1" />
+										<feComposite in2="hardAlpha" operator="out" />
+										<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+										<feBlend mode="normal" in2="effect1_dropShadow_7312_17054" result="effect2_dropShadow_7312_17054" />
+										<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_7312_17054" result="shape" />
+									</filter>
+									<clipPath id="clip0_7312_17054">
+										<rect x="3" y="2" width="24" height="16" rx="2" fill="white" />
+									</clipPath>
+								</defs>
+							</svg>
+
+							+62
+						</div>
+						<div class="d-dropdown-item">
+							<svg width="30" height="22" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<g filter="url(#filter0_dd_7312_15981)">
+									<g clip-path="url(#clip0_7312_15981)">
+										<mask id="mask0_7312_15981" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+											width="24" height="16">
+											<rect x="3" y="2" width="24" height="16" fill="white" />
+										</mask>
+										<g mask="url(#mask0_7312_15981)">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V18H27V2H3Z" fill="#F7FCFF" />
+										</g>
+										<mask id="mask1_7312_15981" style="mask-type: luminance" maskUnits="userSpaceOnUse" x="3" y="2"
+											width="24" height="16">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M3 2V18H27V2H3Z" fill="white" />
+										</mask>
+										<g mask="url(#mask1_7312_15981)">
+											<path fill-rule="evenodd" clip-rule="evenodd"
+												d="M15 15C18.1066 15 20.625 12.7614 20.625 10C20.625 7.23858 18.1066 5 15 5C11.8934 5 9.375 7.23858 9.375 10C9.375 12.7614 11.8934 15 15 15Z"
+												fill="#E31D1C" />
+										</g>
+									</g>
+								</g>
+								<defs>
+									<filter id="filter0_dd_7312_15981" x="0" y="0" width="30" height="22" filterUnits="userSpaceOnUse"
+										color-interpolation-filters="sRGB">
+										<feFlood flood-opacity="0" result="BackgroundImageFix" />
+										<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+											result="hardAlpha" />
+										<feOffset dy="1" />
+										<feGaussianBlur stdDeviation="1.5" />
+										<feComposite in2="hardAlpha" operator="out" />
+										<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+										<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_7312_15981" />
+										<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+											result="hardAlpha" />
+										<feMorphology radius="1" operator="erode" in="SourceAlpha" result="effect2_dropShadow_7312_15981" />
+										<feOffset dy="1" />
+										<feGaussianBlur stdDeviation="1" />
+										<feComposite in2="hardAlpha" operator="out" />
+										<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+										<feBlend mode="normal" in2="effect1_dropShadow_7312_15981" result="effect2_dropShadow_7312_15981" />
+										<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_7312_15981" result="shape" />
+									</filter>
+									<clipPath id="clip0_7312_15981">
+										<rect x="3" y="2" width="24" height="16" rx="2" fill="white" />
+									</clipPath>
+								</defs>
+							</svg>
+
+							+81
+						</div>
+					</div>
+				</div>
+			</div>
+			<input type="number" class="d-input-text md" placeholder="Phone number" />
+		</div>
+	</div>
+
+	<script src="../../../../../libs/dist/index.js"></script>
+</body>
+
+</html>
