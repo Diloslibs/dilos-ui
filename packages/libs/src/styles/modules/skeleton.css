@@ -1,0 +1,79 @@
+.d-skeleton {
+  @apply
+  animate-pulse
+  ;
+}
+
+.d-skeleton .linier {
+  @apply
+  rounded-full 
+  bg-gray-200 
+  dark:bg-gray-300
+  ;
+}
+
+.d-skeleton .square-rounded {
+  @apply
+  bg-gray-200 
+  rounded
+  dark:bg-gray-300
+  ;
+}
+
+.d-skeleton .card {
+  @apply
+  border 
+  border-gray-200
+  dark:border-gray-300 
+  rounded
+  shadow
+  ;
+}
+
+.d-skeleton .list {
+  @apply
+  border-gray-200 
+  divide-y 
+  divide-gray-200
+  ;
+}
+
+.d-skeleton .image-icon {
+  width: 40px;  /* Adjust as needed */
+  height: 36px;  /* Adjust as needed */
+  background-color: #BDC3C7;  /* Adjust as needed */
+  mask: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2020%2018%22%3E%3Cpath%20d%3D%22M18%200H2a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h16a2%202%200%200%200%202-2V2a2%202%200%200%200-2-2Zm-5.5%204a1.5%201.5%200%201%201%200%203%201.5%201.5%200%200%201%200-3Zm4.376%2010.481A1%201%200%200%201%2016%2015H4a1%201%200%200%201-.895-1.447l3.5-7A1%201%200%200%201%207.468%206a.965.965%200%200%201%20.9.5l2.775%204.757%201.546-1.887a1%201%200%200%201%201.618.1l2.541%204a1%201%200%200%201%20.028%201.011Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  -webkit-mask: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2020%2018%22%3E%3Cpath%20d%3D%22M18%200H2a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h16a2%202%200%200%200%202-2V2a2%202%200%200%200-2-2Zm-5.5%204a1.5%201.5%200%201%201%200%203%201.5%201.5%200%200%201%200-3Zm4.376%2010.481A1%201%200%200%201%2016%2015H4a1%201%200%200%201-.895-1.447l3.5-7A1%201%200%200%201%207.468%206a.965.965%200%200%201%20.9.5l2.775%204.757%201.546-1.887a1%201%200%200%201%201.618.1l2.541%204a1%201%200%200%201%20.028%201.011Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.d-skeleton .user-icon {
+  width: 40px;  /* Adjust as needed */
+  height: 40px;  /* Adjust as needed */
+  background-color: #BDC3C7;  /* Adjust as needed */
+  mask: url('data:image/svg+xml,%3Csvg%20class%3D%22w-10%20h-10%20me-3%20text-gray-200%20dark%3Atext-gray-300%22%20aria-hidden%3D%22true%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20d%3D%22M10%200a10%2010%200%201%200%2010%2010A10.011%2010.011%200%200%200%2010%200Zm0%205a3%203%200%201%201%200%206%203%203%200%200%201%200-6Zm0%2013a8.949%208.949%200%200%201-4.951-1.488A3.987%203.987%200%200%201%209%2013h2a3.987%203.987%200%200%201%203.951%203.512A8.949%208.949%200%200%201%2010%2018Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  -webkit-mask: url('data:image/svg+xml,%3Csvg%20class%3D%22w-10%20h-10%20me-3%20text-gray-200%20dark%3Atext-gray-300%22%20aria-hidden%3D%22true%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20d%3D%22M10%200a10%2010%200%201%200%2010%2010A10.011%2010.011%200%200%200%2010%200Zm0%205a3%203%200%201%201%200%206%203%203%200%200%201%200-6Zm0%2013a8.949%208.949%200%200%201-4.951-1.488A3.987%203.987%200%200%201%209%2013h2a3.987%203.987%200%200%201%203.951%203.512A8.949%208.949%200%200%201%2010%2018Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.d-skeleton .doc-video-icon {
+  width: 40px;  /* Adjust as needed */
+  height: 50px;  /* Adjust as needed */
+  background-color: #BDC3C7;  /* Adjust as needed */
+  mask: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2016%2020%22%3E%3Cpath%20d%3D%22M5%205V.13a2.96%202.96%200%200%200-1.293.749L.879%203.707A2.98%202.98%200%200%200%20.13%205H5Z%22%2F%3E%3Cpath%20d%3D%22M14.066%200H7v5a2%202%200%200%201-2%202H0v11a1.97%201.97%200%200%200%201.934%202h12.132A1.97%201.97%200%200%200%2016%2018V2a1.97%201.97%200%200%200-1.934-2ZM9%2013a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2v-2a2%202%200%200%201%202-2h2a2%202%200%200%201%202%202v2Zm4%20.382a1%201%200%200%201-1.447.894L10%2013v-2l1.553-1.276a1%201%200%200%201%201.447.894v2.764Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  -webkit-mask: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2016%2020%22%3E%3Cpath%20d%3D%22M5%205V.13a2.96%202.96%200%200%200-1.293.749L.879%203.707A2.98%202.98%200%200%200%20.13%205H5Z%22%2F%3E%3Cpath%20d%3D%22M14.066%200H7v5a2%202%200%200%201-2%202H0v11a1.97%201.97%200%200%200%201.934%202h12.132A1.97%201.97%200%200%200%2016%2018V2a1.97%201.97%200%200%200-1.934-2ZM9%2013a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2v-2a2%202%200%200%201%202-2h2a2%202%200%200%201%202%202v2Zm4%20.382a1%201%200%200%201-1.447.894L10%2013v-2l1.553-1.276a1%201%200%200%201%201.447.894v2.764Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.d-skeleton .doc-image-icon {
+  width: 40px;  /* Adjust as needed */
+  height: 50px;  /* Adjust as needed */
+  background-color: #BDC3C7;  /* Adjust as needed */
+  mask: url('data:image/svg+xml,%3Csvg%20class%3D%22w-10%20h-10%20text-gray-200%20dark%3Atext-gray-400%22%20aria-hidden%3D%22true%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2016%2020%22%3E%3Cpath%20d%3D%22M14.066%200H7v5a2%202%200%200%201-2%202H0v11a1.97%201.97%200%200%200%201.934%202h12.132A1.97%201.97%200%200%200%2016%2018V2a1.97%201.97%200%200%200-1.934-2ZM10.5%206a1.5%201.5%200%201%201%200%202.999A1.5%201.5%200%200%201%2010.5%206Zm2.221%2010.515a1%201%200%200%201-.858.485h-8a1%201%200%200%201-.9-1.43L5.6%2010.039a.978.978%200%200%201%20.936-.57%201%201%200%200%201%20.9.632l1.181%202.981.541-1a.945.945%200%200%201%20.883-.522%201%201%200%200%201%20.879.529l1.832%203.438a1%201%200%200%201-.031.988Z%22%2F%3E%3Cpath%20d%3D%22M5%205V.13a2.96%202.96%200%200%200-1.293.749L.879%203.707A2.98%202.98%200%200%200%20.13%205H5Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  -webkit-mask: url('data:image/svg+xml,%3Csvg%20class%3D%22w-10%20h-10%20text-gray-200%20dark%3Atext-gray-400%22%20aria-hidden%3D%22true%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22currentColor%22%20viewBox%3D%220%200%2016%2020%22%3E%3Cpath%20d%3D%22M14.066%200H7v5a2%202%200%200%201-2%202H0v11a1.97%201.97%200%200%200%201.934%202h12.132A1.97%201.97%200%200%200%2016%2018V2a1.97%201.97%200%200%200-1.934-2ZM10.5%206a1.5%201.5%200%201%201%200%202.999A1.5%201.5%200%200%201%2010.5%206Zm2.221%2010.515a1%201%200%200%201-.858.485h-8a1%201%200%200%201-.9-1.43L5.6%2010.039a.978.978%200%200%201%20.936-.57%201%201%200%200%201%20.9.632l1.181%202.981.541-1a.945.945%200%200%201%20.883-.522%201%201%200%200%201%20.879.529l1.832%203.438a1%201%200%200%201-.031.988Z%22%2F%3E%3Cpath%20d%3D%22M5%205V.13a2.96%202.96%200%200%200-1.293.749L.879%203.707A2.98%202.98%200%200%200%20.13%205H5Z%22%2F%3E%3C%2Fsvg%3E') no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
