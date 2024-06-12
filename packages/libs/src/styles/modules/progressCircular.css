@@ -1,0 +1,98 @@
+.d-progress-circular {
+}
+
+.d-circle{
+  @apply
+  w-full h-full;
+}
+
+.d-circle.d-animate{
+  @apply
+  animate-spin;
+}
+
+.d-progress-circular.sm {
+  @apply 
+  relative 
+  w-16 h-16
+  ;
+}
+
+.d-progress-circular.md {
+  @apply 
+  relative 
+  w-32 h-32
+  ;
+}
+
+.d-progress-circular.lg {
+  @apply 
+  relative 
+  w-52 h-52
+  ;
+}
+
+.d-circular {
+  stroke-width: 10;
+  fill: transparent;
+  cx: 50;
+  cy: 50;
+  r: 40;
+}
+
+.d-circular.gray {
+  stroke: #cbd5e0; 
+}
+
+.d-circular.primary {
+  stroke: #3D90E3; 
+}
+
+.d-circular.progress {
+  stroke-linecap: round;
+  stroke-dasharray: 251.2;
+}
+
+.progress-ring {
+  background-image: url('data:image/svg+xml,%3Csvg class="w-full h-full animate-spin" viewBox="0 0 100 100"%3E%3Ccircle class="text-gray-200 stroke-current" stroke-width="10" cx="50" cy="50" r="40" fill="transparent" /%3E%3Ccircle class="text-blue-500  progress-ring__circle stroke-current" stroke-width="10" stroke-linecap="round" cx="50" cy="50" r="40" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="calc(251.2 - (251.2 * 25) / 100)" /%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-size="10" fill="black"%3E70%25%3C/text%3E%3C/svg%3E');
+  width: 100px; /* Adjust width and height as needed */
+  height: 100px;
+}
+
+.d-progress-text {
+  @apply 
+  absolute 
+  inset-0 
+  flex 
+  items-center 
+  justify-center;
+}
+
+.d-progress-text .d-text {
+  @apply 
+  font-semibold  
+  text-sm 
+  text-center;
+}
+
+
+.d-progress-circular.sm .d-progress-text .d-text {
+  @apply 
+  font-semibold  
+  text-sm 
+  text-center;
+}
+
+.d-progress-circular.md .d-progress-text .d-text {
+  @apply 
+  font-semibold  
+  text-lg
+  text-center;
+}
+
+.d-progress-circular.lg .d-progress-text .d-text {
+  @apply 
+  font-semibold  
+  text-2xl
+  text-center;
+}
