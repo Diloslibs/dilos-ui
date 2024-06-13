@@ -37,9 +37,11 @@ export default function Home(): JSX.Element {
 			title={`Hello from ${siteConfig.title}`}
 			description="Description will go into a meta tag in <head />"
 		>
-			<main>
+			<main className="relative overflow-hidden">
+				<div className="w-[1500px] h-[1500px] bg-radial-gradient opacity-30 absolute -z-50 -top-[50%] -left-[50%]"></div>
 				<HomepageHero />
 				<HomepageFeatures />
+				<div className="w-[1500px] h-[1500px] bg-radial-gradient opacity-30 absolute -z-50 -bottom-[50%] -right-[50%]"></div>
 			</main>
 		</Layout>
 	);

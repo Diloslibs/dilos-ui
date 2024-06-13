@@ -15,7 +15,12 @@ html {
 	font-family: "Inter", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: "Inter", sans-serif;
 }
 
@@ -76,11 +81,8 @@ a.footer__link-item,
 .navbar {
 	@apply max-container border-0 shadow-none;
 }
-.main-wrapper {
-	@apply max-container;
-}
 .theme-doc-sidebar-container {
-	@apply !border-none
+	@apply !border-none;
 }
 
 /* Custom Scrollbar */
@@ -98,9 +100,18 @@ a.footer__link-item,
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	@apply bg-zinc-200
+	@apply bg-zinc-200;
 }
 
 .table-of-contents__link--active {
 	@apply font-semibold;
+}
+
+.bg-radial-gradient {
+	background: rgb(30, 255, 48);
+	background: radial-gradient(
+		circle,
+		rgba(30, 255, 48, 1) 0%,
+		rgba(77, 222, 63, 0) 75%
+	);
 }
