@@ -1,0 +1,24 @@
+.d-select-container{
+    @apply
+    flex gap-3
+    items-center
+    justify-between
+    border
+    border-gray-300
+    rounded-lg
+    p-2
+    my-2
+    ;
+}
+
+.d-select-selector{
+    @apply flex gap-3 items-center;
+}
+
+.d-select-input{
+    @apply focus:outline-none;
+}
+
+.d-select-item{
+    @apply hover:bg-gray-100 cursor-pointer;
+}

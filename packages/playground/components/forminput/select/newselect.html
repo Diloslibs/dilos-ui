@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Select Default | Dilos</title>
+
+	<!-- Import CSS from Folder Libs -->
+	<link rel="stylesheet" href="../../../../libs/dist/index.css" />
+
+	<!-- Important to embed Tailwind Script -->
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+	<!-- Container -->
+    <div class="my-0 mx-auto min-h-full max-w-screen-md py-16">
+        <!-- Container Select -->
+        <div class="d-select-container">
+            <!-- Chip will be here -->
+            <div class="d-select-selector">
+                <div class="flex gap-1" id="chip-items">
+                    <!-- <div class="d-chip xs primary selected">Label 1</div>
+                    <div class="d-chip xs gray selected">Label 2</div>
+                    <div class="d-chip xs primary selected">Label 3</div> -->
+                </div>
+                <input type="text" class="d-select-input" name="" id="">
+            </div>
+            <div class="cursor-pointer" id="select-pointer">
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.00409 6.00409C4.87249 6.00485 4.74202 5.97963 4.62019 5.92986C4.49835 5.8801 4.38753 5.80677 4.29409 5.71409L0.294092 1.71409C0.105788 1.52579 0 1.27039 0 1.00409C0 0.73779 0.105788 0.482395 0.294092 0.294091C0.482395 0.105788 0.73779 0 1.00409 0C1.27039 0 1.52579 0.105788 1.71409 0.294091L5.00409 3.59409L8.29409 0.304091C8.48539 0.140265 8.73147 0.0546585 8.98314 0.0643797C9.23482 0.0741008 9.47356 0.178434 9.65166 0.356528C9.82975 0.534623 9.93408 0.773362 9.9438 1.02504C9.95352 1.27671 9.86792 1.52279 9.70409 1.71409L5.70409 5.71409C5.51783 5.89884 5.26643 6.00299 5.00409 6.00409Z" fill="black"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Container Items -->
+        <div class="d-select-container hidden" id="select-item-container">
+            <div class="w-full" multiple="multiple" id="select-items">
+            </div>
+        </div>
+    </div>
+
+    <!-- Script JS Dilos -->
+	<script src="../../../../libs/dist/index.js"></script>
+</body>
+
+</html>
