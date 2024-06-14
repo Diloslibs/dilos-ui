@@ -1,68 +1,166 @@
-import clsx from "clsx";
-import Heading from "@theme/Heading";
+import MotionDiv from "../global/MotionDiv";
 import styles from "./styles.module.css";
-
-type FeatureItem = {
-	title: string;
-	Svg: React.ComponentType<React.ComponentProps<"svg">>;
-	description: JSX.Element;
-};
-
-const FeatureList: FeatureItem[] = [
-	{
-		title: "Easy to Use",
-		Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
-		description: (
-			<>
-				Docusaurus was designed from the ground up to be easily installed and
-				used to get your website up and running quickly.
-			</>
-		),
-	},
-	{
-		title: "Focus on What Matters",
-		Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
-		description: (
-			<>
-				Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-				ahead and move your docs into the <code>docs</code> directory.
-			</>
-		),
-	},
-	{
-		title: "Powered by React",
-		Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
-		description: (
-			<>
-				Extend or customize your website layout by reusing React. Docusaurus can
-				be extended while reusing the same header and footer.
-			</>
-		),
-	},
-];
-
-function Feature({ title, Svg, description }: FeatureItem) {
-	return (
-		<div className={clsx("col col--4")}>
-			<div className="text--center flex items-center justify-center">
-				<Svg className={styles.featureSvg} role="img" />
-			</div>
-			<div className="text--center padding-horiz--md">
-				<Heading as="h3">{title}</Heading>
-				<p className="mt-3">{description}</p>
-			</div>
-		</div>
-	);
-}
+import { motion } from "framer-motion";
 
 export default function HomepageFeatures(): JSX.Element {
 	return (
 		<section className={styles.features}>
 			<div className="container">
-				<div className="row">
-					{FeatureList.map((props, idx) => (
-						<Feature key={idx} {...props} />
-					))}
+				<div className="flex items-start justify-between my-40 max-md:flex-col max-md:text-center max-md:items-center max-md:my-3">
+					<MotionDiv className="text-5xl font-bold max-md:text-4xl">
+						Why Choose <br /> DilosUI?
+					</MotionDiv>
+					<MotionDiv
+						delay={0.5}
+						className="w-[40%] text-xl text-zinc-700 text-right max-md:w-full max-md:text-sm max-md:text-center max-md:mt-5"
+					>
+						DilosUI is a Tailwind-based UI component library that provides a set
+						of reusable and customizable UI components for your web
+						applications.
+					</MotionDiv>
+				</div>
+
+				<div className="grid grid-cols-2 max-md:mb-10 max-md:grid-cols-1 items-center">
+					<motion.div
+						initial={{ opacity: 0, x: -20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1 }}
+						className="flex items-center justify-center"
+					>
+						<img
+							src="/img/placeholder-illustrator.svg"
+							alt="Feature 1"
+							className="h-full max-md:w-[70%] max-md:mx-auto"
+						/>
+					</motion.div>
+					<motion.div
+						initial={{ opacity: 0, x: 20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1.5 }}
+						className="max-md:text-center"
+					>
+						<div className="text-4xl font-semibold max-md:text-2xl">
+							Ready-to-Use Components
+						</div>
+						<div className="w-[70%] text-zinc-600 leading-loose mt-3 max-md:w-full max-md:text-sm">
+							DilosUI offers a variety of ready-to-use UI components, making it
+							easier for you to build attractive and functional user interfaces
+							without starting from scratch.
+						</div>
+					</motion.div>
+				</div>
+				<div className="grid grid-cols-2 max-md:mb-10 max-md:flex max-md:flex-col-reverse items-center">
+					<motion.div
+						initial={{ opacity: 0, x: -20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1 }}
+						className="flex flex-col items-end text-right max-md:text-center max-md:items-center"
+					>
+						<div className="text-4xl font-semibold max-md:text-2xl">Semantic Class Usage</div>
+						<div className="w-[70%] text-zinc-600 leading-loose mt-3 max-md:w-full max-md:text-sm">
+							By using semantic classes, DilosUI helps you avoid repetitive
+							Tailwind class writing. This keeps your code clean and
+							maintainable.
+						</div>
+					</motion.div>
+					<motion.div
+						initial={{ opacity: 0, x: 20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1.5 }}
+						className="flex items-center justify-center"
+					>
+						<img
+							src="/img/placeholder-illustrator.svg"
+							alt="Feature 1"
+							className="h-full max-md:w-[70%] max-md:mx-auto"
+						/>
+					</motion.div>
+				</div>
+				<div className="grid grid-cols-2 max-md:mb-10 max-md:grid-cols-1 items-center">
+					<motion.div
+						initial={{ opacity: 0, x: -20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1 }}
+						className="flex items-center justify-center"
+					>
+						<img
+							src="/img/placeholder-illustrator.svg"
+							alt="Feature 1"
+							className="h-full max-md:w-[70%] max-md:mx-auto"
+						/>
+					</motion.div>
+					<motion.div
+						initial={{ opacity: 0, x: 20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1.5 }}
+						className="max-md:text-center"
+					>
+						<div className="text-4xl font-semibold max-md:text-2xl">
+							Multi-Framework Support
+						</div>
+						<div className="w-[70%] text-zinc-600 leading-loose mt-3 max-md:w-full max-md:text-sm">
+							DilosUI is designed to support various popular frameworks like
+							React, Vue, Angular, and more, ensuring broad flexibility and
+							compatibility for different project needs.
+						</div>
+					</motion.div>
+				</div>
+				<div className="grid grid-cols-2 max-md:mb-10 max-md:flex max-md:flex-col-reverse items-center">
+					<motion.div
+						initial={{ opacity: 0, x: -20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1 }}
+						className="flex flex-col items-end text-right max-md:text-center max-md:items-center"
+					>
+						<div className="text-4xl font-semibold max-md:text-2xl">Customizable</div>
+						<div className="w-[70%] text-zinc-600 leading-loose mt-3 max-md:w-full max-md:text-sm">
+							All components in DilosUI can be easily customized to meet your
+							specific requirements. Adjust styles, layouts, and component
+							behaviors effortlessly to create unique interfaces.
+						</div>
+					</motion.div>
+					<motion.div
+						initial={{ opacity: 0, x: 20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1.5 }}
+						className="flex items-center justify-center"
+					>
+						<img
+							src="/img/placeholder-illustrator.svg"
+							alt="Feature 1"
+							className="h-full max-md:w-[70%] max-md:mx-auto"
+						/>
+					</motion.div>
+				</div>
+
+				<div className="grid grid-cols-2 max-md:mb-10 max-md:grid-cols-1 items-center">
+					<motion.div
+						initial={{ opacity: 0, x: -20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1 }}
+						className="flex items-center justify-center"
+					>
+						<img
+							src="/img/placeholder-illustrator.svg"
+							alt="Feature 1"
+							className="h-full max-md:w-[70%] max-md:mx-auto"
+						/>
+					</motion.div>
+					<motion.div
+						initial={{ opacity: 0, x: 20 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 2, delay: 1.5 }}
+						className="max-md:text-center"
+					>
+						<div className="text-4xl font-semibold max-md:text-2xl">
+							Time and Cost Efficiency
+						</div>
+						<div className="w-[70%] text-zinc-600 leading-loose mt-3 max-md:w-full max-md:text-sm">
+							With reusable components, you can save development time and focus
+							on the core functionality of your application, thereby increasing
+							efficiency and reducing development costs.
+						</div>
+					</motion.div>
 				</div>
 			</div>
 		</section>
