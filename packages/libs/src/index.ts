@@ -1,6 +1,7 @@
-export { default as Accordion } from '@/components/accordion';
-export { default as Dropdown } from '@/components/dropdown';
-export { default as Tooltip } from '@/components/tooltip';
-export { default as DStaticMethods } from '@/static';
+export { default as Accordion } from '@/components/accordion'
+export { default as Alert } from '@/components/alert'
+export { default as Dropdown } from '@/components/dropdown'
+export { default as Tooltip } from '@/components/tooltip'
+export { default as DStaticMethods } from '@/static'
 
-export { IStaticMethods } from '@/static/interface';
+export { IStaticMethods } from '@/static/interface'

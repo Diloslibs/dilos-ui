@@ -15,7 +15,9 @@
     <body>
         <!-- Alert Component -->
         <div class="container mx-auto p-5 flex flex-col gap-5">
-            <div class="d-alert">
+            <div
+                class="d-alert"
+                data-alert="alert-default">
                 <div class="d-alert-content">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +48,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="d-alert d-alert-info">
+            <div class="d-alert d-alert-info" data-alert="alert-info">
                 <div class="d-alert-content">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="d-alert d-alert-success">
+            <div class="d-alert d-alert-success" data-alert="alert-success">
                 <div class="d-alert-content">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="d-alert d-alert-warning">
+            <div class="d-alert d-alert-warning" data-alert="alert-warning">
                 <div class="d-alert-content">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +144,7 @@
                 </div>
             </div>
 
-            <div class="d-alert d-alert-danger">
+            <div class="d-alert d-alert-danger" data-alert="alert-danger">
                 <div class="d-alert-content">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -174,7 +176,7 @@
                 </div>
             </div>
 
-            <div class="d-alert">
+            <div class="d-alert" data-alert="alert-subtitle">
                 <div class="d-alert-content">
                     <!-- info svg -->
                     <svg
@@ -214,6 +216,42 @@
                                 d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </div>
+                </div>
+            </div>
+
+            <div
+                class="d-alert"
+                data-alert="alert-timer"
+                data-auto-close="true"
+                data-duration="10000">
+                <div class="d-alert-content">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6 text-green-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>This is a Timer alert</span>
+                </div>
+                <div class="d-alert-close">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6 text-zinc-300"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </div>
             </div>
         </div>
