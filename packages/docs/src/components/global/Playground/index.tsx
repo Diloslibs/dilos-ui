@@ -73,7 +73,7 @@ const Playground: React.FC<PlaygroundProps> = ({ title, content, height }) => {
 					key={contentItem.key}
 					className={activeTab === contentItem.key ? "block" : "hidden"}
 				>
-					<div className="border border-muted border-t-0 mb-3 rounded-b-lg overflow-hidden">
+					<div className="border border-muted border-t-0 mb-3 rounded-b-lg overflow-hidden iframe-box">
 						<iframe
 							src={contentItem.src}
 							height={height ? height : 384}
