@@ -1,0 +1,27 @@
+.d-list {
+  @apply list-inside;
+}
+
+.d-list.disc {
+  @apply list-disc;
+}
+
+.d-list.marker {
+  @apply marker:text-yellow-500;
+}
+
+.d-list.decimal {
+  @apply list-decimal;
+}
+
+.d-list.none {
+  @apply list-none;
+}
+
+.d-list.separator>li {
+  @apply inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-translate-y-1/2 before:size-1 before:bg-gray-300 before:rounded-full;
+}
+
+.d-list-item {
+  @apply ps-5 mt-2 space-y-1;
+}
